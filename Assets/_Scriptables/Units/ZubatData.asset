@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4586348fef35b439a3f6d7eca296f8, type: 3}
+  m_Name: ZubatData
+  m_EditorClassIdentifier: 
+  Name: Zubat
+  Type: 1
+  Attack: 10
+  Speed: 4
+  Moves:
+  - {fileID: 11400000, guid: a23ca51b165c78044aa01b6c0efb19bc, type: 2}
+  - {fileID: 11400000, guid: 361720ed2b8f4064698c7797da5e01b8, type: 2}

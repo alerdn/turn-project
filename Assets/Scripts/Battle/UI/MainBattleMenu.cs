@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class MainBattleMenu : MonoBehaviour
+{
+    [SerializeField] private BattleMenu _mainMenu;
+    [SerializeField] private BattleMenu _moveMenu;
+
+    private void OnEnable()
+    {
+        _mainMenu.gameObject.SetActive(true);
+        _moveMenu.gameObject.SetActive(false);
+    }
+}
