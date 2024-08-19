@@ -7,14 +7,17 @@ using UnityEngine.UI;
 
 public class BattleMenu : MonoBehaviour
 {
+    [SerializeField] private GameObject _frame;
+
+    protected virtual void Start() { }
+
     public void ShowMenu()
     {
-        gameObject.SetActive(true);
-        gameObject.SetActive(true);
+        _frame.SetActive(true);
     }
 
     public void HideMenu()
     {
-        gameObject.SetActive(false);
+        _frame.SetActive(false);
     }
 }

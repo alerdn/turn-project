@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: PiplupData
   m_EditorClassIdentifier: 
   Name: Piplup
-  Type: 0
-  Attack: 10
+  Health: 20
+  Attack: 5
   Speed: 5
   Moves:
   - {fileID: 11400000, guid: a23ca51b165c78044aa01b6c0efb19bc, type: 2}
   - {fileID: 11400000, guid: 361720ed2b8f4064698c7797da5e01b8, type: 2}
+  - {fileID: 11400000, guid: 0969097e338fba64780cc14d0496d546, type: 2}

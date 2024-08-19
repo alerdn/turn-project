@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class MoveMenuButton : BaseMenuButton
 {
-    [SerializeField] private MoveData _move;
+    private MoveData _move;
 
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
-        Button.onClick.AddListener(Execute);
-        ButtonText.text = _move?.Name ?? "";
+        base.OnEnable();
+
+        if (ButtonText.text == "" && _move)
+        {
+            ButtonText.text = _move.Name;
+            Button.onClick.AddListener(Execute);
+        }
+    }
+
+    public void Init(MoveData move)
+    {
+        _move = move;
     }
 
     private void Execute()

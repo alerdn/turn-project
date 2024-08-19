@@ -19,9 +19,15 @@ public class BattleManager : StateMachine
     public Unit CurrentUnit { get; private set; }
     public List<RoundMove> RoundMovesChosen => _roundMovesChosen;
 
-    [SerializeField] private Unit _playerUnit;
-    [SerializeField] private List<Unit> _enemyUnits;
+    [Header("Player")]
+    [SerializeField] private StatusUI _playerStatus;
+    [SerializeField] private FightBattleMenu _playerFightMenu;
     [SerializeField] private GameObject _playerUI;
+    [SerializeField] private Unit _playerUnit;
+    [Header("Enemy")]
+    [SerializeField] private StatusUI _enemyStatus;
+    [SerializeField] private Transform _enemiesParent;
+    [SerializeField] private List<Unit> _enemyUnitPrefabs;
 
 
     [Header("Debug")]
@@ -40,10 +46,24 @@ public class BattleManager : StateMachine
         }
     }
 
-    [Button]
-    public void StarBattle()
+    private void Start()
     {
-        _unitsInBattle = new() { _playerUnit, _enemyUnits.GetRandom() };
+        StartBattle();
+    }
+
+    [Button]
+    public void StartBattle()
+    {
+        Unit enemyPrefab = _enemyUnitPrefabs.GetRandom();
+        Unit enemy = Instantiate(enemyPrefab, _enemiesParent);
+        enemy.transform.SetLocalPositionAndRotation(Vector2.zero, Quaternion.identity);
+        enemy.Init();
+
+        _playerStatus.Init(_playerUnit);
+        _playerFightMenu.Init(_playerUnit);
+        _enemyStatus.Init(enemy);
+
+        _unitsInBattle = new() { _playerUnit, enemy };
         _unitsInBattle = _unitsInBattle.OrderByDescending(unit => unit.Speed).ToList();
 
         _unitsInBattle[0].Enemy = _unitsInBattle[1];

@@ -10,7 +10,7 @@ public class MainBattleMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        _mainMenu.gameObject.SetActive(true);
-        _moveMenu.gameObject.SetActive(false);
+        _mainMenu.ShowMenu();
+        _moveMenu.HideMenu();
     }
 }

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddc746b83fc329e45ba0246601aa09da, type: 3}
-  m_Name: InvestidaMoveData
+  m_Script: {fileID: 11500000, guid: 7831b44965ff20948bf63b0c3a7a7715, type: 3}
+  m_Name: SwordDanceMoveData
   m_EditorClassIdentifier: 
-  Name: Investida
-  Type: 0
-  Damage: 0.4
+  Name: "Dan\xE7a das Espadas"
+  Type: 2
+  BuffPercentage: 0.1

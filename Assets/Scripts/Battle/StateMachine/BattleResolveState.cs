@@ -31,6 +31,7 @@ public class BattleResolveState : BattleStateBase
     {
         if (_movesChosen.Count == 2 && !_isResolvingTurn)
         {
+            _isResolvingTurn = true;
             ResolveTurn();
         }
     }
@@ -43,15 +44,32 @@ public class BattleResolveState : BattleStateBase
     {
         Debug.Log("Took Turn");
 
-        _isResolvingTurn = true;
         _ui.SetActive(false);
 
         foreach (Unit unit in _unitsInBattle)
         {
-            _movesChosen.Find(roundMove => roundMove.Type == unit.Type).Move.Execute(unit);
-            await Task.Delay(1000);
+            await _movesChosen.Find(roundMove => roundMove.Type == unit.Type).Move.Execute(unit);
+            if (VerifyBattleFinished())
+            {
+                stateMachine.SwitchState(null);
+                return;
+            }
         }
 
-        stateMachine.SwitchState(new BattleVerifyState(stateMachine, _unitsInBattle));
+        Debug.Log("Começando próxima rodada");
+        stateMachine.NextRound();
+    }
+
+    private bool VerifyBattleFinished()
+    {
+        Unit defeatedUnit = _unitsInBattle.Find(unit => unit.CurrentHealth == 0);
+        if (defeatedUnit)
+        {
+            Debug.Log($"{defeatedUnit.Name} foi derrotado. {defeatedUnit.Enemy.Name} venceu");
+            defeatedUnit.Defeat();
+            return true;
+        }
+
+        return false;
     }
 }
