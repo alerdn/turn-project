@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: InvestidaMoveData
   m_EditorClassIdentifier: 
   Name: Investida
-  Type: 0
-  Damage: 0.4
+  Type: 1
+  Damage: 20

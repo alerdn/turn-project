@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: SwordDanceMoveData
   m_EditorClassIdentifier: 
   Name: "Dan\xE7a das Espadas"
-  Type: 2
-  BuffPercentage: 0.1
+  Type: 3
+  Attribute: 1
+  ModifierDegree: 1

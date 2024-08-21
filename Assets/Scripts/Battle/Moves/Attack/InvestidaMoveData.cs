@@ -2,10 +2,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "InvestidaMoveData", menuName = "Moves/Investida")]
-public class InvestidaMoveData : MoveData
+public class InvestidaMoveData : AttackMoveData
 {
-    public float Damage = .4f;
-
     private void OnEnable()
     {
         Name = "Investida";
@@ -14,10 +12,8 @@ public class InvestidaMoveData : MoveData
 
     public override async Task Execute(Unit unitExecutor)
     {
-        float damageToApplay = unitExecutor.Attack * Damage;
-        unitExecutor.Enemy.TakeDamage(damageToApplay);
-
-        Debug.LogError($"{unitExecutor.Name} Usou investida em {unitExecutor.Enemy.Name} e causou {damageToApplay} pontos de dano");
+        target = unitExecutor.Enemy;
+        await base.Execute(unitExecutor);
         await Task.Delay(1000);
     }
 }

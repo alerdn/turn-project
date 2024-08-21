@@ -64,7 +64,6 @@ public class BattleManager : StateMachine
         _enemyStatus.Init(enemy);
 
         _unitsInBattle = new() { _playerUnit, enemy };
-        _unitsInBattle = _unitsInBattle.OrderByDescending(unit => unit.Speed).ToList();
 
         _unitsInBattle[0].Enemy = _unitsInBattle[1];
         _unitsInBattle[1].Enemy = _unitsInBattle[0];

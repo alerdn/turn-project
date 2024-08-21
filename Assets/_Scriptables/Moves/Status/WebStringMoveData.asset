@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d975e7573d14a8d4284db9840e101568, type: 3}
-  m_Name: EncararMoveData
+  m_Script: {fileID: 11500000, guid: 49228cc7dd87f61439e5574177b695d9, type: 3}
+  m_Name: WebStringMoveData
   m_EditorClassIdentifier: 
-  Name: Encarar
+  Name: Teia
   Type: 2
+  Attribute: 1
+  ModifierDegree: -1

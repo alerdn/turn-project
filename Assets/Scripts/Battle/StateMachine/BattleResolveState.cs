@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class BattleResolveState : BattleStateBase
     {
         _ui.SetActive(true);
         Unit enemy = _unitsInBattle.Find(unit => unit.Type == UnitType.Enemy);
-        _movesChosen.Add(new() { Type = UnitType.Enemy, Move = enemy.Moves.GetRandom() });
+        _movesChosen.Add(new() { Type = UnitType.Enemy, Move = enemy.ChoseMove() });
     }
 
     public override void OnTick(float deltaTime)
@@ -45,7 +46,7 @@ public class BattleResolveState : BattleStateBase
         Debug.Log("Took Turn");
 
         _ui.SetActive(false);
-
+        _unitsInBattle = _unitsInBattle.OrderByDescending(unit => unit.Speed).ToList();
         foreach (Unit unit in _unitsInBattle)
         {
             await _movesChosen.Find(roundMove => roundMove.Type == unit.Type).Move.Execute(unit);

@@ -157,8 +157,10 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 0
   <CurrentHealth>k__BackingField: 0
   <Attack>k__BackingField: 0
+  <Defence>k__BackingField: 0
   <Speed>k__BackingField: 0
   <Moves>k__BackingField: []
+  _level: 1
   _unitData: {fileID: 11400000, guid: 1212e305f8131fa4797077cbbe151bb0, type: 2}
 --- !u!4 &64740910
 Transform:
@@ -830,9 +832,9 @@ MonoBehaviour:
   m_fontSize: 52
   m_fontSizeBase: 52
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 0
-  m_fontSizeMax: 0
+  m_fontSizeMax: 52
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -1373,9 +1375,9 @@ MonoBehaviour:
   m_fontSize: 52
   m_fontSizeBase: 52
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 0
-  m_fontSizeMax: 0
+  m_fontSizeMax: 52
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -2460,7 +2462,6 @@ MonoBehaviour:
   _enemiesParent: {fileID: 1894647422}
   _enemyUnitPrefabs:
   - {fileID: 2754471467145119372, guid: 62c34b3cc020bfb4bbefa8df3405f1de, type: 3}
-  - {fileID: 3961360809899808985, guid: f3e03b1cd83ef734080c6f7a0273e5d4, type: 3}
   _unitsInBattle: []
   _roundMovesChosen: []
 --- !u!1 &1209459504
@@ -3762,9 +3763,9 @@ MonoBehaviour:
   m_fontSize: 52
   m_fontSizeBase: 52
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 0
-  m_fontSizeMax: 0
+  m_fontSizeMax: 52
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -4101,9 +4102,9 @@ MonoBehaviour:
   m_fontSize: 52
   m_fontSizeBase: 52
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 0
-  m_fontSizeMax: 0
+  m_fontSizeMax: 52
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
