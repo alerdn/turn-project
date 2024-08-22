@@ -9,10 +9,11 @@ public enum UnitType
     Enemy
 }
 
-public enum UnitAttribute
+public enum UnitStat
 {
     None,
     Attack,
+    Defence,
     Speed
 }
 
@@ -20,21 +21,35 @@ public class Unit : MonoBehaviour
 {
     public event Action<float> OnDamaged;
 
-    public int Level => _level;
-
-    [field: SerializeField] public UnitType Type { get; private set; }
     [field: SerializeField] public Unit Enemy { get; set; }
 
-    [field: SerializeField] public string Name { get; private set; }
-    [field: SerializeField] public float MaxHealth { get; private set; }
-    [field: SerializeField] public float CurrentHealth { get; private set; }
-    [field: SerializeField] public float Attack { get; private set; }
-    [field: SerializeField] public float Defence { get; private set; }
-    [field: SerializeField] public float Speed { get; private set; }
-    [field: SerializeField] public List<MoveData> Moves { get; private set; }
+    public int Level => _level;
+    public UnitType Type => _type;
+    public string Name => _name;
+    public float MaxHealth => _maxHealth;
+    public float CurrentHealth { get => _currentHealth; private set => _currentHealth = value; }
+    public float Attack => _attack;
+    public float Defence => _defence;
+    public float Speed => _speed;
+    public List<MoveData> Moves => _moves;
 
     [SerializeField] private int _level = 1;
     [SerializeField] private UnitData _unitData;
+
+    [Header("Stats")]
+    [SerializeField] private UnitType _type;
+    [SerializeField] private string _name;
+    [SerializeField] private float _maxHealth;
+    [SerializeField] private float _currentHealth;
+    [SerializeField] private float _attack;
+    [SerializeField] private float _defence;
+    [SerializeField] private float _speed;
+    [SerializeField] private List<MoveData> _moves;
+
+    [Header("Stats Stage")]
+    [SerializeField] private int _attackStage;
+    [SerializeField] private int _defenceStage;
+    [SerializeField] private int _speedStage;
 
     private void Start()
     {
@@ -43,14 +58,18 @@ public class Unit : MonoBehaviour
 
     public void Init()
     {
-        Name = _unitData.Name;
-        Attack = _unitData.Attack;
-        Defence = _unitData.Defence;
-        Speed = _unitData.Speed;
-        Moves = _unitData.Moves;
+        _name = _unitData.Name;
+        _attack = _unitData.Attack;
+        _defence = _unitData.Defence;
+        _speed = _unitData.Speed;
+        _moves = _unitData.Moves;
 
-        MaxHealth = _unitData.Health;
-        CurrentHealth = MaxHealth;
+        _maxHealth = _unitData.Health;
+        _currentHealth = MaxHealth;
+
+        _attackStage = 0;
+        _defenceStage = 0;
+        _speedStage = 0;
     }
 
     public MoveData ChoseMove()
@@ -84,17 +103,56 @@ public class Unit : MonoBehaviour
     }
 
     /// <summary>
-    /// <param name="modifier">Grau do modificador entre -5 a 5</param>
+    /// <param name="modifierDegree">Grau do modificador entre -6 a 6</param>
     /// </summary>
-    public void ApplyAttackModifier(int modifierDegree)
+    public void ApplyStatModifier(UnitStat stat, int modifierDegree)
     {
-        float modifier = .2f * modifierDegree;
-        Attack = Mathf.Clamp(Attack + (_unitData.Attack * modifier), 1, _unitData.Attack * 2f);
+        ref float statToModify = ref GetStateRef(stat, out float originalStat);
+        ref int stateStageToModify = ref GetStateStageRef(stat);
+
+        stateStageToModify = Mathf.Clamp(stateStageToModify + modifierDegree, -6, 6);
+
+        float upperFactor = 2f;
+        float bottomFactor = 2f;
+
+        if (stateStageToModify > 0)
+        {
+            upperFactor += stateStageToModify;
+        }
+        else if (stateStageToModify < 0)
+        {
+            bottomFactor -= stateStageToModify;
+        }
+
+        float modifier = upperFactor / bottomFactor;
+        statToModify = originalStat * modifier;
     }
 
-    public void ApplySpeedModifier(int modifierDegree)
+    private ref float GetStateRef(UnitStat stat, out float originalStat)
     {
-        float modifier = .2f * modifierDegree;
-        Speed = Mathf.Clamp(Speed + (_unitData.Speed * modifier), 1, _unitData.Speed * 2f);
+        switch (stat)
+        {
+            case UnitStat.Attack:
+                originalStat = _unitData.Attack;
+                return ref _attack;
+            case UnitStat.Defence:
+                originalStat = _unitData.Defence;
+                return ref _defence;
+            case UnitStat.Speed:
+                originalStat = _unitData.Speed;
+                return ref _speed;
+            default: throw new NotImplementedException();
+        }
+    }
+
+    private ref int GetStateStageRef(UnitStat stat)
+    {
+        switch (stat)
+        {
+            case UnitStat.Attack: return ref _attackStage;
+            case UnitStat.Defence: return ref _defenceStage;
+            case UnitStat.Speed: return ref _speedStage;
+            default: throw new NotImplementedException();
+        }
     }
 }

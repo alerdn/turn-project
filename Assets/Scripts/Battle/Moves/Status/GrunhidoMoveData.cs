@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "EncararMoveData", menuName = "Moves/Encarar")]
-public class EncararMoveData : StatusMoveData
+[CreateAssetMenu(fileName = "GrunhidoMoveData", menuName = "Moves/Grunhido")]
+public class GrunhidoMoveData : StatusMoveData
 {
     public override async Task Execute(Unit unitExecutor)
     {

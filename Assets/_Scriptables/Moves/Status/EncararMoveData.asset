@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Encarar
   Type: 3
-  Attribute: 1
+  Stat: 2
   ModifierDegree: -1

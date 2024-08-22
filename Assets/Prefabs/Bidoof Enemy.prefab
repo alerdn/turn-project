@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1901404245332970647}
   - component: {fileID: 3961360809899808985}
   m_Layer: 0
-  m_Name: Piplup Enemy
+  m_Name: Bidoof Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,14 +45,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c04912cd7f134e34090b45d7008fd569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 1
   <Enemy>k__BackingField: {fileID: 0}
-  <Name>k__BackingField: 
-  <CurrentHealth>k__BackingField: 0
-  <Attack>k__BackingField: 0
-  <Speed>k__BackingField: 0
-  <Moves>k__BackingField: []
-  _unitData: {fileID: 11400000, guid: 1212e305f8131fa4797077cbbe151bb0, type: 2}
+  _level: 1
+  _unitData: {fileID: 11400000, guid: e4aa47a4dc6b7d241b0d7a129535943f, type: 2}
+  _type: 1
+  _name: 
+  _maxHealth: 0
+  _currentHealth: 0
+  _attack: 0
+  _defence: 0
+  _speed: 0
+  _moves: []
+  _attackStage: 0
+  _defenceStage: 0
+  _speedStage: 0
 --- !u!1 &7158617188631378835
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,7 +133,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.1418939, g: 0.55827194, b: 0.82641506, a: 1}
+  m_Color: {r: 0.4339623, g: 0.20604533, b: 0.054859374, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

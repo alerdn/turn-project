@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PiplupData
   m_EditorClassIdentifier: 
   Name: Piplup
-  Health: 10
+  Health: 50
   Attack: 10
   Defence: 6
   Speed: 5

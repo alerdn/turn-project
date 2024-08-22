@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7831b44965ff20948bf63b0c3a7a7715, type: 3}
-  m_Name: SwordDanceMoveData
+  m_Script: {fileID: 11500000, guid: a978743c7c884e7418a11f9b77a28440, type: 3}
+  m_Name: GrunhidoMoveData
   m_EditorClassIdentifier: 
-  Name: "Dan\xE7a das Espadas"
+  Name: Grunhido
   Type: 3
   Stat: 1
-  ModifierDegree: 1
+  ModifierDegree: -1

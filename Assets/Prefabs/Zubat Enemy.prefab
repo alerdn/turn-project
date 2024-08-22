@@ -129,11 +129,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c04912cd7f134e34090b45d7008fd569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Type>k__BackingField: 1
   <Enemy>k__BackingField: {fileID: 0}
-  <Name>k__BackingField: 
-  <CurrentHealth>k__BackingField: 0
-  <Attack>k__BackingField: 0
-  <Speed>k__BackingField: 0
-  <Moves>k__BackingField: []
+  _level: 1
   _unitData: {fileID: 11400000, guid: 6df5df57db3257548b7ad14d1a06669a, type: 2}
+  _type: 1
+  _name: 
+  _maxHealth: 0
+  _currentHealth: 0
+  _attack: 0
+  _defence: 0
+  _speed: 0
+  _moves: []
+  _attackStage: 0
+  _defenceStage: 0
+  _speedStage: 0

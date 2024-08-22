@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: WebStringMoveData
   m_EditorClassIdentifier: 
   Name: Teia
-  Type: 2
-  Attribute: 1
+  Type: 3
+  Stat: 3
   ModifierDegree: -1
