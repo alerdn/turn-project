@@ -15,7 +15,9 @@ MonoBehaviour:
   Name: Piplup
   Health: 50
   Attack: 10
+  SpecialAttack: 12
   Defence: 6
+  SpecialDefence: 5
   Speed: 5
   Moves:
   - {fileID: 11400000, guid: a23ca51b165c78044aa01b6c0efb19bc, type: 2}

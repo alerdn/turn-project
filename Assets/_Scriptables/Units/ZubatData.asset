@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Zubat
   Health: 50
-  Attack: 8
+  Attack: 10
+  SpecialAttack: 8
   Defence: 5
+  SpecialDefence: 8
   Speed: 6
   Moves:
   - {fileID: 11400000, guid: 361720ed2b8f4064698c7797da5e01b8, type: 2}
