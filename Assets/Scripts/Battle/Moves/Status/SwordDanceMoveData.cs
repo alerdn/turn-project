@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SwordDanceMoveData", menuName = "Moves/Sword Dance")]
+[CreateAssetMenu(fileName = "SwordDanceMoveData", menuName = "Moves/Status/Sword Dance")]
 public class SwordDanceMoveData : StatusMoveData
 {
     public override async Task Execute(Unit unitExecutor)

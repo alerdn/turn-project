@@ -6,7 +6,7 @@ public enum MoveType
 {
     None,
     Physical,
-    Especial,
+    Special,
     Status
 }
 

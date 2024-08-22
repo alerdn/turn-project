@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "InvestidaMoveData", menuName = "Moves/Investida")]
+[CreateAssetMenu(fileName = "InvestidaMoveData", menuName = "Moves/Attack/Investida")]
 public class InvestidaMoveData : AttackMoveData
 {
     public override async Task Execute(Unit unitExecutor)

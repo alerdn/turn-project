@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WebStringMoveData", menuName = "Moves/Web String")]
+[CreateAssetMenu(fileName = "WebStringMoveData", menuName = "Moves/Status/Web String")]
 public class WebStringMoveData : StatusMoveData
 {
     public override async Task Execute(Unit unitExecutor)

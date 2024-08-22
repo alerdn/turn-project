@@ -14,7 +14,9 @@ public enum UnitStat
     None,
     Attack,
     Defence,
-    Speed
+    Speed,
+    SpecialAttack,
+    SpecialDefence
 }
 
 public class Unit : MonoBehaviour
@@ -29,7 +31,9 @@ public class Unit : MonoBehaviour
     public float MaxHealth => _maxHealth;
     public float CurrentHealth { get => _currentHealth; private set => _currentHealth = value; }
     public float Attack => _attack;
+    public float SpecialAttack => _specialAttack;
     public float Defence => _defence;
+    public float SpecialDefence => _specialDefence;
     public float Speed => _speed;
     public List<MoveData> Moves => _moves;
 
@@ -42,13 +46,17 @@ public class Unit : MonoBehaviour
     [SerializeField] private float _maxHealth;
     [SerializeField] private float _currentHealth;
     [SerializeField] private float _attack;
+    [SerializeField] private float _specialAttack;
     [SerializeField] private float _defence;
+    [SerializeField] private float _specialDefence;
     [SerializeField] private float _speed;
     [SerializeField] private List<MoveData> _moves;
 
     [Header("Stats Stage")]
     [SerializeField] private int _attackStage;
+    [SerializeField] private int _specialAttackStage;
     [SerializeField] private int _defenceStage;
+    [SerializeField] private int _specialDefenceStage;
     [SerializeField] private int _speedStage;
 
     private void Start()
@@ -60,15 +68,20 @@ public class Unit : MonoBehaviour
     {
         _name = _unitData.Name;
         _attack = _unitData.Attack;
+        _specialAttack = _unitData.SpecialAttack;
         _defence = _unitData.Defence;
+        _specialDefence = _unitData.SpecialDefence;
         _speed = _unitData.Speed;
+
         _moves = _unitData.Moves;
 
         _maxHealth = _unitData.Health;
         _currentHealth = MaxHealth;
 
         _attackStage = 0;
+        _specialAttackStage = 0;
         _defenceStage = 0;
+        _specialDefenceStage = 0;
         _speedStage = 0;
     }
 
@@ -135,9 +148,15 @@ public class Unit : MonoBehaviour
             case UnitStat.Attack:
                 originalStat = _unitData.Attack;
                 return ref _attack;
+            case UnitStat.SpecialAttack:
+                originalStat = _unitData.SpecialAttack;
+                return ref _specialAttack;
             case UnitStat.Defence:
                 originalStat = _unitData.Defence;
                 return ref _defence;
+            case UnitStat.SpecialDefence:
+                originalStat = _unitData.SpecialDefence;
+                return ref _specialDefence;
             case UnitStat.Speed:
                 originalStat = _unitData.Speed;
                 return ref _speed;
@@ -150,7 +169,9 @@ public class Unit : MonoBehaviour
         switch (stat)
         {
             case UnitStat.Attack: return ref _attackStage;
+            case UnitStat.SpecialAttack: return ref _specialAttackStage;
             case UnitStat.Defence: return ref _defenceStage;
+            case UnitStat.SpecialDefence: return ref _specialDefenceStage;
             case UnitStat.Speed: return ref _speedStage;
             default: throw new NotImplementedException();
         }
