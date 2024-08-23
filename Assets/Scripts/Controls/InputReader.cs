@@ -18,13 +18,22 @@ public class InputReader : ScriptableObject, IPlayerActions
     {
         _controls ??= new Controls();
         _controls.Player.SetCallbacks(this);
+        EnableInputs();
+    }
+
+    public void EnableInputs()
+    {
         _controls.Player.Enable();
+    }
+
+    public void DisableInputs()
+    {
+        _controls.Player.Disable();
     }
 
     public void OnMovement(InputAction.CallbackContext context)
     {
         MovementAxis = context.ReadValue<float>();
-        Debug.Log(MovementAxis);
     }
 
     public void OnJump(InputAction.CallbackContext context)

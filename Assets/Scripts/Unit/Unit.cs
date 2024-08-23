@@ -21,7 +21,7 @@ public enum UnitStat
 
 public class Unit : MonoBehaviour
 {
-    public event Action<float> OnDamaged;
+    public event Action<float> OnHealthUpdated;
 
     [field: SerializeField] public Unit Enemy { get; set; }
 
@@ -66,6 +66,17 @@ public class Unit : MonoBehaviour
 
     public void Init()
     {
+        ResetStats();
+
+        _moves = _unitData.Moves;
+
+        _maxHealth = _unitData.Health;
+        _currentHealth = MaxHealth;
+    }
+
+    public void ResetStats()
+    {
+        // Stats
         _name = _unitData.Name;
         _attack = _unitData.Attack;
         _specialAttack = _unitData.SpecialAttack;
@@ -73,11 +84,7 @@ public class Unit : MonoBehaviour
         _specialDefence = _unitData.SpecialDefence;
         _speed = _unitData.Speed;
 
-        _moves = _unitData.Moves;
-
-        _maxHealth = _unitData.Health;
-        _currentHealth = MaxHealth;
-
+        // Stats stage
         _attackStage = 0;
         _specialAttackStage = 0;
         _defenceStage = 0;
@@ -107,7 +114,7 @@ public class Unit : MonoBehaviour
 
         CurrentHealth = Mathf.Max(CurrentHealth - damage, 0f);
 
-        OnDamaged?.Invoke(GetHealthPercentage());
+        OnHealthUpdated?.Invoke(GetHealthPercentage());
     }
 
     public void Defeat()

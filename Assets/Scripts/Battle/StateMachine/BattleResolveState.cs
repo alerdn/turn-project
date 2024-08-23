@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class BattleResolveState : BattleStateBase
 {
     private List<Unit> _unitsInBattle;
-    private GameObject _ui;
+    private BattleMenu _menu;
     private List<RoundMove> _movesChosen;
     private bool _isResolvingTurn;
 
-    public BattleResolveState(BattleManager stateMachine, List<Unit> unitsInBattle, GameObject ui, List<RoundMove> roundMovesChosen) : base(stateMachine)
+    public BattleResolveState(BattleManager stateMachine, List<Unit> unitsInBattle, BattleMenu menu, List<RoundMove> roundMovesChosen) : base(stateMachine)
     {
         _unitsInBattle = unitsInBattle;
-        _ui = ui;
+        _menu = menu;
 
         _movesChosen = roundMovesChosen;
         _movesChosen.Clear();
@@ -23,7 +22,7 @@ public class BattleResolveState : BattleStateBase
 
     public override void OnEnter()
     {
-        _ui.SetActive(true);
+        _menu.ShowMenu();
         Unit enemy = _unitsInBattle.Find(unit => unit.Type == UnitType.Enemy);
         _movesChosen.Add(new() { Type = UnitType.Enemy, Move = enemy.ChoseMove() });
     }
@@ -43,27 +42,24 @@ public class BattleResolveState : BattleStateBase
 
     private async void ResolveTurn()
     {
-        Debug.Log("Took Turn");
-
-        _ui.SetActive(false);
+        _menu.HideMenu();
         _unitsInBattle = _unitsInBattle.OrderByDescending(unit => unit.Speed).ToList();
         foreach (Unit unit in _unitsInBattle)
         {
             await _movesChosen.Find(roundMove => roundMove.Type == unit.Type).Move.Execute(unit);
-            if (VerifyBattleFinished())
+            if (VerifyBattleFinished(out Unit defeatedUnit))
             {
-                stateMachine.SwitchState(null);
+                stateMachine.SwitchState(new BattleEndState(stateMachine, defeatedUnit));
                 return;
             }
         }
 
-        Debug.Log("Começando próxima rodada");
         stateMachine.NextRound();
     }
 
-    private bool VerifyBattleFinished()
+    private bool VerifyBattleFinished(out Unit defeatedUnit)
     {
-        Unit defeatedUnit = _unitsInBattle.Find(unit => unit.CurrentHealth == 0);
+        defeatedUnit = _unitsInBattle.Find(unit => unit.CurrentHealth == 0);
         if (defeatedUnit)
         {
             Debug.Log($"{defeatedUnit.Name} foi derrotado. {defeatedUnit.Enemy.Name} venceu");

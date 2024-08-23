@@ -11,12 +11,12 @@ public class BattleMenu : MonoBehaviour
 
     protected virtual void Start() { }
 
-    public void ShowMenu()
+    public virtual void ShowMenu()
     {
         _frame.SetActive(true);
     }
 
-    public void HideMenu()
+    public virtual void HideMenu()
     {
         _frame.SetActive(false);
     }

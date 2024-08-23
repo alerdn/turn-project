@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
 {
+    public Unit PlayerUnit => _playerUnit;
+    public InputReader InputReader => _input;
     public bool CanCoyoteJump => _canCoyoteJump && _time < _timeLeftGround + _coyoteJumpTime;
 
     [Header("Layers")]
@@ -96,7 +98,6 @@ public class PlayerController : Singleton<PlayerController>
             horizontalVelocity = Mathf.MoveTowards(_rb.velocity.x, _input.MovementAxis * _moveSpeed, _acceleration * Time.fixedDeltaTime);
         }
 
-        Debug.Log($"horizontalVelocity: {horizontalVelocity}");
         _rb.velocity = new Vector2(horizontalVelocity, _rb.velocity.y);
     }
 

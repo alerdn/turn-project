@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NaughtyAttributes;
 using UnityEngine;
 
 [Serializable]
@@ -16,18 +13,17 @@ public class BattleManager : StateMachine
 {
     public static BattleManager Instance { get; private set; }
 
+    public event Action OnBattleEnded;
+
     public Unit CurrentUnit { get; private set; }
     public List<RoundMove> RoundMovesChosen => _roundMovesChosen;
 
-    [Header("Player")]
-    [SerializeField] private StatusUI _playerStatus;
+    [Header("UI")]
+    [SerializeField] private MainBattleMenu _battleUI;
+    [SerializeField] private BattleMenu _playerMainManu;
     [SerializeField] private FightBattleMenu _playerFightMenu;
-    [SerializeField] private GameObject _playerUI;
-    [SerializeField] private Unit _playerUnit;
-    [Header("Enemy")]
+    [SerializeField] private StatusUI _playerStatus;
     [SerializeField] private StatusUI _enemyStatus;
-    [SerializeField] private Transform _enemiesParent;
-    [SerializeField] private List<Unit> _enemyUnitPrefabs;
 
 
     [Header("Debug")]
@@ -48,22 +44,26 @@ public class BattleManager : StateMachine
 
     private void Start()
     {
-        StartBattle();
+        _battleUI.HideMenu();
     }
 
-    [Button]
-    public void StartBattle()
+    public void StartBattle(PlayerController playerController, Vector2 playerPosition, Unit enemy, Vector2 enemyPosition)
     {
-        Unit enemyPrefab = _enemyUnitPrefabs.GetRandom();
-        Unit enemy = Instantiate(enemyPrefab, _enemiesParent);
-        enemy.transform.SetLocalPositionAndRotation(Vector2.zero, Quaternion.identity);
+        ShowBattleUI();
+
+        playerController.InputReader.DisableInputs();
+        playerController.transform.SetPositionAndRotation(playerPosition, Quaternion.identity);
+
+        Unit player = playerController.PlayerUnit;
+        player.ResetStats();
+        _playerStatus.Init(player);
+        _playerFightMenu.Init(player);
+
+        _enemyStatus.Init(enemy);
+        enemy.transform.SetPositionAndRotation(enemyPosition, Quaternion.identity);
         enemy.Init();
 
-        _playerStatus.Init(_playerUnit);
-        _playerFightMenu.Init(_playerUnit);
-        _enemyStatus.Init(enemy);
-
-        _unitsInBattle = new() { _playerUnit, enemy };
+        _unitsInBattle = new() { player, enemy };
 
         _unitsInBattle[0].Enemy = _unitsInBattle[1];
         _unitsInBattle[1].Enemy = _unitsInBattle[0];
@@ -73,6 +73,21 @@ public class BattleManager : StateMachine
 
     public void NextRound()
     {
-        SwitchState(new BattleResolveState(this, _unitsInBattle, _playerUI, _roundMovesChosen));
+        SwitchState(new BattleResolveState(this, _unitsInBattle, _playerMainManu, _roundMovesChosen));
+    }
+
+    public void EndBattle()
+    {
+        OnBattleEnded?.Invoke();
+    }
+
+    public void ShowBattleUI()
+    {
+        _battleUI.ShowMenu();
+    }
+
+    public void HideBattleUI()
+    {
+        _battleUI.HideMenu();
     }
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04f23b0e4a7eed49994493d0b5f41e2, type: 3}
   m_Name: BubbleMoveData
   m_EditorClassIdentifier: 
-  Name: 
-  Type: 0
-  Damage: 0
+  Name: Bolhas
+  Type: 2
+  Damage: 60
