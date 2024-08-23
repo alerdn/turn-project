@@ -8,6 +8,7 @@ public class BattleResolveState : BattleStateBase
     private BattleMenu _menu;
     private List<RoundMove> _movesChosen;
     private bool _isResolvingTurn;
+    private bool _isBattleEnded;
 
     public BattleResolveState(BattleManager stateMachine, List<Unit> unitsInBattle, BattleMenu menu, List<RoundMove> roundMovesChosen) : base(stateMachine)
     {
@@ -18,12 +19,18 @@ public class BattleResolveState : BattleStateBase
         _movesChosen.Clear();
 
         _isResolvingTurn = false;
+        _isBattleEnded = false;
     }
 
     public override void OnEnter()
     {
         _menu.ShowMenu();
+
         Unit enemy = _unitsInBattle.Find(unit => unit.Type == UnitType.Enemy);
+        enemy.IncreaseEnergy();
+        Unit player = _unitsInBattle.Find(unit => unit.Type == UnitType.Player);
+        player.IncreaseEnergy();
+
         _movesChosen.Add(new() { Type = UnitType.Enemy, Move = enemy.ChoseMove() });
     }
 
@@ -49,6 +56,7 @@ public class BattleResolveState : BattleStateBase
             await _movesChosen.Find(roundMove => roundMove.Type == unit.Type).Move.Execute(unit);
             if (VerifyBattleFinished(out Unit defeatedUnit))
             {
+                _isBattleEnded = true;
                 stateMachine.SwitchState(new BattleEndState(stateMachine, defeatedUnit));
                 return;
             }

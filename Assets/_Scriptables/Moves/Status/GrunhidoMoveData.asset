@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Grunhido
   Type: 3
+  EnergyCost: 1
   Stat: 1
   ModifierDegree: -1

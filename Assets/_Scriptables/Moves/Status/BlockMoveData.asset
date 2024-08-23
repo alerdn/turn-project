@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49228cc7dd87f61439e5574177b695d9, type: 3}
-  m_Name: WebStringMoveData
+  m_Script: {fileID: 11500000, guid: 9573e3a56a80759498c65121635363fb, type: 3}
+  m_Name: BlockMoveData
   m_EditorClassIdentifier: 
-  Name: Teia
+  Name: Block
   Type: 3
-  EnergyCost: 1
-  Stat: 3
-  ModifierDegree: -1
+  EnergyCost: 0
+  Stat: 2
+  ModifierDegree: 1

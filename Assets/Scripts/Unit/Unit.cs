@@ -36,6 +36,7 @@ public class Unit : MonoBehaviour
     public float SpecialDefence => _specialDefence;
     public float Speed => _speed;
     public List<MoveData> Moves => _moves;
+    public int EnergyAmount => _energyAmount;
 
     [SerializeField] private int _level = 1;
     [SerializeField] private UnitData _unitData;
@@ -51,6 +52,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private float _specialDefence;
     [SerializeField] private float _speed;
     [SerializeField] private List<MoveData> _moves;
+    [SerializeField]private int _energyAmount;
 
     [Header("Stats Stage")]
     [SerializeField] private int _attackStage;
@@ -58,6 +60,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _defenceStage;
     [SerializeField] private int _specialDefenceStage;
     [SerializeField] private int _speedStage;
+
 
     private void Start()
     {
@@ -90,17 +93,34 @@ public class Unit : MonoBehaviour
         _defenceStage = 0;
         _specialDefenceStage = 0;
         _speedStage = 0;
+
+        // Energy for use moves
+        _energyAmount = 0;
     }
 
     public MoveData ChoseMove()
     {
         int movesCount = Moves.Count;
-        List<MoveData> _attackMoves = Moves.FindAll(move => move is AttackMoveData);
-        List<MoveData> _statusMoves = Moves.FindAll(move => move is StatusMoveData);
+        List<MoveData> _attackMoves = Moves.FindAll(move => move is AttackMoveData && move.EnergyCost <= EnergyAmount);
+        List<MoveData> _statusMoves = Moves.FindAll(move => move is StatusMoveData && move.EnergyCost <= EnergyAmount);
 
         // Movimentos de ataque tem prioridade
         MoveData move = Random.Range(0, 10) <= 7 ? _attackMoves.GetRandom() : _statusMoves.GetRandom();
         return move;
+    }
+
+    public void IncreaseEnergy(int amount = 1)
+    {
+        if (amount < 0) return;
+
+        _energyAmount += amount;
+    }
+
+    public void DecreaseEnergy(int amount)
+    {
+        if (amount < 0) return;
+
+        _energyAmount -= amount;
     }
 
     public float GetHealthPercentage()

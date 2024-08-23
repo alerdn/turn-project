@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "Dan\xE7a das Espadas"
   Type: 3
+  EnergyCost: 1
   Stat: 1
   ModifierDegree: 1

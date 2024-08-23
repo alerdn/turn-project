@@ -14,7 +14,7 @@ public class FightBattleMenu : BattleMenu
             MoveData move = unit.Moves[i];
             MoveMenuButton button = buttons[i];
 
-            button.Init(move);
+            button.Init(move, this);
         }
     }
 }
