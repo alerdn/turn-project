@@ -6,8 +6,15 @@ public class SwordDanceMoveData : StatusMoveData
 {
     public override async Task Execute(Unit unitExecutor)
     {
+        HasInteracted = false;
+        unitExecutor.DecreaseEnergy(EnergyCost);
         target = unitExecutor;
-        await base.Execute(unitExecutor);
-        await Task.Delay(1000);
+
+        await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
+
+        int modifierToApply = GetModifierToApply(unitExecutor);
+        target.ApplyStatModifier(Stat, modifierToApply);
+
+        PrintLog(unitExecutor, modifierToApply);
     }
 }

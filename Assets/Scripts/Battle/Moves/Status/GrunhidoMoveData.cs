@@ -6,8 +6,15 @@ public class GrunhidoMoveData : StatusMoveData
 {
     public override async Task Execute(Unit unitExecutor)
     {
-        target = unitExecutor.Enemy;
-        await base.Execute(unitExecutor);
-        await Task.Delay(1000);
+        HasInteracted = false;
+        unitExecutor.DecreaseEnergy(EnergyCost);
+        target = unitExecutor;
+
+        await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
+
+        int modifierToApply = GetModifierToApply(unitExecutor);
+        target.ApplyStatModifier(Stat, modifierToApply);
+
+        PrintLog(unitExecutor, modifierToApply);
     }
 }

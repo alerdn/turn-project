@@ -7,6 +7,7 @@ public struct RoundMove
 {
     public UnitType Type;
     public MoveData Move;
+    public float ResolveTime;
 }
 
 public class BattleManager : StateMachine
@@ -20,6 +21,7 @@ public class BattleManager : StateMachine
 
     [Header("UI")]
     [SerializeField] private MainBattleMenu _battleUI;
+    [SerializeField] private GameObject _interactionUI;
     [SerializeField] private BattleMenu _playerMainManu;
     [SerializeField] private FightBattleMenu _playerFightMenu;
     [SerializeField] private StatusUI _playerStatus;
@@ -51,7 +53,8 @@ public class BattleManager : StateMachine
     {
         ShowBattleUI();
 
-        playerController.InputReader.DisableInputs();
+        playerController.InputReader.DisablePlayerInputs();
+        playerController.InputReader.EnableBattleInputs();
         playerController.transform.SetPositionAndRotation(playerPosition, Quaternion.identity);
 
         Unit player = playerController.PlayerUnit;
@@ -73,7 +76,7 @@ public class BattleManager : StateMachine
 
     public void NextRound()
     {
-        SwitchState(new BattleResolveState(this, _unitsInBattle, _playerMainManu, _roundMovesChosen));
+        SwitchState(new BattleResolveState(this, _unitsInBattle, _playerMainManu, _interactionUI, _roundMovesChosen));
     }
 
     public void EndBattle()
@@ -84,10 +87,12 @@ public class BattleManager : StateMachine
     public void ShowBattleUI()
     {
         _battleUI.ShowMenu();
+        _interactionUI.SetActive(false);
     }
 
     public void HideBattleUI()
     {
         _battleUI.HideMenu();
+        _interactionUI.SetActive(false);
     }
 }

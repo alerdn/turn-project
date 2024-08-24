@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,20 +7,23 @@ public class BattleResolveState : BattleStateBase
 {
     private List<Unit> _unitsInBattle;
     private BattleMenu _menu;
+    private GameObject _interactionUI;
     private List<RoundMove> _movesChosen;
+    private RoundMove _currentRoundMove;
+    private float _time;
     private bool _isResolvingTurn;
-    private bool _isBattleEnded;
 
-    public BattleResolveState(BattleManager stateMachine, List<Unit> unitsInBattle, BattleMenu menu, List<RoundMove> roundMovesChosen) : base(stateMachine)
+    public BattleResolveState(BattleManager stateMachine, List<Unit> unitsInBattle, BattleMenu menu, GameObject interactionUI, List<RoundMove> roundMovesChosen) : base(stateMachine)
     {
         _unitsInBattle = unitsInBattle;
         _menu = menu;
+        _interactionUI = interactionUI;
 
         _movesChosen = roundMovesChosen;
         _movesChosen.Clear();
+        _currentRoundMove = new();
 
         _isResolvingTurn = false;
-        _isBattleEnded = false;
     }
 
     public override void OnEnter()
@@ -36,10 +40,31 @@ public class BattleResolveState : BattleStateBase
 
     public override void OnTick(float deltaTime)
     {
+        _time += Time.deltaTime;
+
         if (_movesChosen.Count == 2 && !_isResolvingTurn)
         {
             _isResolvingTurn = true;
             ResolveTurn();
+        }
+
+        if (_isResolvingTurn && _currentRoundMove.ResolveTime != 0)
+        {
+            float startInteractionTime = _currentRoundMove.ResolveTime + _currentRoundMove.Move.InteractionWindowTime;
+            float endInteractionTime = startInteractionTime + _currentRoundMove.Move.InteractionWindowDuration;
+            if (_time >= startInteractionTime && _time <= endInteractionTime)
+            {
+                if (!_currentRoundMove.Move.HasInteracted)
+                {
+                    _interactionUI.SetActive(true);
+                }
+
+                if (PlayerController.Instance.InputReader.Controls.Battle.Interact.WasPerformedThisFrame())
+                {
+                    _currentRoundMove.Move.HasInteracted = true;
+                    _interactionUI.SetActive(false);
+                }
+            }
         }
     }
 
@@ -53,10 +78,14 @@ public class BattleResolveState : BattleStateBase
         _unitsInBattle = _unitsInBattle.OrderByDescending(unit => unit.Speed).ToList();
         foreach (Unit unit in _unitsInBattle)
         {
-            await _movesChosen.Find(roundMove => roundMove.Type == unit.Type).Move.Execute(unit);
+            _currentRoundMove = _movesChosen.Find(roundMove => roundMove.Type == unit.Type);
+            _currentRoundMove.ResolveTime = _time;
+
+            await _currentRoundMove.Move.Execute(unit);
+            _interactionUI.SetActive(false);
+
             if (VerifyBattleFinished(out Unit defeatedUnit))
             {
-                _isBattleEnded = true;
                 stateMachine.SwitchState(new BattleEndState(stateMachine, defeatedUnit));
                 return;
             }

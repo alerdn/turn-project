@@ -15,16 +15,11 @@ public abstract class MoveData : ScriptableObject
     public string Name;
     public MoveType Type;
     public int EnergyCost;
+    public float MoveDuration;
+    public float InteractionWindowTime;
+    public float InteractionWindowDuration = .5f;
+    public bool HasInteracted;
     protected Unit target;
 
-    public virtual Task Execute(Unit unitExecutor)
-    {
-        if (!target)
-        {
-            throw new Exception($"Definir target da habilidade {Name}");
-        }
-
-        unitExecutor.DecreaseEnergy(EnergyCost);
-        return Task.CompletedTask;
-    }
+    public abstract Task Execute(Unit unitExecutor);
 }

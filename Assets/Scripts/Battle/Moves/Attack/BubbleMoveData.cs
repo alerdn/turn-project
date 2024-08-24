@@ -6,8 +6,15 @@ public class BubbleMoveData : AttackMoveData
 {
     public override async Task Execute(Unit unitExecutor)
     {
+        HasInteracted = false;
+        unitExecutor.DecreaseEnergy(EnergyCost);
         target = unitExecutor.Enemy;
-        await base.Execute(unitExecutor);
-        await Task.Delay(1000);
+
+        await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
+
+        float damageToApply = GetDamageToApply(unitExecutor);
+        target.TakeDamage(damageToApply);
+
+        PrintLog(unitExecutor, damageToApply);
     }
 }

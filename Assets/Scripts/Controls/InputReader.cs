@@ -6,11 +6,13 @@ using UnityEngine.InputSystem;
 using static Controls;
 
 [CreateAssetMenu(fileName = "InputReader", menuName = "InputReader")]
-public class InputReader : ScriptableObject, IPlayerActions
+public class InputReader : ScriptableObject, IPlayerActions, IBattleActions
 {
     public event Action JumpEvent;
+    public event Action InteractEvent;
 
     public float MovementAxis { get; private set; }
+    public Controls Controls => _controls;
 
     private Controls _controls;
 
@@ -18,17 +20,28 @@ public class InputReader : ScriptableObject, IPlayerActions
     {
         _controls ??= new Controls();
         _controls.Player.SetCallbacks(this);
-        EnableInputs();
+        _controls.Battle.SetCallbacks(this);
+        EnablePlayerInputs();
     }
 
-    public void EnableInputs()
+    public void EnablePlayerInputs()
     {
         _controls.Player.Enable();
     }
 
-    public void DisableInputs()
+    public void EnableBattleInputs()
+    {
+        _controls.Battle.Enable();
+    }
+
+    public void DisablePlayerInputs()
     {
         _controls.Player.Disable();
+    }
+
+    public void DisableBattleInputs()
+    {
+        _controls.Battle.Disable();
     }
 
     public void OnMovement(InputAction.CallbackContext context)
@@ -41,5 +54,12 @@ public class InputReader : ScriptableObject, IPlayerActions
         if (!context.performed) return;
 
         JumpEvent?.Invoke();
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        InteractEvent?.Invoke();
     }
 }

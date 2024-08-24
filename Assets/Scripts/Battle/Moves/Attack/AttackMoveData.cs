@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class AttackMoveData : MoveData
@@ -16,14 +15,35 @@ public abstract class AttackMoveData : MoveData
         };
     }
 
-    public override async Task Execute(Unit unitExecutor)
+    public float GetDamageToApply(Unit unitExecutor)
     {
-        await base.Execute(unitExecutor);
+        float modifier = 1f;
+        switch (unitExecutor.Type)
+        {
+            case UnitType.Player:
+                if (HasInteracted)
+                {
+                    modifier = 2f;
+                    Debug.Log("Acertou o timing do ataque");
+                }
+                break;
+            case UnitType.Enemy:
+                if (HasInteracted)
+                {
+                    modifier = .5f;
+                    Debug.Log("Acertou o timing da defesa");
+                }
+                break;
+        }
 
         (float attackStat, float enemyDefenceStat) = GetStatskByType(unitExecutor, Type);
-        float damageToApply = (((2 * unitExecutor.Level / 5) + 2) * Damage * (attackStat / enemyDefenceStat) / 50) + 2;
-        unitExecutor.Enemy.TakeDamage(damageToApply);
+        float damageToApply = ((((2 * unitExecutor.Level / 5) + 2) * Damage * (attackStat / enemyDefenceStat) / 50) + 2) * modifier;
 
-        Debug.LogError($"{unitExecutor.Name} Usou {Name} em {unitExecutor.Enemy.Name} inimigo e causou {damageToApply} pontos de dano");
+        return damageToApply;
+    }
+
+    public void PrintLog(Unit unitExecutor, float damageToApply)
+    {
+        Debug.LogError($"{unitExecutor.Name} Usou {Name} em {unitExecutor.Enemy.Name} e causou {damageToApply} pontos de dano");
     }
 }

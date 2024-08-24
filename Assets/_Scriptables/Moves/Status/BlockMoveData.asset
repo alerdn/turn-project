@@ -15,5 +15,9 @@ MonoBehaviour:
   Name: Block
   Type: 3
   EnergyCost: 0
+  MoveDuration: 2
+  InteractionWindowTime: 1
+  InteractionWindowDuration: 0.5
+  HasInteracted: 0
   Stat: 2
   ModifierDegree: 1

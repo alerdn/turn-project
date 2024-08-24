@@ -4,9 +4,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BlockMoveData", menuName = "Moves/Status/Block")]
 public class BlockMoveData : StatusMoveData
 {
-    public override Task Execute(Unit unitExecutor)
+    public override async Task Execute(Unit unitExecutor)
     {
+        HasInteracted = false;
+        unitExecutor.DecreaseEnergy(EnergyCost);
         target = unitExecutor;
-        return base.Execute(unitExecutor);
+
+        await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
+
+        int modifierToApply = GetModifierToApply(unitExecutor);
+        target.ApplyStatModifier(Stat, modifierToApply);
+
+        PrintLog(unitExecutor, modifierToApply);
     }
 }

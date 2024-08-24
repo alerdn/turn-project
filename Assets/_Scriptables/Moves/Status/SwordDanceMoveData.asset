@@ -15,5 +15,8 @@ MonoBehaviour:
   Name: "Dan\xE7a das Espadas"
   Type: 3
   EnergyCost: 1
+  MoveDuration: 2
+  InteractionWindowTime: 1
+  InteractionWindowDuration: 0.5
   Stat: 1
   ModifierDegree: 1

@@ -20,7 +20,8 @@ public class BattleEndState : BattleStateBase
                 GameManager.Instance.ReloadLevel();
                 break;
             case UnitType.Enemy:
-                PlayerController.Instance.InputReader.EnableInputs();
+                PlayerController.Instance.InputReader.EnablePlayerInputs();
+                PlayerController.Instance.InputReader.EnableBattleInputs();
                 break;
         }
 
