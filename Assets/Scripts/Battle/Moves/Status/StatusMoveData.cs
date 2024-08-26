@@ -17,14 +17,12 @@ public abstract class StatusMoveData : MoveData
                 if (HasInteracted)
                 {
                     modifier *= 2;
-                    Debug.Log("Acertou o timing do ataque");
                 }
                 break;
             case UnitType.Enemy:
                 if (HasInteracted)
                 {
                     modifier = Mathf.Max(Mathf.RoundToInt((float)modifier * .5f), 0);
-                    Debug.Log("Acertou o timing da defesa");
                 }
                 break;
         }

@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class MoveMenuButton : BaseMenuButton
 {
-    private MoveData _move;
-    private BattleMenu _fightMenu;
+    [SerializeField] private MoveData _move;
+    [SerializeField] private BattleMenu _fightMenu;
+    [SerializeField] private bool _overrideName;
+
+    private bool _isInitialized;
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
-        if (ButtonText.text == "" && _move)
+        if (_move && !_isInitialized)
         {
-            ButtonText.text = _move.Name;
+            if (!_overrideName)
+            {
+                ButtonText.text = _move.Name;
+            }
             Button.onClick.AddListener(Execute);
+            _isInitialized = true;
         }
+    }
+
+    private void Start()
+    {
+
     }
 
     public void Init(MoveData move, BattleMenu fightMenu)

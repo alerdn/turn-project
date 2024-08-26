@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Investida
   Type: 1
-  EnergyCost: 1
+  EnergyCost: 0
   MoveDuration: 2
   InteractionWindowTime: 1
   InteractionWindowDuration: 0.5
+  HasInteracted: 0
   Damage: 20

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Block
   Type: 3
-  EnergyCost: 0
+  EnergyCost: 1
   MoveDuration: 2
   InteractionWindowTime: 1
   InteractionWindowDuration: 0.5
-  HasInteracted: 0
+  HasInteracted: 1
   Stat: 2
   ModifierDegree: 1

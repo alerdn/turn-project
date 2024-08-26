@@ -7,13 +7,13 @@ public class BattleResolveState : BattleStateBase
 {
     private List<Unit> _unitsInBattle;
     private BattleMenu _menu;
-    private GameObject _interactionUI;
+    private BattleInteraction _interactionUI;
     private List<RoundMove> _movesChosen;
     private RoundMove _currentRoundMove;
     private float _time;
     private bool _isResolvingTurn;
 
-    public BattleResolveState(BattleManager stateMachine, List<Unit> unitsInBattle, BattleMenu menu, GameObject interactionUI, List<RoundMove> roundMovesChosen) : base(stateMachine)
+    public BattleResolveState(BattleManager stateMachine, List<Unit> unitsInBattle, BattleMenu menu, BattleInteraction interactionUI, List<RoundMove> roundMovesChosen) : base(stateMachine)
     {
         _unitsInBattle = unitsInBattle;
         _menu = menu;
@@ -48,24 +48,13 @@ public class BattleResolveState : BattleStateBase
             ResolveTurn();
         }
 
-        if (_isResolvingTurn && _currentRoundMove.ResolveTime != 0)
+        if (_isResolvingTurn && _interactionUI.IsActive)
         {
-            float startInteractionTime = _currentRoundMove.ResolveTime + _currentRoundMove.Move.InteractionWindowTime;
-            float endInteractionTime = startInteractionTime + _currentRoundMove.Move.InteractionWindowDuration;
+            _interactionUI.UpdateState(_time);
 
-            if (_time >= startInteractionTime && _time <= endInteractionTime && !_currentRoundMove.Move.HasInteracted)
+            if (PlayerController.Instance.InputReader.Controls.Battle.Interact.WasPerformedThisFrame())
             {
-                _interactionUI.SetActive(true);
-
-                if (PlayerController.Instance.InputReader.Controls.Battle.Interact.WasPerformedThisFrame())
-                {
-                    _currentRoundMove.Move.HasInteracted = true;
-                    _interactionUI.SetActive(false);
-                }
-            }
-            else
-            {
-                _interactionUI.SetActive(false);
+                _interactionUI.TryInteract(_time);
             }
         }
     }
@@ -77,11 +66,13 @@ public class BattleResolveState : BattleStateBase
     private async void ResolveTurn()
     {
         _menu.HideMenu();
+        
+        // Sempre ordenar caso as velocidades tenham sido alteradas
         _unitsInBattle = _unitsInBattle.OrderByDescending(unit => unit.Speed).ToList();
         foreach (Unit unit in _unitsInBattle)
         {
             _currentRoundMove = _movesChosen.Find(roundMove => roundMove.Type == unit.Type);
-            _currentRoundMove.ResolveTime = _time;
+            _interactionUI.Init(_currentRoundMove.Move, _time);
 
             await _currentRoundMove.Move.Execute(unit);
 

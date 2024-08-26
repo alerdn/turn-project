@@ -21,7 +21,7 @@ public class BattleManager : StateMachine
 
     [Header("UI")]
     [SerializeField] private MainBattleMenu _battleUI;
-    [SerializeField] private GameObject _interactionUI;
+    [SerializeField] private BattleInteraction _interactionUI;
     [SerializeField] private BattleMenu _playerMainManu;
     [SerializeField] private FightBattleMenu _playerFightMenu;
     [SerializeField] private StatusUI _playerStatus;
@@ -88,12 +88,12 @@ public class BattleManager : StateMachine
     public void ShowBattleUI()
     {
         _battleUI.ShowMenu();
-        _interactionUI.SetActive(false);
+        _interactionUI.Hide();
     }
 
     public void HideBattleUI()
     {
         _battleUI.HideMenu();
-        _interactionUI.SetActive(false);
+        _interactionUI.Hide();
     }
 }

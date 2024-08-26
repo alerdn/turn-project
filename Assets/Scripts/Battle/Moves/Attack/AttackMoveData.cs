@@ -24,14 +24,12 @@ public abstract class AttackMoveData : MoveData
                 if (HasInteracted)
                 {
                     modifier = 2f;
-                    Debug.Log("Acertou o timing do ataque");
                 }
                 break;
             case UnitType.Enemy:
                 if (HasInteracted)
                 {
                     modifier = .5f;
-                    Debug.Log("Acertou o timing da defesa");
                 }
                 break;
         }

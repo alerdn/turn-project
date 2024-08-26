@@ -22,6 +22,7 @@ public enum UnitStat
 public class Unit : MonoBehaviour
 {
     public event Action<float> OnHealthUpdated;
+    public event Action<int> OnEnergyUpdated;
 
     [field: SerializeField] public Unit Enemy { get; set; }
 
@@ -36,7 +37,14 @@ public class Unit : MonoBehaviour
     public float SpecialDefence => _specialDefence;
     public float Speed => _speed;
     public List<MoveData> Moves => _moves;
-    public int EnergyAmount => _energyAmount;
+    public int EnergyAmount
+    {
+        get => _energyAmount; set
+        {
+            _energyAmount = value;
+            OnEnergyUpdated?.Invoke(_energyAmount);
+        }
+    }
 
     [SerializeField] private int _level = 1;
     [SerializeField] private UnitData _unitData;
@@ -52,7 +60,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private float _specialDefence;
     [SerializeField] private float _speed;
     [SerializeField] private List<MoveData> _moves;
-    [SerializeField]private int _energyAmount;
+    [SerializeField] private int _energyAmount;
 
     [Header("Stats Stage")]
     [SerializeField] private int _attackStage;
@@ -60,7 +68,6 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _defenceStage;
     [SerializeField] private int _specialDefenceStage;
     [SerializeField] private int _speedStage;
-
 
     private void Start()
     {
@@ -95,7 +102,7 @@ public class Unit : MonoBehaviour
         _speedStage = 0;
 
         // Energy for use moves
-        _energyAmount = 0;
+        EnergyAmount = 0;
     }
 
     public MoveData ChoseMove()
@@ -113,14 +120,14 @@ public class Unit : MonoBehaviour
     {
         if (amount < 0) return;
 
-        _energyAmount += amount;
+        EnergyAmount += amount;
     }
 
     public void DecreaseEnergy(int amount)
     {
         if (amount < 0) return;
 
-        _energyAmount -= amount;
+        EnergyAmount -= amount;
     }
 
     public float GetHealthPercentage()
@@ -139,7 +146,7 @@ public class Unit : MonoBehaviour
 
     public void Defeat()
     {
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 
     /// <summary>

@@ -98,6 +98,15 @@ public class PlayerController : Singleton<PlayerController>
             horizontalVelocity = Mathf.MoveTowards(_rb.velocity.x, _input.MovementAxis * _moveSpeed, _acceleration * Time.fixedDeltaTime);
         }
 
+        if (_input.MovementAxis > 0)
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+        else if (_input.MovementAxis < 0)
+        {
+            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+        }
+
         _rb.velocity = new Vector2(horizontalVelocity, _rb.velocity.y);
     }
 
