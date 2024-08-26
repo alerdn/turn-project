@@ -49,21 +49,22 @@ public class BattleManager : StateMachine
         _battleUI.HideMenu();
     }
 
-    public void StartBattle(PlayerController playerController, Vector2 playerPosition, Unit enemy, Vector2 enemyPosition)
+    public void StartBattle(PlayerController playerController, Vector2 playerPosition, EnemyController enemyController, Vector2 enemyPosition)
     {
         ShowBattleUI();
 
         playerController.InputReader.DisablePlayerInputs();
         playerController.InputReader.EnableBattleInputs();
         playerController.transform.SetPositionAndRotation(playerPosition, Quaternion.identity);
-
         Unit player = playerController.PlayerUnit;
         player.ResetStats();
         _playerStatus.Init(player);
         _playerFightMenu.Init(player);
 
+        enemyController.DisableMovement();
+        enemyController.transform.SetPositionAndRotation(enemyPosition, Quaternion.Euler(new Vector3(0f, 180f, 0f)));
+        Unit enemy = enemyController.EnemyUnit;
         _enemyStatus.Init(enemy);
-        enemy.transform.SetPositionAndRotation(enemyPosition, Quaternion.identity);
         enemy.Init();
 
         _unitsInBattle = new() { player, enemy };

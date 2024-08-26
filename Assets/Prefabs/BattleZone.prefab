@@ -51,7 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 9094440843995776959}
   _playerPosition: {fileID: 1634959439739825189}
-  _enemy: {fileID: 4807032244275355346}
+  _enemy: {fileID: 2130500117736386158}
   _enemyPosition: {fileID: 1624147231498869693}
 --- !u!61 &8228687749959013485
 BoxCollider2D:
@@ -230,7 +230,7 @@ Transform:
   m_GameObject: {fileID: 9094440843995776959}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1, y: -1.07, z: -18.98903}
+  m_LocalPosition: {x: -0.1, y: -3, z: -18.98903}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -290,7 +290,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3202639234864696851, guid: 62c34b3cc020bfb4bbefa8df3405f1de, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.310791
+      value: -4.32
       objectReference: {fileID: 0}
     - target: {fileID: 3202639234864696851, guid: 62c34b3cc020bfb4bbefa8df3405f1de, type: 3}
       propertyPath: m_LocalPosition.z
@@ -333,15 +333,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62c34b3cc020bfb4bbefa8df3405f1de, type: 3}
---- !u!114 &4807032244275355346 stripped
+--- !u!114 &2130500117736386158 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2754471467145119372, guid: 62c34b3cc020bfb4bbefa8df3405f1de, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8727648416254473776, guid: 62c34b3cc020bfb4bbefa8df3405f1de, type: 3}
   m_PrefabInstance: {fileID: 7246251599021201502}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c04912cd7f134e34090b45d7008fd569, type: 3}
+  m_Script: {fileID: 11500000, guid: ea0d551f4cec76f45b09cb33dd297f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5259593060212610637 stripped

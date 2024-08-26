@@ -7,7 +7,7 @@ public class BattleZone : MonoBehaviour
 {
     [SerializeField] private GameObject _camera;
     [SerializeField] private Transform _playerPosition;
-    [SerializeField] private Unit _enemy;
+    [SerializeField] private EnemyController _enemy;
     [SerializeField] private Transform _enemyPosition;
 
     private bool _isBattleStarted;

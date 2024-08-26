@@ -52,18 +52,20 @@ public class BattleResolveState : BattleStateBase
         {
             float startInteractionTime = _currentRoundMove.ResolveTime + _currentRoundMove.Move.InteractionWindowTime;
             float endInteractionTime = startInteractionTime + _currentRoundMove.Move.InteractionWindowDuration;
-            if (_time >= startInteractionTime && _time <= endInteractionTime)
+
+            if (_time >= startInteractionTime && _time <= endInteractionTime && !_currentRoundMove.Move.HasInteracted)
             {
-                if (!_currentRoundMove.Move.HasInteracted)
-                {
-                    _interactionUI.SetActive(true);
-                }
+                _interactionUI.SetActive(true);
 
                 if (PlayerController.Instance.InputReader.Controls.Battle.Interact.WasPerformedThisFrame())
                 {
                     _currentRoundMove.Move.HasInteracted = true;
                     _interactionUI.SetActive(false);
                 }
+            }
+            else
+            {
+                _interactionUI.SetActive(false);
             }
         }
     }
@@ -82,7 +84,6 @@ public class BattleResolveState : BattleStateBase
             _currentRoundMove.ResolveTime = _time;
 
             await _currentRoundMove.Move.Execute(unit);
-            _interactionUI.SetActive(false);
 
             if (VerifyBattleFinished(out Unit defeatedUnit))
             {
