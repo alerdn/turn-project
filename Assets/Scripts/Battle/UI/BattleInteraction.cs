@@ -14,19 +14,26 @@ public class InteractionResolver
     public float EndInteractionTime;
 }
 
+[Serializable]
+public class ActionUI
+{
+    public GameObject Frame;
+    public GameObject Button;
+    public GameObject Effect;
+    public Tween AntecipationTween;
+    public int ButtonIndex;
+}
+
 public class BattleInteraction : MonoBehaviour
 {
     public bool IsInteractable => _interactionResolvers.Count > 0;
 
-    [SerializeField] private GameObject _frame;
-    [SerializeField] private GameObject _actionButton;
-    [SerializeField] private GameObject _actionEffect;
+    [SerializeField] private List<ActionUI> _actions;
     [SerializeField] private Ease _antecipationEase;
 
     private MoveData _move;
     private List<InteractionResolver> _interactionResolvers;
     private int _currentInteractionIndex;
-    private Tween _antecipationTween;
 
     public void Init(MoveData move, float resolveTime)
     {
@@ -50,81 +57,104 @@ public class BattleInteraction : MonoBehaviour
         }
 
         _currentInteractionIndex = 0;
+        _actions.Shuffle();
     }
 
     public void UpdateState(float time)
     {
+        for (int i = 0; i < _interactionResolvers.Count; i++)
+        {
+            InteractionResolver resolver = _interactionResolvers[i];
+            ActionUI action = _actions[i];
+
+            if (time >= resolver.StartAntecipationTime && !resolver.IsAntecipating)
+            {
+                resolver.IsAntecipating = true;
+                Show(action);
+
+                // Aumentamos o tempo da animação para auxiliar o jogador, dando a falsa impressão que ele acertou o timing perfeitamente
+                action.AntecipationTween = action.Effect.transform
+                    .DOScale(1f, resolver.InteractionData.InteractionWindowTime + .3f - resolver.InteractionData.AntecipationTime)
+                    .SetEase(_antecipationEase)
+                    .From(3f);
+            }
+
+            if (time >= resolver.EndInteractionTime && !resolver.InteractionData.HasInteracted)
+            {
+                if (!VerifyNextInteraction())
+                {
+                    Hide(action);
+                }
+            }
+        }
+    }
+
+    public void TryInteract(float time, int buttonIndex)
+    {
         InteractionResolver resolver = _interactionResolvers[_currentInteractionIndex];
+        ActionUI action = _actions[_currentInteractionIndex];
 
-        if (time >= resolver.StartAntecipationTime && !resolver.IsAntecipating)
+        if (IsWithinInteractionWindow(time, resolver, action, buttonIndex))
         {
-            resolver.IsAntecipating = true;
-            Show();
-
-            // Aumentamos o tempo da animação para auxiliar o jogador, dando a falsa impressão que ele acertou o timing perfeitamente
-            _antecipationTween = _actionEffect.transform
-                .DOScale(1f, resolver.InteractionData.InteractionWindowTime + .2f - resolver.InteractionData.AntecipationTime)
-                .SetEase(_antecipationEase)
-                .From(3f);
-        }
-
-        if (IsWithinInteractionWindow(time))
-        {
-            _actionButton.GetComponent<Image>().color = Color.blue;
-        }
-        else
-        {
-            _actionButton.GetComponent<Image>().color = Color.white;
-        }
-
-        if (time >= resolver.EndInteractionTime)
-        {
-            if (_currentInteractionIndex + 1 < _interactionResolvers.Count)
-            {
-                _currentInteractionIndex++;
-            }
-            else
-            {
-                Hide();
-            }
-        }
-    }
-
-    public void TryInteract(float time)
-    {
-        if (IsWithinInteractionWindow(time))
-        {
-            InteractionResolver resolver = _interactionResolvers[_currentInteractionIndex];
             resolver.InteractionData.HasInteracted = true;
-            _actionButton.GetComponent<Image>().color = Color.green;
-            Debug.Log("Interagiu no momento certo");
-            Hide(250);
+            action.Button.GetComponent<Image>().color = Color.green;
+
+            VerifyNextInteraction();
+            Hide(action, 100);
         }
         else
         {
-            _actionButton.GetComponent<Image>().color = Color.red;
-            Debug.Log("Interagiu no momento errado");
-            Hide(250);
+            action.Button.GetComponent<Image>().color = Color.red;
+
+            VerifyNextInteraction();
+            Hide(action, 100);
         }
     }
 
-    public void Show()
+    public void Show(ActionUI action)
     {
-        _frame.SetActive(true);
+        action.Button.GetComponent<Image>().color = Color.white;
+        action.Frame.SetActive(true);
     }
 
-    public async void Hide(int delay = 0)
+    public void Hide(ActionUI action, int delay = 0)
     {
-        _antecipationTween.Kill();
-        _actionEffect.transform.localScale = Vector3.one;
+        HideAction(action, delay);
+    }
+
+    public void Hide()
+    {
+        foreach (var action in _actions.FindAll(action => action.Frame.activeInHierarchy))
+        {
+            HideAction(action);
+        }
+    }
+
+    private bool VerifyNextInteraction()
+    {
+        if (_currentInteractionIndex + 1 < _interactionResolvers.Count)
+        {
+            _currentInteractionIndex++;
+            return true;
+        }
+
+        return false;
+    }
+
+    private async void HideAction(ActionUI action, int delay = 0)
+    {
+        action.AntecipationTween.Kill();
+        action.Effect.transform.localScale = Vector3.one;
 
         await Task.Delay(delay);
-        _frame.SetActive(false);
+        action.Frame.SetActive(false);
     }
 
-    private bool IsWithinInteractionWindow(float time)
+    private bool IsWithinInteractionWindow(float time, InteractionResolver resolver, ActionUI action, int buttonIndex)
     {
-        InteractionResolver resolver = _interactionResolvers[_currentInteractionIndex];
-        return time >= resolver.StartInteractionTime && time <= resolver.EndInteractionTime && !resolver.InteractionData.HasInteracted;
+        return time >= resolver.StartInteractionTime
+            && time <= resolver.EndInteractionTime
+            && !resolver.InteractionData.HasInteracted
+            && action.ButtonIndex == buttonIndex;
     }
 }

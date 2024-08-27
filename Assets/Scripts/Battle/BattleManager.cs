@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [Serializable]
@@ -21,6 +22,7 @@ public class BattleManager : StateMachine
 
     [Header("UI")]
     [SerializeField] private MainBattleMenu _battleUI;
+    [SerializeField] private TMP_Text _logs;
     [SerializeField] private BattleInteraction _interactionUI;
     [SerializeField] private BattleMenu _playerMainManu;
     [SerializeField] private FightBattleMenu _playerFightMenu;
@@ -77,7 +79,7 @@ public class BattleManager : StateMachine
 
     public void NextRound()
     {
-        SwitchState(new BattleResolveState(this, _unitsInBattle, _playerMainManu, _interactionUI, _roundMovesChosen));
+        SwitchState(new BattleResolveState(this, _unitsInBattle, _playerMainManu, _interactionUI, _logs, _roundMovesChosen));
     }
 
     public void EndBattle()

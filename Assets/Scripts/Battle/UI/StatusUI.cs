@@ -15,22 +15,34 @@ public class StatusUI : MonoBehaviour
     [SerializeField] private Color _fullLifeColor;
     [SerializeField] private Color _midLifeColor;
     [SerializeField] private Color _lowLifeColor;
-
     [SerializeField] private List<Image> _energySlots;
+
+    private Unit _unit;
 
     public void Init(Unit unit)
     {
-        _name.text = unit.Name;
-        _lifebar.fillAmount = unit.GetHealthPercentage();
-        _lifebar.color = GetCurrentLifebarColor(unit.GetHealthPercentage());
+        _unit = unit;
+
+        _name.text = _unit.Name;
+        _lifebar.fillAmount = _unit.GetHealthPercentage();
+        _lifebar.color = GetCurrentLifebarColor(_unit.GetHealthPercentage());
 
         if (_energySlots.Count > 0)
         {
-            UpdateEnergySlots(unit.EnergyAmount);
-            unit.OnEnergyUpdated += UpdateEnergySlots;
+            UpdateEnergySlots(_unit.EnergyAmount);
+            _unit.OnEnergyUpdated += UpdateEnergySlots;
         }
 
-        unit.OnHealthUpdated += UpdateUI;
+        _unit.OnHealthUpdated += UpdateUI;
+    }
+
+    private void OnDestroy()
+    {
+        if (_energySlots.Count > 0)
+        {
+            _unit.OnEnergyUpdated += UpdateEnergySlots;
+        }
+        _unit.OnHealthUpdated += UpdateUI;
     }
 
     private async void UpdateUI(float healthPercentage)

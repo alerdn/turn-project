@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 public class BattleResolveState : BattleStateBase
@@ -8,16 +10,18 @@ public class BattleResolveState : BattleStateBase
     private List<Unit> _unitsInBattle;
     private BattleMenu _menu;
     private BattleInteraction _interactionUI;
+    private TMP_Text _logs;
     private List<RoundMove> _movesChosen;
     private RoundMove _currentRoundMove;
     private float _time;
     private bool _isResolvingTurn;
 
-    public BattleResolveState(BattleManager stateMachine, List<Unit> unitsInBattle, BattleMenu menu, BattleInteraction interactionUI, List<RoundMove> roundMovesChosen) : base(stateMachine)
+    public BattleResolveState(BattleManager stateMachine, List<Unit> unitsInBattle, BattleMenu menu, BattleInteraction interactionUI, TMP_Text logs, List<RoundMove> roundMovesChosen) : base(stateMachine)
     {
         _unitsInBattle = unitsInBattle;
         _menu = menu;
         _interactionUI = interactionUI;
+        _logs = logs;
 
         _movesChosen = roundMovesChosen;
         _movesChosen.Clear();
@@ -52,9 +56,11 @@ public class BattleResolveState : BattleStateBase
         {
             _interactionUI.UpdateState(_time);
 
-            if (PlayerController.Instance.InputReader.Controls.Battle.Interact.WasPerformedThisFrame())
+            InputReader input = PlayerController.Instance.InputReader;
+            if (input.Controls.Battle.Interact.WasPerformedThisFrame())
             {
-                _interactionUI.TryInteract(_time);
+                int buttonIndex = input.InteractButtonIndex;
+                _interactionUI.TryInteract(_time, buttonIndex);
             }
         }
     }
@@ -66,7 +72,7 @@ public class BattleResolveState : BattleStateBase
     private async void ResolveTurn()
     {
         _menu.HideMenu();
-        
+
         // Sempre ordenar caso as velocidades tenham sido alteradas
         _unitsInBattle = _unitsInBattle.OrderByDescending(unit => unit.Speed).ToList();
         foreach (Unit unit in _unitsInBattle)
@@ -74,13 +80,15 @@ public class BattleResolveState : BattleStateBase
             _currentRoundMove = _movesChosen.Find(roundMove => roundMove.Type == unit.Type);
             _interactionUI.Init(_currentRoundMove.Move, _time);
 
-            await _currentRoundMove.Move.Execute(unit);
+            _logs.text = await _currentRoundMove.Move.Execute(unit);
 
             if (VerifyBattleFinished(out Unit defeatedUnit))
             {
                 stateMachine.SwitchState(new BattleEndState(stateMachine, defeatedUnit));
                 return;
             }
+
+            await Task.Delay(2000);
         }
 
         stateMachine.NextRound();

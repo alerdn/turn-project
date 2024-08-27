@@ -29,5 +29,5 @@ public abstract class MoveData : ScriptableObject
     public List<InteractionData> InteractionsData;
     protected Unit target;
 
-    public abstract Task Execute(Unit unitExecutor);
+    public abstract Task<string> Execute(Unit unitExecutor);
 }

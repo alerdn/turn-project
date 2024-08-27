@@ -15,13 +15,13 @@ public abstract class StatusMoveData : MoveData
         switch (unitExecutor.Type)
         {
             case UnitType.Player:
-                if (InteractionsData.All(interaction => interaction.HasInteracted))
+                if (InteractionsData.Count > 0 && InteractionsData.All(interaction => interaction.HasInteracted))
                 {
                     modifier *= 2;
                 }
                 break;
             case UnitType.Enemy:
-                if (InteractionsData.All(interaction => interaction.HasInteracted))
+                if (InteractionsData.Count > 0 && InteractionsData.All(interaction => interaction.HasInteracted))
                 {
                     modifier = Mathf.Max(Mathf.RoundToInt((float)modifier * .5f), 0);
                 }
@@ -31,8 +31,8 @@ public abstract class StatusMoveData : MoveData
         return modifier;
     }
 
-    public void PrintLog(Unit unitExecutor, int modifier)
+    public string PrintLog(Unit unitExecutor, int modifier)
     {
-        Debug.LogWarning($"{unitExecutor.Name} usou {Name} em {target.Name} e {(ModifierDegree > 0 ? "aumentou" : "diminuiu")} seu {Stat} em {modifier}");
+        return $"{unitExecutor.Name} usou {Name} em {target.Name} e {(ModifierDegree > 0 ? "aumentou" : "diminuiu")} seu {Stat} em {modifier}";
     }
 }

@@ -109,13 +109,13 @@ public class Unit : MonoBehaviour
 
     public MoveData ChoseMove()
     {
-        int movesCount = Moves.Count;
-        List<MoveData> _attackMoves = Moves.FindAll(move => move is AttackMoveData && move.EnergyCost <= EnergyAmount);
-        List<MoveData> _statusMoves = Moves.FindAll(move => move is StatusMoveData && move.EnergyCost <= EnergyAmount);
+        // int movesCount = Moves.Count;
+        // List<MoveData> _attackMoves = Moves.FindAll(move => move is AttackMoveData && move.EnergyCost <= EnergyAmount);
+        // List<MoveData> _statusMoves = Moves.FindAll(move => move is StatusMoveData && move.EnergyCost <= EnergyAmount);
 
-        // Movimentos de ataque tem prioridade
-        MoveData move = Random.Range(0, 10) <= 7 ? _attackMoves.GetRandom() : _statusMoves.GetRandom();
-        return move;
+        // // Movimentos de ataque tem prioridade
+        // MoveData move = Random.Range(0, 10) <= 7 ? _attackMoves.GetRandom() : _statusMoves.GetRandom();
+        return Moves.FindAll(move => move.EnergyCost <= EnergyAmount).GetRandom();
     }
 
     public void IncreaseEnergy(int amount = 1)

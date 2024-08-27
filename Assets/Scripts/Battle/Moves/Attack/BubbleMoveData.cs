@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BubbleMoveData", menuName = "Moves/Attack/Bubble")]
 public class BubbleMoveData : AttackMoveData
 {
-    public override async Task Execute(Unit unitExecutor)
+    public override async Task<string> Execute(Unit unitExecutor)
     {
         InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
         unitExecutor.DecreaseEnergy(EnergyCost);
@@ -15,6 +15,6 @@ public class BubbleMoveData : AttackMoveData
         float damageToApply = GetDamageToApply(unitExecutor);
         target.TakeDamage(damageToApply);
 
-        PrintLog(unitExecutor, damageToApply);
+        return PrintLog(unitExecutor, damageToApply);
     }
 }

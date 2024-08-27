@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Investida
   Type: 1
   EnergyCost: 0
-  MoveDuration: 2
+  MoveDuration: 1
   InteractionsData:
   - AntecipationTime: 0
     InteractionWindowTime: 0.5

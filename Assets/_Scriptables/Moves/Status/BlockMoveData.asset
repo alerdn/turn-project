@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9573e3a56a80759498c65121635363fb, type: 3}
   m_Name: BlockMoveData
   m_EditorClassIdentifier: 
-  Name: Block
+  Name: Bloqueio
   Type: 3
   EnergyCost: 1
   MoveDuration: 2

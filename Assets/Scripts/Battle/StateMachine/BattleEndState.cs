@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,6 +13,20 @@ public class BattleEndState : BattleStateBase
 
     public override void OnEnter()
     {
+        EndBattle();
+    }
+
+    public override void OnTick(float deltaTime)
+    {
+    }
+
+    public override void OnExit()
+    {
+    }
+
+    private async void EndBattle()
+    {
+        await Task.Delay(2000);
         stateMachine.HideBattleUI();
 
         switch (_defeatedUnit.Type)
@@ -26,13 +41,5 @@ public class BattleEndState : BattleStateBase
         }
 
         stateMachine.EndBattle();
-    }
-
-    public override void OnTick(float deltaTime)
-    {
-    }
-
-    public override void OnExit()
-    {
     }
 }

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Service Bot
   Health: 50
-  Attack: 15
-  SpecialAttack: 8
+  Attack: 25
+  SpecialAttack: 20
   Defence: 5
   SpecialDefence: 5
   Speed: 6
   Moves:
   - {fileID: 11400000, guid: a23ca51b165c78044aa01b6c0efb19bc, type: 2}
-  - {fileID: 11400000, guid: ad39647ee01b9244fb5adb34652fac74, type: 2}
+  - {fileID: 11400000, guid: bd5d1b36e77d23045b09ebd88aeae2df, type: 2}

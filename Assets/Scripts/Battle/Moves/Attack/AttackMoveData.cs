@@ -22,13 +22,13 @@ public abstract class AttackMoveData : MoveData
         switch (unitExecutor.Type)
         {
             case UnitType.Player:
-                if (InteractionsData.All(interaction => interaction.HasInteracted))
+                if (InteractionsData.Count > 0 && InteractionsData.All(interaction => interaction.HasInteracted))
                 {
                     modifier = 2f;
                 }
                 break;
             case UnitType.Enemy:
-                if (InteractionsData.All(interaction => interaction.HasInteracted))
+                if (InteractionsData.Count > 0 && InteractionsData.All(interaction => interaction.HasInteracted))
                 {
                     modifier = .5f;
                 }
@@ -41,8 +41,8 @@ public abstract class AttackMoveData : MoveData
         return damageToApply;
     }
 
-    public void PrintLog(Unit unitExecutor, float damageToApply)
+    public string PrintLog(Unit unitExecutor, float damageToApply)
     {
-        Debug.LogError($"{unitExecutor.Name} Usou {Name} em {unitExecutor.Enemy.Name} e causou {damageToApply} pontos de dano");
+        return $"{unitExecutor.Name} Usou {Name} em {unitExecutor.Enemy.Name} e causou {damageToApply} pontos de dano";
     }
 }

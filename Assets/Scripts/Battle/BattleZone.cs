@@ -16,6 +16,13 @@ public class BattleZone : MonoBehaviour
     {
         _isBattleStarted = false;
         _camera.SetActive(false);
+
+        BattleManager.Instance.OnBattleEnded += OnBattleEnded;
+    }
+
+    private void OnDestroy()
+    {
+        BattleManager.Instance.OnBattleEnded -= OnBattleEnded;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -25,7 +32,6 @@ public class BattleZone : MonoBehaviour
             _isBattleStarted = true;
             _camera.SetActive(true);
 
-            BattleManager.Instance.OnBattleEnded += OnBattleEnded;
             BattleManager.Instance.StartBattle(playerController, _playerPosition.position, _enemy, _enemyPosition.position);
         }
     }

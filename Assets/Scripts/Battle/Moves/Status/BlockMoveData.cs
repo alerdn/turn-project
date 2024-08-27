@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BlockMoveData", menuName = "Moves/Status/Block")]
 public class BlockMoveData : StatusMoveData
 {
-    public override async Task Execute(Unit unitExecutor)
+    public override async Task<string> Execute(Unit unitExecutor)
     {
         InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
         unitExecutor.DecreaseEnergy(EnergyCost);
@@ -15,6 +16,6 @@ public class BlockMoveData : StatusMoveData
         int modifierToApply = GetModifierToApply(unitExecutor);
         target.ApplyStatModifier(Stat, modifierToApply);
 
-        PrintLog(unitExecutor, modifierToApply);
+        return PrintLog(unitExecutor, modifierToApply);
     }
 }

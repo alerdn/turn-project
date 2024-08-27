@@ -34,21 +34,21 @@ public class PlayerController : Singleton<PlayerController>
     private bool _canCoyoteJump;
     private float _gravityScale;
 
-    protected override void Awake()
+    private void Start()
     {
-        base.Awake();
-
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
 
         _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
+        _gravityScale = _rb.gravityScale;
+        _input.EnablePlayerInputs();
+
+        _input.JumpEvent += OnJump;
     }
 
-    private void Start()
+    private void OnDestroy()
     {
-        _input.JumpEvent += OnJump;
-
-        _gravityScale = _rb.gravityScale;
+        _input.JumpEvent -= OnJump;
     }
 
     private void FixedUpdate()

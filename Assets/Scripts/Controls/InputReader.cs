@@ -9,8 +9,8 @@ using static Controls;
 public class InputReader : ScriptableObject, IPlayerActions, IBattleActions
 {
     public event Action JumpEvent;
-    public event Action InteractEvent;
 
+    public int InteractButtonIndex;
     public float MovementAxis { get; private set; }
     public Controls Controls => _controls;
 
@@ -60,6 +60,15 @@ public class InputReader : ScriptableObject, IPlayerActions, IBattleActions
     {
         if (!context.performed) return;
 
-        InteractEvent?.Invoke();
+        Vector2 value = context.ReadValue<Vector2>();
+
+        // W ou S ou A ou D
+        InteractButtonIndex = value.y != 0
+            ? value.y > 0
+                ? 1
+                : 3
+            : value.x < 0
+                ? 4
+                : 2;
     }
 }
