@@ -1,12 +1,27 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public abstract class AttackMoveData : MoveData
 {
     public float Damage;
 
-    public (float, float) GetStatskByType(Unit unit, MoveType type)
+    public override async Task<string> Execute(Unit unitExecutor)
+    {
+        InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
+        unitExecutor.DecreaseEnergy(EnergyCost);
+        target = unitExecutor.Enemy;
+
+        await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
+
+        float damageToApply = GetDamageToApply(unitExecutor);
+        target.TakeDamage(damageToApply);
+
+        return PrintLog(unitExecutor, damageToApply);
+    }
+
+    private (float, float) GetStatskByType(Unit unit, MoveType type)
     {
         return type switch
         {
@@ -16,7 +31,7 @@ public abstract class AttackMoveData : MoveData
         };
     }
 
-    public float GetDamageToApply(Unit unitExecutor)
+    private float GetDamageToApply(Unit unitExecutor)
     {
         float modifier = 1f;
         switch (unitExecutor.Type)
@@ -41,7 +56,7 @@ public abstract class AttackMoveData : MoveData
         return damageToApply;
     }
 
-    public string PrintLog(Unit unitExecutor, float damageToApply)
+    private string PrintLog(Unit unitExecutor, float damageToApply)
     {
         return $"{unitExecutor.Name} Usou {Name} em {unitExecutor.Enemy.Name} e causou {damageToApply} pontos de dano";
     }

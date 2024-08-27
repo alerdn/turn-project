@@ -9,16 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddc746b83fc329e45ba0246601aa09da, type: 3}
-  m_Name: InvestidaMoveData
+  m_Script: {fileID: 11500000, guid: e2c8d206eb0296140afca9d9ee95be38, type: 3}
+  m_Name: TiroLaserAttackMoveData
   m_EditorClassIdentifier: 
-  Name: Investida
-  Type: 1
+  Name: 
+  Type: 0
   EnergyCost: 0
-  MoveDuration: 1
-  InteractionsData:
-  - AntecipationTime: 0
-    InteractionWindowTime: 0.5
-    InteractionWindowDuration: 0.5
-    HasInteracted: 1
-  Damage: 20
+  MoveDuration: 0
+  InteractionsData: []
+  Damage: 0

@@ -9,7 +9,21 @@ public abstract class StatusMoveData : MoveData
     [Range(-6, 6)]
     public int ModifierDegree;
 
-    public int GetModifierToApply(Unit unitExecutor)
+    public override async Task<string> Execute(Unit unitExecutor)
+    {
+        InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
+        unitExecutor.DecreaseEnergy(EnergyCost);
+        target = unitExecutor;
+
+        await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
+
+        int modifierToApply = GetModifierToApply(unitExecutor);
+        target.ApplyStatModifier(Stat, modifierToApply);
+
+        return PrintLog(unitExecutor, modifierToApply);
+    }
+
+    private int GetModifierToApply(Unit unitExecutor)
     {
         int modifier = ModifierDegree;
         switch (unitExecutor.Type)
@@ -31,7 +45,7 @@ public abstract class StatusMoveData : MoveData
         return modifier;
     }
 
-    public string PrintLog(Unit unitExecutor, int modifier)
+    private string PrintLog(Unit unitExecutor, int modifier)
     {
         return $"{unitExecutor.Name} usou {Name} em {target.Name} e {(ModifierDegree > 0 ? "aumentou" : "diminuiu")} seu {Stat} em {modifier}";
     }
