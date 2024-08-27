@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c3494765248f2446a3bc63e5ed14d6e, type: 3}
   m_Name: BlockStatusMoveData
   m_EditorClassIdentifier: 
-  Name: 
-  Type: 0
-  EnergyCost: 0
-  MoveDuration: 0
+  Name: Bloqueio
+  Type: 3
+  EnergyCost: 1
+  MoveDuration: 2
   InteractionsData: []
-  Stat: 0
-  ModifierDegree: 0
+  Stat: 2
+  ModifierDegree: 1

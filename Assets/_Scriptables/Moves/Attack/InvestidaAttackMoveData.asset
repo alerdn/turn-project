@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c8d206eb0296140afca9d9ee95be38, type: 3}
   m_Name: InvestidaAttackMoveData
   m_EditorClassIdentifier: 
-  Name: 
-  Type: 0
+  Name: Investida
+  Type: 1
   EnergyCost: 0
-  MoveDuration: 0
-  InteractionsData: []
-  Damage: 0
+  MoveDuration: 1
+  InteractionsData:
+  - AntecipationTime: 0
+    InteractionWindowTime: 0.5
+    InteractionWindowDuration: 0.5
+    HasInteracted: 1
+  Damage: 20

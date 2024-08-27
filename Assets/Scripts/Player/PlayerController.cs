@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : Singleton<PlayerController>
 {
     public Unit PlayerUnit => _playerUnit;
+    public Gun Gun => _gun;
     public InputReader InputReader => _input;
     public bool CanCoyoteJump => _canCoyoteJump && _time < _timeLeftGround + _coyoteJumpTime;
 
@@ -17,6 +18,7 @@ public class PlayerController : Singleton<PlayerController>
 
     [Header("Player")]
     [SerializeField] private Unit _playerUnit;
+    [SerializeField] private Gun _gun;
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private float _acceleration = 100f;
     [SerializeField] private float _deceleration = 60f;

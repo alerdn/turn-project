@@ -24,6 +24,7 @@ public class BattleManager : StateMachine
     [SerializeField] private MainBattleMenu _battleUI;
     [SerializeField] private TMP_Text _logs;
     [SerializeField] private BattleInteraction _interactionUI;
+    [SerializeField] private MoveMenuButton _basicAttackButton;
     [SerializeField] private BattleMenu _playerMainManu;
     [SerializeField] private FightBattleMenu _playerFightMenu;
     [SerializeField] private StatusUI _playerStatus;
@@ -59,7 +60,9 @@ public class BattleManager : StateMachine
         playerController.InputReader.EnableBattleInputs();
         playerController.transform.SetPositionAndRotation(playerPosition, Quaternion.identity);
         Unit player = playerController.PlayerUnit;
+        Gun gun = playerController.Gun;
         player.ResetStats();
+        _basicAttackButton.Init(gun.AttackMove);
         _playerStatus.Init(player);
         _playerFightMenu.Init(player);
 
