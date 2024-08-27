@@ -41,6 +41,8 @@ public class Unit : MonoBehaviour
     {
         get => _energyAmount; set
         {
+            if (value > 6) return;
+
             _energyAmount = value;
             OnEnergyUpdated?.Invoke(_energyAmount);
         }

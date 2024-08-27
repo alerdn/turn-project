@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 5792015503998187664}
   - component: {fileID: 2716483541928095749}
   m_Layer: 0
-  m_Name: Zubat Enemy
+  m_Name: ServiceBotEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

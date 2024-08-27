@@ -1,63 +1,73 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class InteractionResolver
+{
+    public InteractionData InteractionData;
+    public float StartAntecipationTime;
+    public bool IsAntecipating;
+    public float StartInteractionTime;
+    public float EndInteractionTime;
+}
+
 public class BattleInteraction : MonoBehaviour
 {
-    public bool IsActive { get; private set; }
+    public bool IsInteractable => _interactionResolvers.Count > 0;
 
+    [SerializeField] private GameObject _frame;
     [SerializeField] private GameObject _actionButton;
     [SerializeField] private GameObject _actionEffect;
+    [SerializeField] private Ease _antecipationEase;
 
     private MoveData _move;
-    private float _startInteractionTime;
-    private float _endInteractionTime;
+    private List<InteractionResolver> _interactionResolvers;
+    private int _currentInteractionIndex;
     private Tween _antecipationTween;
 
     public void Init(MoveData move, float resolveTime)
     {
         _move = move;
+        _interactionResolvers = new();
 
-        _startInteractionTime = resolveTime + _move.InteractionWindowTime;
-        _endInteractionTime = _startInteractionTime + _move.InteractionWindowDuration;
-
-        gameObject.SetActive(true);
-        IsActive = true;
-
-        _antecipationTween = _actionEffect.transform.DOScale(3f, _move.InteractionWindowTime).SetEase(Ease.InSine).From();
-    }
-
-    public async void Hide(int delay = 0)
-    {
-        IsActive = false;
-        _antecipationTween.Kill();
-        _actionEffect.transform.localScale = Vector3.one;
-
-        await Task.Delay(delay);
-        gameObject.SetActive(false);
-    }
-
-    public void TryInteract(float time)
-    {
-        if (IsWithinInteractionWindow(time))
+        foreach (var interaction in _move.InteractionsData)
         {
-            _move.HasInteracted = true;
-            _actionButton.GetComponent<Image>().color = Color.green;
-            Debug.Log("Interagiu no momento certo");
-            Hide(500);
+            float startAntecipationTime = resolveTime + interaction.AntecipationTime;
+            float startInteractionTime = resolveTime + interaction.InteractionWindowTime;
+            float endInteractionTime = startInteractionTime + interaction.InteractionWindowDuration;
+
+            _interactionResolvers.Add(new()
+            {
+                InteractionData = interaction,
+                StartAntecipationTime = startAntecipationTime,
+                IsAntecipating = false,
+                StartInteractionTime = startInteractionTime,
+                EndInteractionTime = endInteractionTime,
+            });
         }
-        else
-        {
-            _actionButton.GetComponent<Image>().color = Color.red;
-            Debug.Log("Interagiu no momento errado");
-            Hide(500);
-        }
+
+        _currentInteractionIndex = 0;
     }
 
     public void UpdateState(float time)
     {
+        InteractionResolver resolver = _interactionResolvers[_currentInteractionIndex];
+
+        if (time >= resolver.StartAntecipationTime && !resolver.IsAntecipating)
+        {
+            resolver.IsAntecipating = true;
+            Show();
+
+            // Aumentamos o tempo da animação para auxiliar o jogador, dando a falsa impressão que ele acertou o timing perfeitamente
+            _antecipationTween = _actionEffect.transform
+                .DOScale(1f, resolver.InteractionData.InteractionWindowTime + .2f - resolver.InteractionData.AntecipationTime)
+                .SetEase(_antecipationEase)
+                .From(3f);
+        }
+
         if (IsWithinInteractionWindow(time))
         {
             _actionButton.GetComponent<Image>().color = Color.blue;
@@ -67,14 +77,54 @@ public class BattleInteraction : MonoBehaviour
             _actionButton.GetComponent<Image>().color = Color.white;
         }
 
-        if (time > _endInteractionTime)
+        if (time >= resolver.EndInteractionTime)
         {
-            Hide();
+            if (_currentInteractionIndex + 1 < _interactionResolvers.Count)
+            {
+                _currentInteractionIndex++;
+            }
+            else
+            {
+                Hide();
+            }
         }
+    }
+
+    public void TryInteract(float time)
+    {
+        if (IsWithinInteractionWindow(time))
+        {
+            InteractionResolver resolver = _interactionResolvers[_currentInteractionIndex];
+            resolver.InteractionData.HasInteracted = true;
+            _actionButton.GetComponent<Image>().color = Color.green;
+            Debug.Log("Interagiu no momento certo");
+            Hide(250);
+        }
+        else
+        {
+            _actionButton.GetComponent<Image>().color = Color.red;
+            Debug.Log("Interagiu no momento errado");
+            Hide(250);
+        }
+    }
+
+    public void Show()
+    {
+        _frame.SetActive(true);
+    }
+
+    public async void Hide(int delay = 0)
+    {
+        _antecipationTween.Kill();
+        _actionEffect.transform.localScale = Vector3.one;
+
+        await Task.Delay(delay);
+        _frame.SetActive(false);
     }
 
     private bool IsWithinInteractionWindow(float time)
     {
-        return time >= _startInteractionTime && time <= _endInteractionTime && !_move.HasInteracted;
+        InteractionResolver resolver = _interactionResolvers[_currentInteractionIndex];
+        return time >= resolver.StartInteractionTime && time <= resolver.EndInteractionTime && !resolver.InteractionData.HasInteracted;
     }
 }

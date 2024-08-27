@@ -16,8 +16,6 @@ MonoBehaviour:
   Type: 3
   EnergyCost: 1
   MoveDuration: 2
-  InteractionWindowTime: 1
-  InteractionWindowDuration: 0.5
-  HasInteracted: 1
+  InteractionsData: []
   Stat: 2
   ModifierDegree: 1

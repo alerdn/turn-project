@@ -48,7 +48,7 @@ public class BattleResolveState : BattleStateBase
             ResolveTurn();
         }
 
-        if (_isResolvingTurn && _interactionUI.IsActive)
+        if (_isResolvingTurn && _interactionUI.IsInteractable)
         {
             _interactionUI.UpdateState(_time);
 

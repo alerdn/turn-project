@@ -6,12 +6,12 @@ public class InvestidaMoveData : AttackMoveData
 {
     public override async Task Execute(Unit unitExecutor)
     {
-        HasInteracted = false;
+        InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
         unitExecutor.DecreaseEnergy(EnergyCost);
         target = unitExecutor.Enemy;
 
         await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
-        
+
         float damageToApply = GetDamageToApply(unitExecutor);
         target.TakeDamage(damageToApply);
 

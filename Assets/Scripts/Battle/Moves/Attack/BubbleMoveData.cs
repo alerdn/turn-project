@@ -6,7 +6,7 @@ public class BubbleMoveData : AttackMoveData
 {
     public override async Task Execute(Unit unitExecutor)
     {
-        HasInteracted = false;
+        InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
         unitExecutor.DecreaseEnergy(EnergyCost);
         target = unitExecutor.Enemy;
 

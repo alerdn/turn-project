@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -14,13 +15,13 @@ public abstract class StatusMoveData : MoveData
         switch (unitExecutor.Type)
         {
             case UnitType.Player:
-                if (HasInteracted)
+                if (InteractionsData.All(interaction => interaction.HasInteracted))
                 {
                     modifier *= 2;
                 }
                 break;
             case UnitType.Enemy:
-                if (HasInteracted)
+                if (InteractionsData.All(interaction => interaction.HasInteracted))
                 {
                     modifier = Mathf.Max(Mathf.RoundToInt((float)modifier * .5f), 0);
                 }

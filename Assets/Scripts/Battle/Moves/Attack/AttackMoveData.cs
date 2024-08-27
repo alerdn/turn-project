@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public abstract class AttackMoveData : MoveData
@@ -21,13 +22,13 @@ public abstract class AttackMoveData : MoveData
         switch (unitExecutor.Type)
         {
             case UnitType.Player:
-                if (HasInteracted)
+                if (InteractionsData.All(interaction => interaction.HasInteracted))
                 {
                     modifier = 2f;
                 }
                 break;
             case UnitType.Enemy:
-                if (HasInteracted)
+                if (InteractionsData.All(interaction => interaction.HasInteracted))
                 {
                     modifier = .5f;
                 }

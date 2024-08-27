@@ -16,7 +16,9 @@ MonoBehaviour:
   Type: 1
   EnergyCost: 0
   MoveDuration: 2
-  InteractionWindowTime: 1
-  InteractionWindowDuration: 0.5
-  HasInteracted: 0
+  InteractionsData:
+  - AntecipationTime: 0
+    InteractionWindowTime: 0.5
+    InteractionWindowDuration: 0.5
+    HasInteracted: 1
   Damage: 20

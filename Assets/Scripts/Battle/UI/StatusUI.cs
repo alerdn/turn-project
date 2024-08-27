@@ -10,7 +10,6 @@ public class StatusUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text _name;
     [SerializeField] private Image _lifebar;
-    [SerializeField] private Transform _energySlotsParent;
 
     [Header("Colors")]
     [SerializeField] private Color _fullLifeColor;
@@ -25,9 +24,9 @@ public class StatusUI : MonoBehaviour
         _lifebar.fillAmount = unit.GetHealthPercentage();
         _lifebar.color = GetCurrentLifebarColor(unit.GetHealthPercentage());
 
-        if (_energySlotsParent)
+        if (_energySlots.Count > 0)
         {
-            _energySlots = _energySlotsParent.GetComponentsInChildren<Image>().ToList();
+            UpdateEnergySlots(unit.EnergyAmount);
             unit.OnEnergyUpdated += UpdateEnergySlots;
         }
 
