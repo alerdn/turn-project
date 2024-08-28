@@ -61,11 +61,11 @@ public class EnemyController : MonoBehaviour
 
         if (direction == 1)
         {
-            transform.eulerAngles = Vector3.zero;
+            _enemyUnit.transform.eulerAngles = Vector3.zero;
         }
         else
         {
-            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+            _enemyUnit.transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
 
         _rb.velocity = new Vector2(direction * _moveSpeed, _rb.velocity.y);

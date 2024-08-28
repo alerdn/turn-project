@@ -58,7 +58,7 @@ public class BattleManager : StateMachine
 
         playerController.InputReader.DisablePlayerInputs();
         playerController.InputReader.EnableBattleInputs();
-        playerController.transform.SetPositionAndRotation(playerPosition, Quaternion.identity);
+        playerController.transform.position = playerPosition;
         Unit player = playerController.PlayerUnit;
         Gun gun = playerController.Gun;
         player.ResetStats();
@@ -67,8 +67,9 @@ public class BattleManager : StateMachine
         _playerFightMenu.Init(player);
 
         enemyController.DisableMovement();
-        enemyController.transform.SetPositionAndRotation(enemyPosition, Quaternion.Euler(new Vector3(0f, 180f, 0f)));
+        enemyController.transform.position = enemyPosition;
         Unit enemy = enemyController.EnemyUnit;
+        enemy.PlayAnimation("Idle");
         _enemyStatus.Init(enemy);
         enemy.Init();
 

@@ -11,8 +11,9 @@ public abstract class AttackMoveData : MoveData
     {
         InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
         unitExecutor.DecreaseEnergy(EnergyCost);
+        unitExecutor.PlayAnimation(Name);
         target = unitExecutor.Enemy;
-
+        
         await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
 
         float damageToApply = GetDamageToApply(unitExecutor);

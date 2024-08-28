@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public enum UnitType
 {
@@ -19,12 +18,13 @@ public enum UnitStat
     SpecialDefence
 }
 
+[RequireComponent(typeof(Animator))]
 public class Unit : MonoBehaviour
 {
     public event Action<float> OnHealthUpdated;
     public event Action<int> OnEnergyUpdated;
 
-    [field: SerializeField] public Unit Enemy { get; set; }
+    public Unit Enemy { get; set; }
 
     public int Level => _level;
     public UnitType Type => _type;
@@ -48,10 +48,11 @@ public class Unit : MonoBehaviour
         }
     }
 
-    [SerializeField] private int _level = 1;
+    [Header("Components")]
     [SerializeField] private UnitData _unitData;
 
     [Header("Stats")]
+    [SerializeField] private int _level = 1;
     [SerializeField] private UnitType _type;
     [SerializeField] private string _name;
     [SerializeField] private float _maxHealth;
@@ -70,6 +71,13 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _defenceStage;
     [SerializeField] private int _specialDefenceStage;
     [SerializeField] private int _speedStage;
+
+    private Animator _animator;
+
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
@@ -105,6 +113,19 @@ public class Unit : MonoBehaviour
 
         // Energy for use moves
         EnergyAmount = 0;
+    }
+
+    public void PlayAnimation(string name)
+    {
+        string prefix = Type switch
+        {
+            UnitType.Player => "ANIM_Player_",
+            UnitType.Enemy => "ANIM_Enemy_",
+            _ => ""
+        };
+
+        string animation = prefix + name;
+        _animator.CrossFadeInFixedTime(animation, .1f);
     }
 
     public MoveData ChoseMove()

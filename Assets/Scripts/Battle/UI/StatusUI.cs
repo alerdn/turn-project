@@ -40,9 +40,9 @@ public class StatusUI : MonoBehaviour
     {
         if (_energySlots.Count > 0)
         {
-            _unit.OnEnergyUpdated += UpdateEnergySlots;
+            _unit.OnEnergyUpdated -= UpdateEnergySlots;
         }
-        _unit.OnHealthUpdated += UpdateUI;
+        _unit.OnHealthUpdated -= UpdateUI;
     }
 
     private async void UpdateUI(float healthPercentage)

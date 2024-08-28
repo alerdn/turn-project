@@ -102,11 +102,11 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_input.MovementAxis > 0)
         {
-            transform.eulerAngles = Vector3.zero;
+            _playerUnit.transform.eulerAngles = Vector3.zero;
         }
         else if (_input.MovementAxis < 0)
         {
-            transform.eulerAngles = new Vector3(0f, 180f, 0f);
+            _playerUnit.transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
 
         _rb.velocity = new Vector2(horizontalVelocity, _rb.velocity.y);

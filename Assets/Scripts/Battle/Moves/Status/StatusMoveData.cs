@@ -13,6 +13,7 @@ public abstract class StatusMoveData : MoveData
     {
         InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
         unitExecutor.DecreaseEnergy(EnergyCost);
+        unitExecutor.PlayAnimation(Name);
         target = unitExecutor;
 
         await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
