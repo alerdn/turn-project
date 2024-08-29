@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10aa627be5f454345a05d5bed3938d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 9094440843995776959}
+  _camera: {fileID: 4498022697153648194}
   _playerPosition: {fileID: 1634959439739825189}
   _enemy: {fileID: 2130500117736386158}
   _enemyPosition: {fileID: 1624147231498869693}
@@ -139,6 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3347263479745925932}
   - component: {fileID: 8682454539777541229}
+  - component: {fileID: 7654702979679239678}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -173,6 +174,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7654702979679239678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3270825235858752969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 1
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &5610206782123651708
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +232,7 @@ GameObject:
   m_Component:
   - component: {fileID: 153690905424326661}
   - component: {fileID: 4498022697153648194}
+  - component: {fileID: 651703980087284429}
   m_Layer: 0
   m_Name: Virtual Camera
   m_TagString: Untagged
@@ -276,6 +295,21 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 3347263479745925932}
+--- !u!114 &651703980087284429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9094440843995776959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf47b0b2a7ac5047bb6d55d20a526a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitAmplitudeGain: 3
+  _hitFrequencyGain: 5
+  _hitDuration: 0.25
 --- !u!1001 &7246251599021201502
 PrefabInstance:
   m_ObjectHideFlags: 0

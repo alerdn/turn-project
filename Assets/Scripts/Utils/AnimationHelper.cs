@@ -7,7 +7,7 @@ public class AnimationHelper : MonoBehaviour
 {
     public event Action ImpactEvent;
 
-    public void OnImpact()
+    private void OnImpact()
     {
         ImpactEvent?.Invoke();
     }

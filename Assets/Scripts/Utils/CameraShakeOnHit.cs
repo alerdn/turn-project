@@ -1,22 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cinemachine;
 using UnityEngine;
 
 public class CameraShakeOnHit : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera _camera;
-    [SerializeField] private float _hitAmplitudeGain = .85f;
-    [SerializeField] private float _hitFrequencyGain = 2f;
-    [SerializeField] private float _hitDuration = .15f;
+    [SerializeField] private float _hitAmplitudeGain = 3f;
+    [SerializeField] private float _hitFrequencyGain = 5f;
+    [SerializeField] private float _hitDuration = .25f;
 
     private CinemachineBasicMultiChannelPerlin _cameraShake;
     private bool _isShaking;
 
     private void Start()
     {
-        _cameraShake = _camera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+        _cameraShake = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         _cameraShake.m_AmplitudeGain = 0;
         _cameraShake.m_FrequencyGain = 0;
         _isShaking = false;
