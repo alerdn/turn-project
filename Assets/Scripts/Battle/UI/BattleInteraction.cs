@@ -26,17 +26,32 @@ public class ActionUI
 
 public class BattleInteraction : MonoBehaviour
 {
-    public bool IsInteractable => _interactionResolvers.Count > 0;
+    public bool IsInteractable
+    {
+        get
+        {
+            EInteractableBy interactableBy = _unit.Type switch
+            {
+                UnitType.Player => EInteractableBy.Player,
+                UnitType.Enemy => EInteractableBy.Enemy,
+                _ => EInteractableBy.None,
+            };
+
+            return _interactionResolvers.Count > 0 && _move.InteractableBy.HasFlag(interactableBy);
+        }
+    }
 
     [SerializeField] private List<ActionUI> _actions;
     [SerializeField] private Ease _antecipationEase;
 
+    private Unit _unit;
     private MoveData _move;
     private List<InteractionResolver> _interactionResolvers;
     private int _currentInteractionIndex;
 
-    public void Init(MoveData move, float resolveTime)
+    public void Init(Unit unit, MoveData move, float resolveTime)
     {
+        _unit = unit;
         _move = move;
         _interactionResolvers = new();
 

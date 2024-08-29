@@ -66,10 +66,10 @@ public class BattleManager : StateMachine
         _playerStatus.Init(player);
         _playerFightMenu.Init(player);
 
-        enemyController.DisableMovement();
+        enemyController.DisableMovement(-1);
         enemyController.transform.position = enemyPosition;
         Unit enemy = enemyController.EnemyUnit;
-        enemy.PlayAnimation("Idle");
+        enemy.PlayAnimation("Idle_Battle");
         _enemyStatus.Init(enemy);
         enemy.Init();
 

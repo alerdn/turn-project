@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform _downwardCollisionDetector;
 
     private Rigidbody2D _rb;
-    private int direction = 1;
+    private int _direction = 1;
     private bool _isMovementEnabled;
 
     private void Awake()
@@ -35,10 +35,30 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void DisableMovement()
+    private void LateUpdate()
+    {
+        if (_direction == 1)
+        {
+            _enemyUnit.transform.eulerAngles = Vector3.zero;
+        }
+        else
+        {
+            _enemyUnit.transform.eulerAngles = new Vector3(0f, 180f, 0f);
+        }
+    }
+
+    ///<summary>
+    ///1 para olhar para direita
+    ///<br/>-1 para olhar para esquerda
+    ///</summary>
+    public void DisableMovement(int direction = 0)
     {
         _isMovementEnabled = false;
         _rb.velocity = Vector3.zero;
+        if (direction != 0)
+        {
+            _direction = direction;
+        }
     }
 
     private void Move()
@@ -48,7 +68,7 @@ public class EnemyController : MonoBehaviour
         if (hitForward)
         {
             // Bateu na parede
-            direction *= -1;
+            _direction *= -1;
         }
 
         RaycastHit2D hitDownward = Physics2D.Raycast(_downwardCollisionDetector.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
@@ -56,18 +76,9 @@ public class EnemyController : MonoBehaviour
         if (!hitDownward)
         {
             // Prestes a sair da plataforma
-            direction *= -1;
+            _direction *= -1;
         }
 
-        if (direction == 1)
-        {
-            _enemyUnit.transform.eulerAngles = Vector3.zero;
-        }
-        else
-        {
-            _enemyUnit.transform.eulerAngles = new Vector3(0f, 180f, 0f);
-        }
-
-        _rb.velocity = new Vector2(direction * _moveSpeed, _rb.velocity.y);
+        _rb.velocity = new Vector2(_direction * _moveSpeed, _rb.velocity.y);
     }
 }

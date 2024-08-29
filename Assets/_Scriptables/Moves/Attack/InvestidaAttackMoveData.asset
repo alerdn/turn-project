@@ -16,6 +16,7 @@ MonoBehaviour:
   Type: 1
   EnergyCost: 0
   MoveDuration: 1
+  InteractableBy: 2
   InteractionsData:
   - AntecipationTime: 0
     InteractionWindowTime: 0.5

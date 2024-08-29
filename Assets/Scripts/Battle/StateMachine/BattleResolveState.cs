@@ -78,7 +78,7 @@ public class BattleResolveState : BattleStateBase
         foreach (Unit unit in _unitsInBattle)
         {
             _currentRoundMove = _movesChosen.Find(roundMove => roundMove.Type == unit.Type);
-            _interactionUI.Init(_currentRoundMove.Move, _time);
+            _interactionUI.Init(unit, _currentRoundMove.Move, _time);
 
             _logs.text = await _currentRoundMove.Move.Execute(unit);
 

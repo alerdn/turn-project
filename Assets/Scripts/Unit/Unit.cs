@@ -24,6 +24,7 @@ public class Unit : MonoBehaviour
     public event Action<float> OnHealthUpdated;
     public event Action<int> OnEnergyUpdated;
 
+    public AnimationHelper AnimationHelper => _animationHelper;
     public Unit Enemy { get; set; }
 
     public int Level => _level;
@@ -73,10 +74,12 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _speedStage;
 
     private Animator _animator;
+    private AnimationHelper _animationHelper;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _animationHelper = GetComponent<AnimationHelper>();
     }
 
     private void Start()

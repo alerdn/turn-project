@@ -20,12 +20,22 @@ public class InteractionData
     public bool HasInteracted;
 }
 
+[Flags]
+public enum EInteractableBy
+{
+    None = 0,
+    Player = 1 << 0,
+    Enemy = 1 << 1
+}
+
 public abstract class MoveData : ScriptableObject
 {
+
     public string Name;
     public MoveType Type;
     public int EnergyCost;
     public float MoveDuration;
+    public EInteractableBy InteractableBy;
     public List<InteractionData> InteractionsData;
     protected Unit target;
 
