@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AnimationHelper : MonoBehaviour
 {
-    public event Action ImpactEvent;
+    public event Action<int> ImpactsEvent;
 
-    private void OnImpact()
+    public void OnImpact(int index)
     {
-        ImpactEvent?.Invoke();
+        ImpactsEvent?.Invoke(index);
     }
 }

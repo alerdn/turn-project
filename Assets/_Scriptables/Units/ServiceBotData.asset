@@ -20,5 +20,4 @@ MonoBehaviour:
   SpecialDefence: 5
   Speed: 6
   Moves:
-  - {fileID: 11400000, guid: a69e3432cf0689f4e9ef9c83c5396e50, type: 2}
   - {fileID: 11400000, guid: 56d5055834707cf43941e1bad8efe0b3, type: 2}

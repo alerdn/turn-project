@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
 
@@ -20,7 +18,7 @@ public class BattleZone : MonoBehaviour
         _cameraShakeEffect = _camera.GetComponent<CameraShakeOnHit>();
 
         BattleManager.Instance.OnBattleEnded += OnBattleEnded;
-        _enemy.EnemyUnit.AnimationHelper.ImpactEvent += OnImpact;
+        _enemy.EnemyUnit.ImpactEvent += OnImpact;
     }
 
     private void OnDestroy()
@@ -39,9 +37,9 @@ public class BattleZone : MonoBehaviour
         }
     }
 
-    private void OnImpact()
+    private void OnImpact(CameraShakeSetting setting)
     {
-        _cameraShakeEffect?.ShakeOnHit();
+        _cameraShakeEffect?.ShakeOnHit(setting);
     }
 
     private void OnBattleEnded()
@@ -53,6 +51,6 @@ public class BattleZone : MonoBehaviour
     private void UnsubscribeEvents()
     {
         BattleManager.Instance.OnBattleEnded -= OnBattleEnded;
-        _enemy.EnemyUnit.AnimationHelper.ImpactEvent -= OnImpact;
+        _enemy.EnemyUnit.ImpactEvent -= OnImpact;
     }
 }

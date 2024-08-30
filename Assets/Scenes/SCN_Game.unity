@@ -11810,18 +11810,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 651703980087284429, guid: 0d19dadfeedbb7c4c8e6499009341c38, type: 3}
-      propertyPath: _hitDuration
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 651703980087284429, guid: 0d19dadfeedbb7c4c8e6499009341c38, type: 3}
-      propertyPath: _hitAmplitudeGain
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 651703980087284429, guid: 0d19dadfeedbb7c4c8e6499009341c38, type: 3}
-      propertyPath: _hitFrequencyGain
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 1841757137093498248, guid: 0d19dadfeedbb7c4c8e6499009341c38, type: 3}
       propertyPath: m_Name
       value: BattleZone (1)

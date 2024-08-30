@@ -23,8 +23,8 @@ public class Unit : MonoBehaviour
 {
     public event Action<float> OnHealthUpdated;
     public event Action<int> OnEnergyUpdated;
+    public event Action<CameraShakeSetting> ImpactEvent;
 
-    public AnimationHelper AnimationHelper => _animationHelper;
     public Unit Enemy { get; set; }
 
     public int Level => _level;
@@ -75,6 +75,7 @@ public class Unit : MonoBehaviour
 
     private Animator _animator;
     private AnimationHelper _animationHelper;
+    private MoveData _lastMoveChosen;
 
     private void Awake()
     {
@@ -85,6 +86,13 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         Init();
+
+        _animationHelper.ImpactsEvent += OnImpactEffect;
+    }
+
+    private void OnDestroy()
+    {
+        _animationHelper.ImpactsEvent -= OnImpactEffect;
     }
 
     public void Init()
@@ -131,6 +139,15 @@ public class Unit : MonoBehaviour
         _animator.CrossFadeInFixedTime(animation, .1f);
     }
 
+    public void PlayEffect(MoveData move)
+    {
+        if (move.EffectPrefab)
+        {
+            MoveEffect effect = Instantiate(move.EffectPrefab, transform);
+            effect.Init(this, move.Name);
+        }
+    }
+
     public MoveData ChoseMove()
     {
         // int movesCount = Moves.Count;
@@ -139,7 +156,8 @@ public class Unit : MonoBehaviour
 
         // // Movimentos de ataque tem prioridade
         // MoveData move = Random.Range(0, 10) <= 7 ? _attackMoves.GetRandom() : _statusMoves.GetRandom();
-        return Moves.FindAll(move => move.EnergyCost <= EnergyAmount).GetRandom();
+        _lastMoveChosen = Moves.FindAll(move => move.EnergyCost <= EnergyAmount).GetRandom();
+        return _lastMoveChosen;
     }
 
     public void IncreaseEnergy(int amount = 1)
@@ -236,4 +254,16 @@ public class Unit : MonoBehaviour
             default: throw new NotImplementedException();
         }
     }
+
+    #region Events
+    private void OnImpactEffect(int index)
+    {
+        int shakesCount = _lastMoveChosen.ShakeSettings.Count;
+        if (shakesCount > 0 && index < shakesCount)
+        {
+            ImpactEvent?.Invoke(_lastMoveChosen.ShakeSettings[index]);
+        }
+    }
+
+    #endregion
 }

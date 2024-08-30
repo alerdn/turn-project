@@ -22,4 +22,9 @@ MonoBehaviour:
     InteractionWindowTime: 0.5
     InteractionWindowDuration: 0.5
     HasInteracted: 1
+  ShakeSettings:
+  - AmplitudeGain: 3
+    FrequencyGain: 5
+    Duration: 0.25
+  EffectPrefab: {fileID: 0}
   Damage: 20

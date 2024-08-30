@@ -9,17 +9,20 @@ public abstract class AttackMoveData : MoveData
 
     public override async Task<string> Execute(Unit unitExecutor)
     {
+        executor = unitExecutor;
+        target = executor.Enemy;
+
         InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
-        unitExecutor.DecreaseEnergy(EnergyCost);
-        unitExecutor.PlayAnimation(Name);
-        target = unitExecutor.Enemy;
-        
+        executor.DecreaseEnergy(EnergyCost);
+        executor.PlayAnimation(Name);
+        executor.PlayEffect(this);
+
         await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
 
-        float damageToApply = GetDamageToApply(unitExecutor);
+        float damageToApply = GetDamageToApply(executor);
         target.TakeDamage(damageToApply);
 
-        return PrintLog(unitExecutor, damageToApply);
+        return PrintLog(executor, damageToApply);
     }
 
     private (float, float) GetStatskByType(Unit unit, MoveType type)
