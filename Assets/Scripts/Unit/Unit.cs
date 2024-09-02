@@ -88,11 +88,13 @@ public class Unit : MonoBehaviour
         Init();
 
         _animationHelper.ImpactsEvent += OnImpactEffect;
+        _animationHelper.SpawnEffectEvent += OnSpawnEffect;
     }
 
     private void OnDestroy()
     {
         _animationHelper.ImpactsEvent -= OnImpactEffect;
+        _animationHelper.SpawnEffectEvent -= OnSpawnEffect;
     }
 
     public void Init()
@@ -126,7 +128,9 @@ public class Unit : MonoBehaviour
         EnergyAmount = 0;
     }
 
-    public void PlayAnimation(string name)
+    #region Combat
+
+    public void PlayAnimation(string moveName)
     {
         string prefix = Type switch
         {
@@ -135,17 +139,8 @@ public class Unit : MonoBehaviour
             _ => ""
         };
 
-        string animation = prefix + name;
+        string animation = prefix + moveName;
         _animator.CrossFadeInFixedTime(animation, .1f);
-    }
-
-    public void PlayEffect(MoveData move)
-    {
-        if (move.EffectPrefab)
-        {
-            MoveEffect effect = Instantiate(move.EffectPrefab, transform);
-            effect.Init(this, move.Name);
-        }
     }
 
     public MoveData ChoseMove()
@@ -160,6 +155,7 @@ public class Unit : MonoBehaviour
         return _lastMoveChosen;
     }
 
+
     public void IncreaseEnergy(int amount = 1)
     {
         if (amount < 0) return;
@@ -173,6 +169,10 @@ public class Unit : MonoBehaviour
 
         EnergyAmount -= amount;
     }
+
+    #endregion
+
+    #region Health & Energy
 
     public float GetHealthPercentage()
     {
@@ -192,6 +192,10 @@ public class Unit : MonoBehaviour
     {
         Destroy(transform.parent.gameObject);
     }
+
+    #endregion
+
+    #region Stats
 
     /// <summary>
     /// <param name="modifierDegree">Grau do modificador entre -6 a 6</param>
@@ -255,7 +259,10 @@ public class Unit : MonoBehaviour
         }
     }
 
+    #endregion
+
     #region Events
+
     private void OnImpactEffect(int index)
     {
         int shakesCount = _lastMoveChosen.ShakeSettings.Count;
@@ -263,6 +270,12 @@ public class Unit : MonoBehaviour
         {
             ImpactEvent?.Invoke(_lastMoveChosen.ShakeSettings[index]);
         }
+    }
+
+    private void OnSpawnEffect(MoveEffect effectPrefab)
+    {
+        MoveEffect effect = Instantiate(effectPrefab, transform);
+        effect.Init(this);
     }
 
     #endregion

@@ -47,10 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fcea855c9d6b6e4b8a497fc2c13249f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shakeSetting:
-    AmplitudeGain: 3
-    FrequencyGain: 5
-    Duration: 0.1
+  _moveName: Tiro Laser
 --- !u!95 &8905202024888361511
 Animator:
   serializedVersion: 5
@@ -88,7 +85,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8390246038917740647
 Transform:
   m_ObjectHideFlags: 0
@@ -172,7 +169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4166396204728827905
 Transform:
   m_ObjectHideFlags: 0

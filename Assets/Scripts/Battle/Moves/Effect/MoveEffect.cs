@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MoveEffect : MonoBehaviour
 {
+    [SerializeField] private string _moveName;
+
     private Animator _animator;
 
     private void Awake()
@@ -9,7 +11,7 @@ public class MoveEffect : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public void Init(Unit unit, string animationName)
+    public void Init(Unit unit)
     {
         string prefix = unit.Type switch
         {
@@ -18,7 +20,7 @@ public class MoveEffect : MonoBehaviour
             _ => ""
         };
 
-        string animation = prefix + animationName;
+        string animation = prefix + _moveName;
         _animator.CrossFadeInFixedTime(animation, .1f);
     }
 

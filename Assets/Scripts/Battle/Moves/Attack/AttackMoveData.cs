@@ -15,7 +15,6 @@ public abstract class AttackMoveData : MoveData
         InteractionsData.ForEach(interaction => interaction.HasInteracted = false);
         executor.DecreaseEnergy(EnergyCost);
         executor.PlayAnimation(Name);
-        executor.PlayEffect(this);
 
         await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
 

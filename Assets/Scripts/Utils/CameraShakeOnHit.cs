@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using Cinemachine;
 using UnityEngine;
@@ -18,28 +19,18 @@ public class CameraShakeOnHit : MonoBehaviour
     [SerializeField] private float _hitDuration = .25f;
 
     private CinemachineBasicMultiChannelPerlin _cameraShake;
-    private Task _shakingTask;
-    private bool _isShaking;
+    private Coroutine _shakeRoutine;
 
     private void Start()
     {
         _cameraShake = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         _cameraShake.m_AmplitudeGain = 0;
         _cameraShake.m_FrequencyGain = 0;
-        _shakingTask = null;
-        _isShaking = false;
+        _shakeRoutine = null;
     }
 
     public void ShakeOnHit(CameraShakeSetting setting = null)
     {
-        if (_isShaking)
-        {
-            _shakingTask.Dispose();
-            _cameraShake.m_AmplitudeGain = 0f;
-            _cameraShake.m_FrequencyGain = 0f;
-            _isShaking = false;
-        }
-
         if (setting != null)
         {
             _hitAmplitudeGain = setting.AmplitudeGain;
@@ -47,20 +38,24 @@ public class CameraShakeOnHit : MonoBehaviour
             _hitDuration = setting.Duration;
         }
 
-        _shakingTask = Shake(_hitAmplitudeGain, _hitFrequencyGain, _hitDuration);
+        if (_shakeRoutine != null)
+        {
+            StopCoroutine(_shakeRoutine);
+        }
+
+        _shakeRoutine = StartCoroutine(Shake(_hitAmplitudeGain, _hitFrequencyGain, _hitDuration));
     }
 
-    private async Task Shake(float amplitudeGain, float frequencyGain, float duration)
+    private IEnumerator Shake(float amplitudeGain, float frequencyGain, float duration)
     {
-        _isShaking = true;
-
         _cameraShake.m_AmplitudeGain = amplitudeGain;
         _cameraShake.m_FrequencyGain = frequencyGain;
-        await Task.Delay(Mathf.RoundToInt(duration * 1000f));
+
+        yield return new WaitForSeconds(duration);
 
         _cameraShake.m_AmplitudeGain = 0f;
         _cameraShake.m_FrequencyGain = 0f;
 
-        _isShaking = false;
+        _shakeRoutine = null;
     }
 }

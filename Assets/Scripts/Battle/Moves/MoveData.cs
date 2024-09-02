@@ -30,7 +30,6 @@ public enum EInteractableBy
 
 public abstract class MoveData : ScriptableObject
 {
-
     public string Name;
     public MoveType Type;
     public int EnergyCost;

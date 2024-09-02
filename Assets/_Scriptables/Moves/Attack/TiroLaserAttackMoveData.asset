@@ -27,8 +27,8 @@ MonoBehaviour:
     InteractionWindowDuration: 0.5
     HasInteracted: 0
   ShakeSettings:
-  - AmplitudeGain: 3
-    FrequencyGain: 5
+  - AmplitudeGain: 2
+    FrequencyGain: 3
     Duration: 0.1
   - AmplitudeGain: 4
     FrequencyGain: 5
