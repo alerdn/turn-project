@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour
     public event Action<CameraShakeSetting> ImpactEvent;
 
     public Unit Enemy { get; set; }
+    public MoveData LastMoveChosen { get; set; }
 
     public int Level => _level;
     public UnitType Type => _type;
@@ -75,7 +76,6 @@ public class Unit : MonoBehaviour
 
     private Animator _animator;
     private AnimationHelper _animationHelper;
-    private MoveData _lastMoveChosen;
 
     private void Awake()
     {
@@ -151,8 +151,8 @@ public class Unit : MonoBehaviour
 
         // // Movimentos de ataque tem prioridade
         // MoveData move = Random.Range(0, 10) <= 7 ? _attackMoves.GetRandom() : _statusMoves.GetRandom();
-        _lastMoveChosen = Moves.FindAll(move => move.EnergyCost <= EnergyAmount).GetRandom();
-        return _lastMoveChosen;
+        LastMoveChosen = Moves.FindAll(move => move.EnergyCost <= EnergyAmount).GetRandom();
+        return LastMoveChosen;
     }
 
 
@@ -265,10 +265,10 @@ public class Unit : MonoBehaviour
 
     private void OnImpactEffect(int index)
     {
-        int shakesCount = _lastMoveChosen.ShakeSettings.Count;
+        int shakesCount = LastMoveChosen.ShakeSettings?.Count ?? 0;
         if (shakesCount > 0 && index < shakesCount)
         {
-            ImpactEvent?.Invoke(_lastMoveChosen.ShakeSettings[index]);
+            ImpactEvent?.Invoke(LastMoveChosen.ShakeSettings[index]);
         }
     }
 

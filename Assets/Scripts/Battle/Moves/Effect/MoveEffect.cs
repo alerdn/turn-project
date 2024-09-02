@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MoveEffect : MonoBehaviour
 {
     [SerializeField] private string _moveName;
+    [SerializeField] private List<AudioSource> _audioSources;
 
     private Animator _animator;
 
@@ -24,6 +26,14 @@ public class MoveEffect : MonoBehaviour
         _animator.CrossFadeInFixedTime(animation, .1f);
     }
 
+    public void PlayAudio(int index)
+    {
+        int audiosCount = _audioSources?.Count ?? 0;
+        if (audiosCount > 0 && index < audiosCount)
+        {
+            _audioSources[index].Play();
+        }
+    }
 
     public void OnEffectEnd()
     {

@@ -37,7 +37,6 @@ public abstract class MoveData : ScriptableObject
     public EInteractableBy InteractableBy;
     public List<InteractionData> InteractionsData;
     public List<CameraShakeSetting> ShakeSettings;
-    public MoveEffect EffectPrefab;
     protected Unit executor;
     protected Unit target;
 

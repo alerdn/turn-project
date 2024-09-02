@@ -41,6 +41,7 @@ public class MoveMenuButton : BaseMenuButton
         if (canUseMove)
         {
             BattleManager.Instance.RoundMovesChosen.Add(new() { Type = UnitType.Player, Move = _move });
+            PlayerController.Instance.PlayerUnit.LastMoveChosen = _move;
             _fightMenu.HideMenu();
         }
         else

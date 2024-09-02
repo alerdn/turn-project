@@ -58,7 +58,7 @@ public class BattleManager : StateMachine
 
         playerController.InputReader.DisablePlayerInputs();
         playerController.InputReader.EnableBattleInputs();
-        playerController.transform.position = playerPosition;
+        playerController.transform.SetPositionAndRotation(playerPosition, Quaternion.identity);
         Unit player = playerController.PlayerUnit;
         Gun gun = playerController.Gun;
         player.ResetStats();

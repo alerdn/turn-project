@@ -16,15 +16,14 @@ MonoBehaviour:
   Type: 1
   EnergyCost: 0
   MoveDuration: 1
-  InteractableBy: 2
+  InteractableBy: -1
   InteractionsData:
   - AntecipationTime: 0
     InteractionWindowTime: 0.5
     InteractionWindowDuration: 0.5
-    HasInteracted: 1
+    HasInteracted: 0
   ShakeSettings:
   - AmplitudeGain: 3
     FrequencyGain: 5
     Duration: 0.25
-  EffectPrefab: {fileID: 0}
-  Damage: 20
+  Damage: 200

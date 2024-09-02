@@ -17,7 +17,6 @@ public class BattleZone : MonoBehaviour
         _camera.gameObject.SetActive(false);
         _cameraShakeEffect = _camera.GetComponent<CameraShakeOnHit>();
 
-        BattleManager.Instance.OnBattleEnded += OnBattleEnded;
         _enemy.EnemyUnit.ImpactEvent += OnImpact;
     }
 
@@ -32,8 +31,12 @@ public class BattleZone : MonoBehaviour
         {
             _isBattleStarted = true;
             _camera.gameObject.SetActive(true);
+            BattleManager battleManager = BattleManager.Instance;
 
-            BattleManager.Instance.StartBattle(playerController, _playerPosition.position, _enemy, _enemyPosition.position);
+            battleManager.OnBattleEnded += OnBattleEnded;
+            PlayerController.Instance.PlayerUnit.ImpactEvent += OnImpact;
+
+            battleManager.StartBattle(playerController, _playerPosition.position, _enemy, _enemyPosition.position);
         }
     }
 
@@ -51,6 +54,7 @@ public class BattleZone : MonoBehaviour
     private void UnsubscribeEvents()
     {
         BattleManager.Instance.OnBattleEnded -= OnBattleEnded;
+        PlayerController.Instance.PlayerUnit.ImpactEvent -= OnImpact;
         _enemy.EnemyUnit.ImpactEvent -= OnImpact;
     }
 }

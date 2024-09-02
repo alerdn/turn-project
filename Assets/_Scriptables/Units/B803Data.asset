@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: B803Data
   m_EditorClassIdentifier: 
   Name: B8-03
-  Health: 50
-  Attack: 10
-  SpecialAttack: 15
-  Defence: 6
-  SpecialDefence: 5
-  Speed: 5
+  Health: 100
+  Attack: 100
+  SpecialAttack: 100
+  Defence: 100
+  SpecialDefence: 100
+  Speed: 100
   Moves:
   - {fileID: 11400000, guid: 56d5055834707cf43941e1bad8efe0b3, type: 2}
-  - {fileID: 11400000, guid: bd80dd90b8ca0cd4ca161cf5f6df8d06, type: 2}
   - {fileID: 11400000, guid: 56c5987e3023ab04aa2c372cb30e35ce, type: 2}
