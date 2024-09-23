@@ -240,7 +240,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _items:
-  - {fileID: 11400000, guid: 7e548787366e3684db0b421c4123fa93, type: 2}
+  - Item: {fileID: 11400000, guid: 7e548787366e3684db0b421c4123fa93, type: 2}
+    Quantity: 5
 --- !u!50 &4850774426416706205
 Rigidbody2D:
   serializedVersion: 4

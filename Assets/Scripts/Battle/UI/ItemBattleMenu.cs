@@ -11,10 +11,10 @@ public class ItemBattleMenu : BattleMenu
         List<ItemMenuButton> buttons = _actionParent.GetComponentsInChildren<ItemMenuButton>().ToList();
         for (int i = 0; i < inventory.Items.Count; i++)
         {
-            ItemData item = inventory.Items[i];
+            ItemStock stock = inventory.Items[i];
             ItemMenuButton button = buttons[i];
 
-            button.Init(item, this);
+            button.Init(stock, this);
         }
     }
 }
