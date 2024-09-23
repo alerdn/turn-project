@@ -4,14 +4,16 @@ public class PlayerController : ControllerBase
 {
     public static PlayerController Instance { get; private set; }
 
-    public Gun Gun => _gun;
     public InputReader InputReader => _input;
+    public Gun Gun => _gun;
+    public PlayerCombatComponent CombatComponent => _combatComponent;
 
     [Header("Input")]
     [SerializeField] private InputReader _input;
 
     [Header("Components")]
     [SerializeField] private Gun _gun;
+    [SerializeField] private PlayerCombatComponent _combatComponent;
     [SerializeField] private PlayerMovementComponent _movementComponent;
 
     private void Awake()
@@ -28,7 +30,7 @@ public class PlayerController : ControllerBase
 
     private void Start()
     {
-        _movementComponent.Init(_input, Unit);
+        _movementComponent.Init(_input, Unit.transform);
         _input.EnableMovementInputs();
     }
 }

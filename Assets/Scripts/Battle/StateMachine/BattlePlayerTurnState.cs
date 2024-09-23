@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class BattlePlayerTurnState : BattleBaseState
@@ -6,6 +8,7 @@ public class BattlePlayerTurnState : BattleBaseState
     private float _actionEndTime;
     private PlayerController _playerController;
     private EnemyController _enemyController;
+    private bool _isAttacking;
 
     public BattlePlayerTurnState(BattleStateMachine stateMachine, PlayerController playerController, EnemyController enemyController) : base(stateMachine)
     {
@@ -15,12 +18,13 @@ public class BattlePlayerTurnState : BattleBaseState
 
     public override void OnEnter()
     {
-        _playerController.InputReader.EnableOffensiveInputs();
-
         _time = Time.time;
+        
         _actionEndTime = _time + _playerController.Unit.ActionDuration;
+        _isAttacking = false;
 
-        Debug.Log("Player Turn");
+        _playerController.InputReader.EnableOffensiveInputs();
+        _playerController.InputReader.AttackEvent += OnAttack;
     }
 
     public override void OnTick(float deltaTime)
@@ -43,7 +47,22 @@ public class BattlePlayerTurnState : BattleBaseState
     public override void OnExit()
     {
         _playerController.InputReader.DisableOffensiveInputs();
+    }
 
-        Debug.Log("Player Turn Ended");
+    private void OnAttack()
+    {
+        if (_isAttacking) return;
+
+        HandleAttack();
+    }
+
+    private async void HandleAttack()
+    {
+        _isAttacking = true;
+
+        _playerController.CombatComponent.ApplyDamage(_enemyController.Unit, MoveType.Physical);        
+        await Task.Delay(200);
+        
+        _isAttacking = false;
     }
 }

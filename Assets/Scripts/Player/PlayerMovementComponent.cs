@@ -31,9 +31,9 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool _hasJumpToConsume;
     private float _timeJumpWasPressed;
     private InputReader _input;
-    private Unit _unit;
+    private Transform _graph;
 
-    public void Init(InputReader input, Unit unit)
+    public void Init(InputReader input, Transform graph)
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
@@ -44,7 +44,7 @@ public class PlayerMovementComponent : MonoBehaviour
         _input = input;
         _input.JumpEvent += OnJump;
 
-        _unit = unit;
+        _graph = graph;
     }
 
     private void OnDestroy()
@@ -108,11 +108,11 @@ public class PlayerMovementComponent : MonoBehaviour
 
         if (_input.MovementAxis > 0)
         {
-            _unit.transform.eulerAngles = Vector3.zero;
+            _graph.eulerAngles = Vector3.zero;
         }
         else if (_input.MovementAxis < 0)
         {
-            _unit.transform.eulerAngles = new Vector3(0f, 180f, 0f);
+            _graph.eulerAngles = new Vector3(0f, 180f, 0f);
         }
 
         _rb.velocity = new Vector2(horizontalVelocity, _rb.velocity.y);
@@ -123,7 +123,7 @@ public class PlayerMovementComponent : MonoBehaviour
         if (!_hasJumpToConsume) return;
 
         if (!HasBufferedJump) return;
-        
+
         if (_grounded || CanCoyoteJump) ExecuteJump();
 
         _hasJumpToConsume = false;

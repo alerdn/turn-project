@@ -16,9 +16,10 @@ public class BattleEnemyTurnState : BattleBaseState
 
     public override void OnEnter()
     {
-        _playerController.InputReader.EnableDefensiveInputs();
-
         _time = Time.time;
+
+        _enemyController.Unit.IncreaseEnergy();
+        _playerController.InputReader.EnableDefensiveInputs();
 
         ResolveTurn();
     }

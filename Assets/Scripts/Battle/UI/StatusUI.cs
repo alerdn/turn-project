@@ -47,11 +47,12 @@ public class StatusUI : MonoBehaviour
 
     private async void UpdateUI(float healthPercentage)
     {
+        _lifebar.DOKill();
         if (healthPercentage < _lifebar.fillAmount)
         {
-            await _lifebar.DOColor(new Color(0f, 0f, 0f, 0f), .1f).SetLoops(6, LoopType.Yoyo).AsyncWaitForCompletion();
+            await _lifebar.DOColor(new Color(0f, 0f, 0f, 0f), .1f).SetLoops(2, LoopType.Yoyo).AsyncWaitForCompletion();
         }
-        await _lifebar.DOFillAmount(healthPercentage, .8f).SetEase(Ease.OutSine).AsyncWaitForCompletion();
+        await _lifebar.DOFillAmount(healthPercentage, .2f).SetEase(Ease.OutSine).AsyncWaitForCompletion();
 
         _lifebar.color = GetCurrentLifebarColor(healthPercentage);
     }
