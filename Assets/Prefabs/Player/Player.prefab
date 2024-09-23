@@ -162,6 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1739168735524438196}
   - component: {fileID: 8154847656671948812}
+  - component: {fileID: 4994679065431693685}
   - component: {fileID: 4850774426416706205}
   - component: {fileID: 4840322401904837677}
   m_Layer: 3
@@ -200,11 +201,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: {fileID: 5947624025340358538}
+  _input: {fileID: 11400000, guid: 669bf446112a8354cac69b02fcd21c7b, type: 2}
+  _gun: {fileID: 4129772791742737238}
+  _movementComponent: {fileID: 4994679065431693685}
+--- !u!114 &4994679065431693685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685349519891184801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65908d2ddf63ab34f981a9e1847c6772, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  _input: {fileID: 11400000, guid: 669bf446112a8354cac69b02fcd21c7b, type: 2}
-  _gun: {fileID: 4129772791742737238}
   _moveSpeed: 15
   _acceleration: 120
   _deceleration: 90
