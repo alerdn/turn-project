@@ -52,21 +52,6 @@ MonoBehaviour:
   _actionDuration: 5
   _level: 1
   _type: 0
-  _name: 
-  _maxHealth: 0
-  _currentHealth: 0
-  _attack: 0
-  _specialAttack: 0
-  _defence: 0
-  _specialDefence: 0
-  _speed: 0
-  _moves: []
-  _energyAmount: 0
-  _attackStage: 0
-  _specialAttackStage: 0
-  _defenceStage: 0
-  _specialDefenceStage: 0
-  _speedStage: 0
 --- !u!95 &2849319966927899265
 Animator:
   serializedVersion: 5
@@ -164,6 +149,7 @@ GameObject:
   - component: {fileID: 8154847656671948812}
   - component: {fileID: 4319086045872596201}
   - component: {fileID: 4994679065431693685}
+  - component: {fileID: 2988827646030051760}
   - component: {fileID: 4850774426416706205}
   - component: {fileID: 4840322401904837677}
   m_Layer: 3
@@ -206,6 +192,7 @@ MonoBehaviour:
   _gun: {fileID: 4129772791742737238}
   _combatComponent: {fileID: 4319086045872596201}
   _movementComponent: {fileID: 4994679065431693685}
+  _inventoryComponent: {fileID: 2988827646030051760}
 --- !u!114 &4319086045872596201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,6 +227,20 @@ MonoBehaviour:
   _jumpForce: 30
   _coyoteJumpTime: 0.15
   _jumpBufferTime: 0.15
+--- !u!114 &2988827646030051760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685349519891184801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0a352bc53fcd24fa6df9bed2597841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _items:
+  - {fileID: 11400000, guid: 7e548787366e3684db0b421c4123fa93, type: 2}
 --- !u!50 &4850774426416706205
 Rigidbody2D:
   serializedVersion: 4

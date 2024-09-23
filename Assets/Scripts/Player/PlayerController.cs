@@ -7,6 +7,7 @@ public class PlayerController : ControllerBase
     public InputReader InputReader => _input;
     public Gun Gun => _gun;
     public PlayerCombatComponent CombatComponent => _combatComponent;
+    public PlayerInventoryComponent InventoryComponent => _inventoryComponent;
 
     [Header("Input")]
     [SerializeField] private InputReader _input;
@@ -15,6 +16,7 @@ public class PlayerController : ControllerBase
     [SerializeField] private Gun _gun;
     [SerializeField] private PlayerCombatComponent _combatComponent;
     [SerializeField] private PlayerMovementComponent _movementComponent;
+    [SerializeField] private PlayerInventoryComponent _inventoryComponent;
 
     private void Awake()
     {

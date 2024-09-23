@@ -1,47 +1,27 @@
-using System;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class MoveMenuButton : BaseMenuButton
 {
-    [SerializeField] private MoveData _move;
-    [SerializeField] private FightBattleMenu _fightMenu;
-    [SerializeField] private bool _overrideName;
+    private MoveData _move;
+    private MoveBattleMenu _moveBattleMenu;
 
-    private bool _isInitialized;
-
-    protected override void OnEnable()
+    public void Init(MoveData move, MoveBattleMenu moveBattleMenu)
     {
-        base.OnEnable();
+        InitComponents();
 
-        VerifyInitialization();
-    }
-
-    public void Init(MoveData move, FightBattleMenu fightMenu = null)
-    {
         _move = move;
-        _fightMenu ??= fightMenu;
+        _moveBattleMenu = moveBattleMenu;
+
+        ButtonText.text = _move.Name;
     }
 
-    private void VerifyInitialization()
-    {
-        if (_move && !_isInitialized)
-        {
-            if (!_overrideName)
-            {
-                ButtonText.text = _move.Name;
-            }
-            _isInitialized = true;
-        }
-    }
-
-    public void Execute()
+    public override void Execute()
     {
         bool canUseMove = _move && _move.EnergyCost <= PlayerController.Instance.Unit.EnergyAmount;
         if (canUseMove)
         {
-            _fightMenu.SelectAction(_move);
-            _fightMenu.HideMenu();
+            PlayerController.Instance.Unit.LastMoveChosen = _move;
+            _moveBattleMenu.SelectAction(_move);
         }
         else
         {

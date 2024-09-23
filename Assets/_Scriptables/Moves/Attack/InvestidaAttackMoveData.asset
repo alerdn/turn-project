@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: InvestidaAttackMoveData
   m_EditorClassIdentifier: 
   Name: Investida
+  ActionDuration: 1
   Type: 1
-  EnergyCost: 0
-  MoveDuration: 1
+  EnergyCost: 1
   InteractableBy: -1
   InteractionsData:
   - AntecipationTime: 0

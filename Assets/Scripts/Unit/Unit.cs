@@ -58,24 +58,23 @@ public class Unit : MonoBehaviour
     [SerializeField] private float _actionDuration = 5f;
     [SerializeField] private int _level = 1;
     [SerializeField] private UnitType _type;
-    [SerializeField] private string _name;
-    [SerializeField] private float _maxHealth;
-    [SerializeField] private float _currentHealth;
-    [SerializeField] private float _attack;
-    [SerializeField] private float _specialAttack;
-    [SerializeField] private float _defence;
-    [SerializeField] private float _specialDefence;
-    [SerializeField] private float _speed;
-    [SerializeField] private List<MoveData> _moves;
-    [SerializeField] private int _energyAmount;
-    [SerializeField] private float _energyChargingAmount;
 
-    [Header("Stats Stage")]
-    [SerializeField] private int _attackStage;
-    [SerializeField] private int _specialAttackStage;
-    [SerializeField] private int _defenceStage;
-    [SerializeField] private int _specialDefenceStage;
-    [SerializeField] private int _speedStage;
+    private string _name;
+    private float _maxHealth;
+    private float _currentHealth;
+    private float _attack;
+    private float _specialAttack;
+    private float _defence;
+    private float _specialDefence;
+    private float _speed;
+    private List<MoveData> _moves;
+    private int _energyAmount;
+    private float _energyChargingAmount;
+    private int _attackStage;
+    private int _specialAttackStage;
+    private int _defenceStage;
+    private int _specialDefenceStage;
+    private int _speedStage;
 
     private Animator _animator;
     private AnimationHelper _animationHelper;
@@ -165,6 +164,15 @@ public class Unit : MonoBehaviour
     public float GetHealthPercentage()
     {
         return CurrentHealth / MaxHealth;
+    }
+
+    public void Heal(float amount)
+    {
+        if (amount <= 0) return;
+
+        CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
+
+        OnHealthUpdated?.Invoke(GetHealthPercentage());
     }
 
     public void TakeDamage(float damage)

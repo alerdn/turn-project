@@ -9,7 +9,6 @@ public class PlayerCombatComponent : MonoBehaviour
     {
         float damageToApply = GetDamageToApply(target, type);
         target.TakeDamage(damageToApply);
-        Debug.Log($"Player causou {damageToApply} de dano ao inimigo");
     }
 
     private (float, float) GetStatskByType(Unit unit, MoveType type)

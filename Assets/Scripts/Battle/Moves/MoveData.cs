@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
 
 public enum MoveType
 {
@@ -28,17 +26,13 @@ public enum EInteractableBy
     Enemy = 1 << 1
 }
 
-public abstract class MoveData : ScriptableObject
+public abstract class MoveData : ActionData
 {
-    public string Name;
     public MoveType Type;
     public int EnergyCost;
-    public float MoveDuration;
     public EInteractableBy InteractableBy;
     public List<InteractionData> InteractionsData;
     public List<CameraShakeSetting> ShakeSettings;
     protected Unit executor;
     protected Unit target;
-
-    public abstract Task<string> Execute(Unit unitExecutor);
 }

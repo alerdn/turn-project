@@ -16,7 +16,7 @@ public abstract class AttackMoveData : MoveData
         executor.DecreaseEnergy(EnergyCost);
         executor.PlayAnimation(Name);
 
-        await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
+        await Task.Delay(Mathf.RoundToInt(ActionDuration * 1000f));
 
         float damageToApply = GetDamageToApply(executor);
         target.TakeDamage(damageToApply);

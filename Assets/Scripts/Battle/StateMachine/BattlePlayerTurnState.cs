@@ -12,6 +12,7 @@ public class BattlePlayerTurnState : BattleBaseState
     private bool _isAttacking;
     private bool _isTurnMode;
     private bool _isPerformingAction;
+    private bool _hasPerformedAction;
 
     public BattlePlayerTurnState(BattleStateMachine stateMachine, PlayerController playerController, EnemyController enemyController, MainBattleMenu battleMenu) : base(stateMachine)
     {
@@ -29,18 +30,21 @@ public class BattlePlayerTurnState : BattleBaseState
         _isAttacking = false;
         _isTurnMode = false;
         _isPerformingAction = false;
+        _hasPerformedAction = false;
 
         _playerController.InputReader.EnableOffensiveInputs();
         _playerController.InputReader.AttackEvent += OnAttack;
         _playerController.InputReader.ToggleTurnModeEvent += OnToggleTurnMode;
-        _battleMenu.MoveMenu.OnSelectAction += HandleAction;
+
+        _battleMenu.MoveMenu.OnSelectAction += OnSelectAction;
+        _battleMenu.ItemMenu.OnSelectAction += OnSelectAction;
     }
 
     public override void OnTick(float deltaTime)
     {
         _time += deltaTime;
 
-        if (_time > _actionEndTime && !_isPerformingAction)
+        if ((_time > _actionEndTime && !_isPerformingAction && !_isTurnMode) || _hasPerformedAction)
         {
             // Verificamos se algum dos personagens foi derrotado
             if (stateMachine.VerifyBattleFinished(_playerController, _enemyController, out Unit defeatedUnit))
@@ -59,12 +63,14 @@ public class BattlePlayerTurnState : BattleBaseState
         _playerController.InputReader.DisableOffensiveInputs();
         _playerController.InputReader.AttackEvent -= OnAttack;
         _playerController.InputReader.ToggleTurnModeEvent -= OnToggleTurnMode;
-        _battleMenu.MoveMenu.OnSelectAction -= HandleAction;
+
+        _battleMenu.MoveMenu.OnSelectAction -= OnSelectAction;
+        _battleMenu.ItemMenu.OnSelectAction -= OnSelectAction;
     }
 
     private void OnAttack()
     {
-        if (_isAttacking) return;
+        if (_isAttacking || _isTurnMode) return;
 
         HandleAttack();
     }
@@ -86,23 +92,29 @@ public class BattlePlayerTurnState : BattleBaseState
 
         if (_isTurnMode)
         {
-            Time.timeScale = 0f;
             _battleMenu.ShowMenu();
         }
         else
         {
-            Time.timeScale = 1f;
             _battleMenu.HideMenu();
         }
     }
 
-    private async void HandleAction(MoveData move)
+    private void OnSelectAction(ActionData action)
     {
-        OnToggleTurnMode();
-
-        _isPerformingAction = true;
+        _isTurnMode = false;
         _playerController.InputReader.DisableOffensiveInputs();
-        await move.Execute(_playerController.Unit);
+        _battleMenu.HideMenu();
+
+        HandleAction(action);
+    }
+
+    private async void HandleAction(ActionData action)
+    {
+        _isPerformingAction = true;
+        await action.Execute(_playerController.Unit);
+
         _isPerformingAction = false;
+        _hasPerformedAction = true;
     }
 }

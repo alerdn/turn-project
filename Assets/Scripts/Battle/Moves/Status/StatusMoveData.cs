@@ -16,7 +16,7 @@ public abstract class StatusMoveData : MoveData
         unitExecutor.PlayAnimation(Name);
         target = unitExecutor;
 
-        await Task.Delay(Mathf.RoundToInt(MoveDuration * 1000f));
+        await Task.Delay(Mathf.RoundToInt(ActionDuration * 1000f));
 
         int modifierToApply = GetModifierToApply(unitExecutor);
         target.ApplyStatModifier(Stat, modifierToApply);

@@ -13,19 +13,19 @@ MonoBehaviour:
   m_Name: TiroLaserAttackMoveData
   m_EditorClassIdentifier: 
   Name: Tiro Laser
+  ActionDuration: 2
   Type: 2
   EnergyCost: 2
-  MoveDuration: 1.25
   InteractableBy: -1
   InteractionsData:
   - AntecipationTime: 0
     InteractionWindowTime: 0.5
     InteractionWindowDuration: 0.5
-    HasInteracted: 1
+    HasInteracted: 0
   - AntecipationTime: 0.25
     InteractionWindowTime: 0.75
     InteractionWindowDuration: 0.5
-    HasInteracted: 1
+    HasInteracted: 0
   ShakeSettings:
   - AmplitudeGain: 2
     FrequencyGain: 3
@@ -33,5 +33,4 @@ MonoBehaviour:
   - AmplitudeGain: 4
     FrequencyGain: 5
     Duration: 0.3
-  EffectPrefab: {fileID: 2743545644283621156, guid: 1b8f41b7fefe67f4e8ec1295f8f50a5e, type: 3}
   Damage: 600

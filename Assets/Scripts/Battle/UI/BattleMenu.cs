@@ -1,15 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class BattleMenu : MonoBehaviour
 {
+    public event Action<ActionData> OnSelectAction;
+
     [SerializeField] private GameObject _frame;
 
     protected virtual void Start() { }
+
+    public void SelectAction(ActionData action)
+    {
+        OnSelectAction?.Invoke(action);
+    }
 
     public virtual void ShowMenu()
     {

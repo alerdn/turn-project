@@ -51,7 +51,6 @@ public class Leaderboard : MonoBehaviour
         for (int i = 0; i < 10; i++)
         {
             _player.Score += 10;
-            Debug.Log("Aumentou score");
             await Task.Delay(1000);
         }
     }

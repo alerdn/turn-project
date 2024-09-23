@@ -37,6 +37,7 @@ public class BattleStateMachine : StateMachine
     public void StartBattle(PlayerController playerController, Vector2 playerPosition, EnemyController enemyController, Vector2 enemyPosition)
     {
         ShowBattleUI();
+        _battleMenu.Init(playerController);
 
         _playerController = playerController;
         _enemyController = enemyController;
