@@ -68,6 +68,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private List<MoveData> _moves;
     [SerializeField] private int _energyAmount;
+    [SerializeField] private float _energyChargingAmount;
 
     [Header("Stats Stage")]
     [SerializeField] private int _attackStage;
@@ -157,21 +158,6 @@ public class Unit : MonoBehaviour
         return LastMoveChosen;
     }
 
-
-    public void IncreaseEnergy(int amount = 1)
-    {
-        if (amount < 0) return;
-
-        EnergyAmount += amount;
-    }
-
-    public void DecreaseEnergy(int amount)
-    {
-        if (amount < 0) return;
-
-        EnergyAmount -= amount;
-    }
-
     #endregion
 
     #region Health & Energy
@@ -193,6 +179,32 @@ public class Unit : MonoBehaviour
     public void Defeat()
     {
         Destroy(transform.parent.gameObject);
+    }
+
+    public void IncreaseEnergy(int amount = 1)
+    {
+        if (amount < 0) return;
+
+        EnergyAmount += amount;
+    }
+
+    public void DecreaseEnergy(int amount)
+    {
+        if (amount < 0) return;
+
+        EnergyAmount -= amount;
+    }
+
+    public void ChargeEnergy(float amount)
+    {
+        if (amount < 0) return;
+
+        _energyChargingAmount += amount;
+        if (_energyChargingAmount >= 1f)
+        {
+            IncreaseEnergy();
+            _energyChargingAmount = 0f;
+        }
     }
 
     #endregion
@@ -267,7 +279,7 @@ public class Unit : MonoBehaviour
 
     private void OnImpactEffect(int index)
     {
-        int shakesCount = LastMoveChosen.ShakeSettings?.Count ?? 0;
+        int shakesCount = LastMoveChosen?.ShakeSettings?.Count ?? 0;
         if (shakesCount > 0 && index < shakesCount)
         {
             ImpactEvent?.Invoke(LastMoveChosen.ShakeSettings[index]);

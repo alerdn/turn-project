@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class FightBattleMenu : BattleMenu
 {
+    public event Action<MoveData> OnSelectAction;
+
     [SerializeField] private Transform _actionParent;
 
     public void Init(Unit unit)
@@ -16,5 +19,10 @@ public class FightBattleMenu : BattleMenu
 
             button.Init(move, this);
         }
+    }
+
+    public void SelectAction(MoveData move)
+    {
+        OnSelectAction?.Invoke(move);
     }
 }

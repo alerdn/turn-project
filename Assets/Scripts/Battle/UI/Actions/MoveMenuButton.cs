@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoveMenuButton : BaseMenuButton
 {
     [SerializeField] private MoveData _move;
-    [SerializeField] private BattleMenu _fightMenu;
+    [SerializeField] private FightBattleMenu _fightMenu;
     [SerializeField] private bool _overrideName;
 
     private bool _isInitialized;
@@ -17,7 +17,7 @@ public class MoveMenuButton : BaseMenuButton
         VerifyInitialization();
     }
 
-    public void Init(MoveData move, BattleMenu fightMenu = null)
+    public void Init(MoveData move, FightBattleMenu fightMenu = null)
     {
         _move = move;
         _fightMenu ??= fightMenu;
@@ -40,8 +40,7 @@ public class MoveMenuButton : BaseMenuButton
         bool canUseMove = _move && _move.EnergyCost <= PlayerController.Instance.Unit.EnergyAmount;
         if (canUseMove)
         {
-            // BattleManager.Instance.RoundMovesChosen.Add(new() { Type = UnitType.Player, Move = _move });
-            PlayerController.Instance.Unit.LastMoveChosen = _move;
+            _fightMenu.SelectAction(_move);
             _fightMenu.HideMenu();
         }
         else

@@ -10,6 +10,7 @@ public class InputReader : ScriptableObject, IFreelookActions, IOffensiveActions
 {
     public event Action JumpEvent;
     public event Action AttackEvent;
+    public event Action ToggleTurnModeEvent;
     public event Action InteractEvent;
 
     public float MovementAxis { get; private set; }
@@ -69,6 +70,13 @@ public class InputReader : ScriptableObject, IFreelookActions, IOffensiveActions
         if (!context.performed) return;
 
         AttackEvent?.Invoke();
+    }
+
+    public void OnToggleTurnMode(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        ToggleTurnModeEvent?.Invoke();
     }
 
     #endregion

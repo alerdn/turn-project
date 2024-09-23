@@ -9,6 +9,7 @@ public class BattleStateMachine : StateMachine
 
     [Header("UI")]
     [SerializeField] private GameObject _battleFrame;
+    [SerializeField] private MainBattleMenu _battleMenu;
     [SerializeField] private BattleInteraction _interactionUI;
     [SerializeField] private StatusUI _playerStatus;
     [SerializeField] private StatusUI _enemyStatus;
@@ -61,7 +62,7 @@ public class BattleStateMachine : StateMachine
 
     public void StartPlayerTurn()
     {
-        SwitchState(new BattlePlayerTurnState(this, _playerController, _enemyController));
+        SwitchState(new BattlePlayerTurnState(this, _playerController, _enemyController, _battleMenu));
     }
 
     public void StartEnemyTurn()

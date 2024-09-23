@@ -158,6 +158,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleTurnMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""10539dbc-f86b-4459-b150-ea5a06f19130"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -180,6 +189,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d08f9838-042a-4d1c-92d6-e2f4baa26f12"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleTurnMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7f141398-fe0f-4924-b00e-8858a134c6f6"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleTurnMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -235,6 +266,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         // Offensive
         m_Offensive = asset.FindActionMap("Offensive", throwIfNotFound: true);
         m_Offensive_Attack = m_Offensive.FindAction("Attack", throwIfNotFound: true);
+        m_Offensive_ToggleTurnMode = m_Offensive.FindAction("ToggleTurnMode", throwIfNotFound: true);
         // Defensive
         m_Defensive = asset.FindActionMap("Defensive", throwIfNotFound: true);
         m_Defensive_Interact = m_Defensive.FindAction("Interact", throwIfNotFound: true);
@@ -362,11 +394,13 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Offensive;
     private List<IOffensiveActions> m_OffensiveActionsCallbackInterfaces = new List<IOffensiveActions>();
     private readonly InputAction m_Offensive_Attack;
+    private readonly InputAction m_Offensive_ToggleTurnMode;
     public struct OffensiveActions
     {
         private @Controls m_Wrapper;
         public OffensiveActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Attack => m_Wrapper.m_Offensive_Attack;
+        public InputAction @ToggleTurnMode => m_Wrapper.m_Offensive_ToggleTurnMode;
         public InputActionMap Get() { return m_Wrapper.m_Offensive; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -379,6 +413,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @ToggleTurnMode.started += instance.OnToggleTurnMode;
+            @ToggleTurnMode.performed += instance.OnToggleTurnMode;
+            @ToggleTurnMode.canceled += instance.OnToggleTurnMode;
         }
 
         private void UnregisterCallbacks(IOffensiveActions instance)
@@ -386,6 +423,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @ToggleTurnMode.started -= instance.OnToggleTurnMode;
+            @ToggleTurnMode.performed -= instance.OnToggleTurnMode;
+            @ToggleTurnMode.canceled -= instance.OnToggleTurnMode;
         }
 
         public void RemoveCallbacks(IOffensiveActions instance)
@@ -458,6 +498,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IOffensiveActions
     {
         void OnAttack(InputAction.CallbackContext context);
+        void OnToggleTurnMode(InputAction.CallbackContext context);
     }
     public interface IDefensiveActions
     {
