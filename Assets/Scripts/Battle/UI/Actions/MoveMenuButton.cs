@@ -37,11 +37,11 @@ public class MoveMenuButton : BaseMenuButton
 
     public void Execute()
     {
-        bool canUseMove = _move && _move.EnergyCost <= PlayerController.Instance.PlayerUnit.EnergyAmount;
+        bool canUseMove = _move && _move.EnergyCost <= PlayerController.Instance.Unit.EnergyAmount;
         if (canUseMove)
         {
-            BattleManager.Instance.RoundMovesChosen.Add(new() { Type = UnitType.Player, Move = _move });
-            PlayerController.Instance.PlayerUnit.LastMoveChosen = _move;
+            // BattleManager.Instance.RoundMovesChosen.Add(new() { Type = UnitType.Player, Move = _move });
+            PlayerController.Instance.Unit.LastMoveChosen = _move;
             _fightMenu.HideMenu();
         }
         else

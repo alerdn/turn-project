@@ -3,12 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : ControllerBase
 {
-    public Unit EnemyUnit => _enemyUnit;
-
     [Header("Behaviour")]
-    [SerializeField] private Unit _enemyUnit;
     [SerializeField] private float _moveSpeed = 1f;
     [SerializeField] private Transform _forwardCollisionDetector;
     [SerializeField] private Transform _downwardCollisionDetector;
@@ -39,11 +36,11 @@ public class EnemyController : MonoBehaviour
     {
         if (_direction == 1)
         {
-            _enemyUnit.transform.eulerAngles = Vector3.zero;
+            Unit.transform.eulerAngles = Vector3.zero;
         }
         else
         {
-            _enemyUnit.transform.eulerAngles = new Vector3(0f, 180f, 0f);
+            Unit.transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
     }
 

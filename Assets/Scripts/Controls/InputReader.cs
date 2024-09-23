@@ -6,11 +6,12 @@ using UnityEngine.InputSystem;
 using static Controls;
 
 [CreateAssetMenu(fileName = "InputReader", menuName = "InputReader")]
-public class InputReader : ScriptableObject, IPlayerActions, IBattleActions
+public class InputReader : ScriptableObject, IFreelookActions, IOffensiveActions, IDefensiveActions
 {
     public event Action JumpEvent;
+    public event Action AttackEvent;
+    public event Action InteractEvent;
 
-    public int InteractButtonIndex;
     public float MovementAxis { get; private set; }
     public Controls Controls => _controls;
 
@@ -19,29 +20,22 @@ public class InputReader : ScriptableObject, IPlayerActions, IBattleActions
     private void OnEnable()
     {
         _controls ??= new Controls();
-        _controls.Player.SetCallbacks(this);
-        _controls.Battle.SetCallbacks(this);
-        EnablePlayerInputs();
+        _controls.Freelook.SetCallbacks(this);
+        _controls.Offensive.SetCallbacks(this);
+        _controls.Defensive.SetCallbacks(this);
+        EnableMovementInputs();
     }
 
-    public void EnablePlayerInputs()
+    #region Movement
+
+    public void EnableMovementInputs()
     {
-        _controls.Player.Enable();
+        _controls.Freelook.Enable();
     }
 
-    public void EnableBattleInputs()
+    public void DisableMovementInputs()
     {
-        _controls.Battle.Enable();
-    }
-
-    public void DisablePlayerInputs()
-    {
-        _controls.Player.Disable();
-    }
-
-    public void DisableBattleInputs()
-    {
-        _controls.Battle.Disable();
+        _controls.Freelook.Disable();
     }
 
     public void OnMovement(InputAction.CallbackContext context)
@@ -56,19 +50,47 @@ public class InputReader : ScriptableObject, IPlayerActions, IBattleActions
         JumpEvent?.Invoke();
     }
 
+    #endregion
+
+    #region Offensive
+
+    public void EnableOffensiveInputs()
+    {
+        _controls.Offensive.Enable();
+    }
+
+    public void DisableOffensiveInputs()
+    {
+        _controls.Offensive.Disable();
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        AttackEvent?.Invoke();
+    }
+
+    #endregion
+
+    #region Defensive
+
+    public void EnableDefensiveInputs()
+    {
+        _controls.Defensive.Enable();
+    }
+
+    public void DisableDefensiveInputs()
+    {
+        _controls.Defensive.Disable();
+    }
+
     public void OnInteract(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
 
-        Vector2 value = context.ReadValue<Vector2>();
-
-        // W ou S ou A ou D
-        InteractButtonIndex = value.y != 0
-            ? value.y > 0
-                ? 1
-                : 3
-            : value.x < 0
-                ? 4
-                : 2;
+        InteractEvent?.Invoke();
     }
+
+    #endregion
 }

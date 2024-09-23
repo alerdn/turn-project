@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitData: {fileID: 11400000, guid: 1212e305f8131fa4797077cbbe151bb0, type: 2}
+  _actionDuration: 5
   _level: 1
   _type: 0
   _name: 
@@ -198,17 +199,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e0f79f63d449248aaf4b2ce622f268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unit: {fileID: 5947624025340358538}
   _playerLayer:
     serializedVersion: 2
     m_Bits: 8
   _input: {fileID: 11400000, guid: 669bf446112a8354cac69b02fcd21c7b, type: 2}
-  _playerUnit: {fileID: 5947624025340358538}
   _gun: {fileID: 4129772791742737238}
   _moveSpeed: 15
   _acceleration: 120
   _deceleration: 90
   _jumpForce: 30
   _coyoteJumpTime: 0.15
+  _jumpBufferTime: 0.15
 --- !u!50 &4850774426416706205
 Rigidbody2D:
   serializedVersion: 4

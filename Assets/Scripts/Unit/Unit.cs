@@ -28,6 +28,7 @@ public class Unit : MonoBehaviour
     public Unit Enemy { get; set; }
     public MoveData LastMoveChosen { get; set; }
 
+    public float ActionDuration => _actionDuration;
     public int Level => _level;
     public UnitType Type => _type;
     public string Name => _name;
@@ -54,6 +55,7 @@ public class Unit : MonoBehaviour
     [SerializeField] private UnitData _unitData;
 
     [Header("Stats")]
+    [SerializeField] private float _actionDuration = 5f;
     [SerializeField] private int _level = 1;
     [SerializeField] private UnitType _type;
     [SerializeField] private string _name;

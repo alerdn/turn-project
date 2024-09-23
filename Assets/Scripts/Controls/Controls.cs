@@ -24,7 +24,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     ""name"": ""Controls"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""Freelook"",
             ""id"": ""099d6894-d8f0-413d-a5e7-9c43123a17b8"",
             ""actions"": [
                 {
@@ -40,6 +40,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""3c20b08c-c0d4-456f-ae6e-bc499ebc41ba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""c80d945c-3d69-437b-b669-4c7bd52a2125"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -101,91 +110,134 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e63eb845-47c1-43c7-910d-c62b6fc93dad"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""43c9624a-0c46-4c58-807b-bde0bfc01987"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""efc1b2e5-1eef-4038-90d5-f6c47691abec"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
         {
-            ""name"": ""Battle"",
+            ""name"": ""Offensive"",
             ""id"": ""71478a24-38ff-4795-ac97-4dc81d1797f5"",
             ""actions"": [
                 {
-                    ""name"": ""Interact"",
-                    ""type"": ""Value"",
-                    ""id"": ""e110a953-53a0-4024-a596-179635dba21b"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""2de7e1ee-d282-4387-a6b1-62313211598f"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""80b1b180-aeed-41b1-b906-73b68c711255"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""0584e6c0-2560-4b7c-8b30-fed46251a894"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Interact"",
-                    ""isComposite"": true,
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""83d27a5c-816a-488d-a627-d6db7e41dcb3"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""name"": """",
+                    ""id"": ""8ff9e890-1cba-4dc3-85c5-380f59f6ca6e"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Defensive"",
+            ""id"": ""a6fe1b1b-4a92-46b2-93c8-66ce6dfdea20"",
+            ""actions"": [
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e6eb99d-ec4b-463f-ada2-bb50917048a5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1f0808fb-178f-4249-a8db-aaa648ac9d86"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""down"",
-                    ""id"": ""3209d361-4e25-4b33-8346-1a8861b59248"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""name"": """",
+                    ""id"": ""ebd4dc2a-c17d-4188-af19-1c4a19a18f16"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Interact"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""619e74a1-e763-4601-85cd-52d631d94fed"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""764f9bdb-f311-4bb6-96f7-f5384c301c3f"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // Player
-        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
-        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        // Battle
-        m_Battle = asset.FindActionMap("Battle", throwIfNotFound: true);
-        m_Battle_Interact = m_Battle.FindAction("Interact", throwIfNotFound: true);
+        // Freelook
+        m_Freelook = asset.FindActionMap("Freelook", throwIfNotFound: true);
+        m_Freelook_Movement = m_Freelook.FindAction("Movement", throwIfNotFound: true);
+        m_Freelook_Jump = m_Freelook.FindAction("Jump", throwIfNotFound: true);
+        m_Freelook_Interact = m_Freelook.FindAction("Interact", throwIfNotFound: true);
+        // Offensive
+        m_Offensive = asset.FindActionMap("Offensive", throwIfNotFound: true);
+        m_Offensive_Attack = m_Offensive.FindAction("Attack", throwIfNotFound: true);
+        // Defensive
+        m_Defensive = asset.FindActionMap("Defensive", throwIfNotFound: true);
+        m_Defensive_Interact = m_Defensive.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -244,35 +296,40 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Player
-    private readonly InputActionMap m_Player;
-    private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-    private readonly InputAction m_Player_Movement;
-    private readonly InputAction m_Player_Jump;
-    public struct PlayerActions
+    // Freelook
+    private readonly InputActionMap m_Freelook;
+    private List<IFreelookActions> m_FreelookActionsCallbackInterfaces = new List<IFreelookActions>();
+    private readonly InputAction m_Freelook_Movement;
+    private readonly InputAction m_Freelook_Jump;
+    private readonly InputAction m_Freelook_Interact;
+    public struct FreelookActions
     {
         private @Controls m_Wrapper;
-        public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_Player_Movement;
-        public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputActionMap Get() { return m_Wrapper.m_Player; }
+        public FreelookActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Freelook_Movement;
+        public InputAction @Jump => m_Wrapper.m_Freelook_Jump;
+        public InputAction @Interact => m_Wrapper.m_Freelook_Interact;
+        public InputActionMap Get() { return m_Wrapper.m_Freelook; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-        public void AddCallbacks(IPlayerActions instance)
+        public static implicit operator InputActionMap(FreelookActions set) { return set.Get(); }
+        public void AddCallbacks(IFreelookActions instance)
         {
-            if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_FreelookActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_FreelookActionsCallbackInterfaces.Add(instance);
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
-        private void UnregisterCallbacks(IPlayerActions instance)
+        private void UnregisterCallbacks(IFreelookActions instance)
         {
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
@@ -280,75 +337,129 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
-        public void RemoveCallbacks(IPlayerActions instance)
+        public void RemoveCallbacks(IFreelookActions instance)
         {
-            if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_FreelookActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IPlayerActions instance)
+        public void SetCallbacks(IFreelookActions instance)
         {
-            foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_FreelookActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_FreelookActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+    public FreelookActions @Freelook => new FreelookActions(this);
 
-    // Battle
-    private readonly InputActionMap m_Battle;
-    private List<IBattleActions> m_BattleActionsCallbackInterfaces = new List<IBattleActions>();
-    private readonly InputAction m_Battle_Interact;
-    public struct BattleActions
+    // Offensive
+    private readonly InputActionMap m_Offensive;
+    private List<IOffensiveActions> m_OffensiveActionsCallbackInterfaces = new List<IOffensiveActions>();
+    private readonly InputAction m_Offensive_Attack;
+    public struct OffensiveActions
     {
         private @Controls m_Wrapper;
-        public BattleActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Interact => m_Wrapper.m_Battle_Interact;
-        public InputActionMap Get() { return m_Wrapper.m_Battle; }
+        public OffensiveActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Attack => m_Wrapper.m_Offensive_Attack;
+        public InputActionMap Get() { return m_Wrapper.m_Offensive; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(BattleActions set) { return set.Get(); }
-        public void AddCallbacks(IBattleActions instance)
+        public static implicit operator InputActionMap(OffensiveActions set) { return set.Get(); }
+        public void AddCallbacks(IOffensiveActions instance)
         {
-            if (instance == null || m_Wrapper.m_BattleActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_BattleActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_OffensiveActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_OffensiveActionsCallbackInterfaces.Add(instance);
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+        }
+
+        private void UnregisterCallbacks(IOffensiveActions instance)
+        {
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+        }
+
+        public void RemoveCallbacks(IOffensiveActions instance)
+        {
+            if (m_Wrapper.m_OffensiveActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IOffensiveActions instance)
+        {
+            foreach (var item in m_Wrapper.m_OffensiveActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_OffensiveActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public OffensiveActions @Offensive => new OffensiveActions(this);
+
+    // Defensive
+    private readonly InputActionMap m_Defensive;
+    private List<IDefensiveActions> m_DefensiveActionsCallbackInterfaces = new List<IDefensiveActions>();
+    private readonly InputAction m_Defensive_Interact;
+    public struct DefensiveActions
+    {
+        private @Controls m_Wrapper;
+        public DefensiveActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Interact => m_Wrapper.m_Defensive_Interact;
+        public InputActionMap Get() { return m_Wrapper.m_Defensive; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DefensiveActions set) { return set.Get(); }
+        public void AddCallbacks(IDefensiveActions instance)
+        {
+            if (instance == null || m_Wrapper.m_DefensiveActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DefensiveActionsCallbackInterfaces.Add(instance);
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
         }
 
-        private void UnregisterCallbacks(IBattleActions instance)
+        private void UnregisterCallbacks(IDefensiveActions instance)
         {
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
         }
 
-        public void RemoveCallbacks(IBattleActions instance)
+        public void RemoveCallbacks(IDefensiveActions instance)
         {
-            if (m_Wrapper.m_BattleActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_DefensiveActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IBattleActions instance)
+        public void SetCallbacks(IDefensiveActions instance)
         {
-            foreach (var item in m_Wrapper.m_BattleActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_DefensiveActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_BattleActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_DefensiveActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public BattleActions @Battle => new BattleActions(this);
-    public interface IPlayerActions
+    public DefensiveActions @Defensive => new DefensiveActions(this);
+    public interface IFreelookActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
-    public interface IBattleActions
+    public interface IOffensiveActions
+    {
+        void OnAttack(InputAction.CallbackContext context);
+    }
+    public interface IDefensiveActions
     {
         void OnInteract(InputAction.CallbackContext context);
     }

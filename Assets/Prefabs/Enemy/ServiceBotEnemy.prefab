@@ -112,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitData: {fileID: 11400000, guid: 6df5df57db3257548b7ad14d1a06669a, type: 2}
+  _actionDuration: 5
   _level: 1
   _type: 1
   _name: 
@@ -261,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea0d551f4cec76f45b09cb33dd297f32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyUnit: {fileID: 4033987026286385452}
+  unit: {fileID: 4033987026286385452}
   _moveSpeed: 6
   _forwardCollisionDetector: {fileID: 7147237423163038425}
   _downwardCollisionDetector: {fileID: 3739255539246014347}

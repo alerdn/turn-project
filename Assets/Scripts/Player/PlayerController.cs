@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : Singleton<PlayerController>
+public class PlayerController : ControllerBase
 {
-    public Unit PlayerUnit => _playerUnit;
+    public static PlayerController Instance { get; private set; }
+
     public Gun Gun => _gun;
     public InputReader InputReader => _input;
+
+    private bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + _jumpBufferTime;
     public bool CanCoyoteJump => _canCoyoteJump && _time < _timeLeftGround + _coyoteJumpTime;
 
     [Header("Layers")]
@@ -17,13 +20,13 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private InputReader _input;
 
     [Header("Player")]
-    [SerializeField] private Unit _playerUnit;
     [SerializeField] private Gun _gun;
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private float _acceleration = 100f;
     [SerializeField] private float _deceleration = 60f;
     [SerializeField] private float _jumpForce = 10f;
     [SerializeField] private float _coyoteJumpTime = .15f;
+    [SerializeField] private float _jumpBufferTime = .15f;
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
@@ -35,6 +38,21 @@ public class PlayerController : Singleton<PlayerController>
     private bool _grounded;
     private bool _canCoyoteJump;
     private float _gravityScale;
+    private bool _jumpToConsume;
+    private bool _bufferedJumpUsable;
+    private float _timeJumpWasPressed;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -43,7 +61,7 @@ public class PlayerController : Singleton<PlayerController>
 
         _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
         _gravityScale = _rb.gravityScale;
-        _input.EnablePlayerInputs();
+        _input.EnableMovementInputs();
 
         _input.JumpEvent += OnJump;
     }
@@ -71,6 +89,7 @@ public class PlayerController : Singleton<PlayerController>
         {
             _grounded = true;
             _canCoyoteJump = true;
+            _bufferedJumpUsable = true;
         }
         // Left the Ground
         else if (_grounded && !groundHit)
@@ -102,11 +121,11 @@ public class PlayerController : Singleton<PlayerController>
 
         if (_input.MovementAxis > 0)
         {
-            _playerUnit.transform.eulerAngles = Vector3.zero;
+            Unit.transform.eulerAngles = Vector3.zero;
         }
         else if (_input.MovementAxis < 0)
         {
-            _playerUnit.transform.eulerAngles = new Vector3(0f, 180f, 0f);
+            Unit.transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
 
         _rb.velocity = new Vector2(horizontalVelocity, _rb.velocity.y);
@@ -114,8 +133,11 @@ public class PlayerController : Singleton<PlayerController>
 
     private void OnJump()
     {
-        if (!_grounded && !CanCoyoteJump) return;
+        _timeJumpWasPressed = _time;
+
+        if (!_grounded && !CanCoyoteJump && !HasBufferedJump) return;
         _canCoyoteJump = false;
+        _bufferedJumpUsable = false;
 
         _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }

@@ -1,12 +1,10 @@
 using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class BattleEndState : BattleStateBase
+public class BattleEndState : BattleBaseState
 {
     private Unit _defeatedUnit;
 
-    public BattleEndState(BattleManager stateMachine, Unit defeatedUnit) : base(stateMachine)
+    public BattleEndState(BattleStateMachine stateMachine, Unit defeatedUnit) : base(stateMachine)
     {
         _defeatedUnit = defeatedUnit;
     }
@@ -35,8 +33,7 @@ public class BattleEndState : BattleStateBase
                 GameManager.Instance.ReloadLevel();
                 break;
             case UnitType.Enemy:
-                PlayerController.Instance.InputReader.EnablePlayerInputs();
-                PlayerController.Instance.InputReader.EnableBattleInputs();
+                PlayerController.Instance.InputReader.EnableMovementInputs();
                 break;
         }
 

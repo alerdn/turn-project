@@ -43,6 +43,7 @@ public class BattleInteraction : MonoBehaviour
 
     [SerializeField] private List<ActionUI> _actions;
     [SerializeField] private Ease _antecipationEase;
+    [SerializeField] private bool _showUI;
 
     private Unit _unit;
     private MoveData _move;
@@ -72,7 +73,6 @@ public class BattleInteraction : MonoBehaviour
         }
 
         _currentInteractionIndex = 0;
-        _actions.Shuffle();
     }
 
     public void UpdateState(float time)
@@ -85,13 +85,17 @@ public class BattleInteraction : MonoBehaviour
             if (time >= resolver.StartAntecipationTime && !resolver.IsAntecipating)
             {
                 resolver.IsAntecipating = true;
-                Show(action);
 
-                // Aumentamos o tempo da animação para auxiliar o jogador, dando a falsa impressão que ele acertou o timing perfeitamente
-                action.AntecipationTween = action.Effect.transform
-                    .DOScale(1f, resolver.InteractionData.InteractionWindowTime + .3f - resolver.InteractionData.AntecipationTime)
-                    .SetEase(_antecipationEase)
-                    .From(3f);
+                if (_showUI)
+                {
+                    Show(action);
+
+                    // Aumentamos o tempo da animação para auxiliar o jogador, dando a falsa impressão que ele acertou o timing perfeitamente
+                    action.AntecipationTween = action.Effect.transform
+                        .DOScale(1f, resolver.InteractionData.InteractionWindowTime + .3f - resolver.InteractionData.AntecipationTime)
+                        .SetEase(_antecipationEase)
+                        .From(3f);
+                }
             }
 
             if (time >= resolver.EndInteractionTime && !resolver.InteractionData.HasInteracted)
@@ -104,22 +108,30 @@ public class BattleInteraction : MonoBehaviour
         }
     }
 
-    public void TryInteract(float time, int buttonIndex)
+    public void TryInteract(float time)
     {
         InteractionResolver resolver = _interactionResolvers[_currentInteractionIndex];
         ActionUI action = _actions[_currentInteractionIndex];
 
-        if (IsWithinInteractionWindow(time, resolver, action, buttonIndex))
+        if (IsWithinInteractionWindow(time, resolver))
         {
             resolver.InteractionData.HasInteracted = true;
-            action.Button.GetComponent<Image>().color = Color.green;
+            if (_showUI)
+            {
+                action.Button.GetComponent<Image>().color = Color.green;
+            }
+            Debug.Log("Acertou o timing");
 
             VerifyNextInteraction();
             Hide(action, 100);
         }
         else
         {
-            action.Button.GetComponent<Image>().color = Color.red;
+            if (_showUI)
+            {
+                action.Button.GetComponent<Image>().color = Color.red;
+            }
+            Debug.Log("Errou o timing");
 
             VerifyNextInteraction();
             Hide(action, 100);
@@ -158,18 +170,17 @@ public class BattleInteraction : MonoBehaviour
 
     private async void HideAction(ActionUI action, int delay = 0)
     {
-        action.AntecipationTween.Kill();
+        action.AntecipationTween?.Kill();
         action.Effect.transform.localScale = Vector3.one;
 
         await Task.Delay(delay);
         action.Frame.SetActive(false);
     }
 
-    private bool IsWithinInteractionWindow(float time, InteractionResolver resolver, ActionUI action, int buttonIndex)
+    private bool IsWithinInteractionWindow(float time, InteractionResolver resolver)
     {
         return time >= resolver.StartInteractionTime
             && time <= resolver.EndInteractionTime
-            && !resolver.InteractionData.HasInteracted
-            && action.ButtonIndex == buttonIndex;
+            && !resolver.InteractionData.HasInteracted;
     }
 }

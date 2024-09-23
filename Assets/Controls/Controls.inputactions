@@ -2,7 +2,7 @@
     "name": "Controls",
     "maps": [
         {
-            "name": "Player",
+            "name": "Freelook",
             "id": "099d6894-d8f0-413d-a5e7-9c43123a17b8",
             "actions": [
                 {
@@ -18,6 +18,15 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "3c20b08c-c0d4-456f-ae6e-bc499ebc41ba",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "c80d945c-3d69-437b-b669-4c7bd52a2125",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -79,78 +88,117 @@
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e63eb845-47c1-43c7-910d-c62b6fc93dad",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "43c9624a-0c46-4c58-807b-bde0bfc01987",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "efc1b2e5-1eef-4038-90d5-f6c47691abec",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "Battle",
+            "name": "Offensive",
             "id": "71478a24-38ff-4795-ac97-4dc81d1797f5",
             "actions": [
                 {
-                    "name": "Interact",
-                    "type": "Value",
-                    "id": "e110a953-53a0-4024-a596-179635dba21b",
-                    "expectedControlType": "Vector2",
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "2de7e1ee-d282-4387-a6b1-62313211598f",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
-                    "name": "2D Vector",
-                    "id": "80b1b180-aeed-41b1-b906-73b68c711255",
-                    "path": "2DVector",
+                    "name": "",
+                    "id": "0584e6c0-2560-4b7c-8b30-fed46251a894",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interact",
-                    "isComposite": true,
+                    "action": "Attack",
+                    "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
-                    "id": "83d27a5c-816a-488d-a627-d6db7e41dcb3",
-                    "path": "<Keyboard>/w",
+                    "name": "",
+                    "id": "8ff9e890-1cba-4dc3-85c5-380f59f6ca6e",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Defensive",
+            "id": "a6fe1b1b-4a92-46b2-93c8-66ce6dfdea20",
+            "actions": [
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "6e6eb99d-ec4b-463f-ada2-bb50917048a5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1f0808fb-178f-4249-a8db-aaa648ac9d86",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "down",
-                    "id": "3209d361-4e25-4b33-8346-1a8861b59248",
-                    "path": "<Keyboard>/s",
+                    "name": "",
+                    "id": "ebd4dc2a-c17d-4188-af19-1c4a19a18f16",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
                     "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "619e74a1-e763-4601-85cd-52d631d94fed",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "764f9bdb-f311-4bb6-96f7-f5384c301c3f",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
                 }
             ]
         }
