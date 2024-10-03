@@ -12,10 +12,15 @@ public class PlayerMovementComponent : MonoBehaviour
     [Space]
     [SerializeField] private float _moveSpeed = 15f;
     [SerializeField] private float _acceleration = 120f;
-    [SerializeField] private float _deceleration = 90f;
+    [SerializeField] private float _groundDeceleration = 90f;
+    [SerializeField] private float _airDeceleration = 40f;
+    [SerializeField] private float _groundingForce = 0f;
+    [SerializeField] private float _fallAcceleration = 90f;
+    [SerializeField] private float _maxFallSpeed = 40f;
     [SerializeField] private float _jumpForce = 30f;
     [SerializeField] private float _coyoteJumpTime = .15f;
     [SerializeField] private float _jumpBufferTime = .15f;
+    [SerializeField] private float _fallSpeedDampingChangeThreshold;
 
     private Rigidbody2D _rb;
     private CapsuleCollider2D _col;
@@ -26,12 +31,12 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool _cachedQueryStartInColliders;
     private bool _grounded;
     private bool _canCoyoteJump;
-    private float _gravityScale;
     private bool _bufferedJumpUsable;
     private bool _hasJumpToConsume;
     private float _timeJumpWasPressed;
     private InputReader _input;
     private Transform _graph;
+    private Vector2 _frameVelocity;
 
     public void Init(InputReader input, Transform graph)
     {
@@ -39,7 +44,7 @@ public class PlayerMovementComponent : MonoBehaviour
         _col = GetComponent<CapsuleCollider2D>();
 
         _cachedQueryStartInColliders = Physics2D.queriesStartInColliders;
-        _gravityScale = _rb.gravityScale;
+        _fallSpeedDampingChangeThreshold = CameraManager.Instance.FallSpeedDampingChangeThreshold;
 
         _input = input;
         _input.JumpEvent += OnJump;
@@ -60,8 +65,12 @@ public class PlayerMovementComponent : MonoBehaviour
     private void FixedUpdate()
     {
         CheckCollisions();
+
         HandleMovement();
         HandleJump();
+        HandleGravity();
+
+        ApplyMovement();
     }
 
     private void CheckCollisions()
@@ -70,6 +79,9 @@ public class PlayerMovementComponent : MonoBehaviour
 
         // Ground and Ceiling
         bool groundHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.down, 0.05f, ~_playerLayer);
+        bool ceilingHit = Physics2D.CapsuleCast(_col.bounds.center, _col.size, _col.direction, 0, Vector2.up, 0.05f, ~_playerLayer);
+
+        if (ceilingHit) _frameVelocity.y = Mathf.Min(0, _frameVelocity.y);
 
         // Landed on the Ground
         if (!_grounded && groundHit)
@@ -90,20 +102,14 @@ public class PlayerMovementComponent : MonoBehaviour
 
     private void HandleMovement()
     {
-        _rb.gravityScale = _gravityScale;
-        if (!_grounded && _rb.velocity.y <= 0)
-        {
-            _rb.gravityScale = _gravityScale * 1.5f;
-        }
-
-        float horizontalVelocity;
         if (_input.MovementAxis == 0)
         {
-            horizontalVelocity = Mathf.MoveTowards(_rb.velocity.x, 0f, _deceleration * Time.fixedDeltaTime);
+            var deceleration = _grounded ? _groundDeceleration : _airDeceleration;
+            _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, 0, deceleration * Time.fixedDeltaTime);
         }
         else
         {
-            horizontalVelocity = Mathf.MoveTowards(_rb.velocity.x, _input.MovementAxis * _moveSpeed, _acceleration * Time.fixedDeltaTime);
+            _frameVelocity.x = Mathf.MoveTowards(_rb.velocity.x, _input.MovementAxis * _moveSpeed, _acceleration * Time.fixedDeltaTime);
         }
 
         if (_input.MovementAxis > 0)
@@ -114,8 +120,6 @@ public class PlayerMovementComponent : MonoBehaviour
         {
             _graph.eulerAngles = new Vector3(0f, 180f, 0f);
         }
-
-        _rb.velocity = new Vector2(horizontalVelocity, _rb.velocity.y);
     }
 
     private void HandleJump()
@@ -135,7 +139,7 @@ public class PlayerMovementComponent : MonoBehaviour
         _canCoyoteJump = false;
         _bufferedJumpUsable = false;
 
-        _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        _frameVelocity.y = _jumpForce;
     }
 
     private void OnJump()
@@ -143,4 +147,33 @@ public class PlayerMovementComponent : MonoBehaviour
         _hasJumpToConsume = true;
         _timeJumpWasPressed = _time;
     }
+
+    private void HandleGravity()
+    {
+        if (_grounded && _frameVelocity.y <= 0f)
+        {
+            _frameVelocity.y = _groundingForce;
+        }
+        else
+        {
+            _frameVelocity.y = Mathf.MoveTowards(_frameVelocity.y, -_maxFallSpeed, _fallAcceleration * Time.fixedDeltaTime);
+        }
+
+        // If we are falling past a certain speed threshold
+        if (_frameVelocity.y < _fallSpeedDampingChangeThreshold && !CameraManager.Instance.IsLerpingYDamping && !CameraManager.Instance.LerpedFromPlayerFalling)
+        {
+            CameraManager.Instance.LerpYDamping(true);
+        }
+
+        // If we are stading still or moving up
+        if (_frameVelocity.y >= 0f && !CameraManager.Instance.IsLerpingYDamping && CameraManager.Instance.LerpedFromPlayerFalling)
+        {
+            // Reset so it can called again
+            CameraManager.Instance.LerpedFromPlayerFalling = false;
+
+            CameraManager.Instance.LerpYDamping(false);
+        }
+    }
+
+    private void ApplyMovement() => _rb.velocity = _frameVelocity;
 }
