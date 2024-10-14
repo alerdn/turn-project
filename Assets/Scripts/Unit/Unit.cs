@@ -28,6 +28,7 @@ public class Unit : MonoBehaviour
     public Unit Enemy { get; set; }
     public MoveData LastMoveChosen { get; set; }
 
+    public Animator Animator => _animator;
     public float ActionDuration => _actionDuration;
     public int Level => _level;
     public UnitType Type => _type;

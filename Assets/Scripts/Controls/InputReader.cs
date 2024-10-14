@@ -13,6 +13,9 @@ public class InputReader : ScriptableObject, IFreelookActions, IOffensiveActions
     public event Action ToggleTurnModeEvent;
     public event Action InteractEvent;
 
+    public bool IsMovementInputsEnabled => _controls.Freelook.enabled;
+    public bool IsOffensiveInputsEnabled => _controls.Offensive.enabled;
+    public bool IsDefensiveInputsEnabled => _controls.Defensive.enabled;
     public float MovementAxis { get; private set; }
     public Controls Controls => _controls;
 

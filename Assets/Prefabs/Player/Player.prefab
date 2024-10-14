@@ -112,9 +112,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -326572729
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4163573980960462669, guid: 1e79d3d15359751478d0b8415d348ad8, type: 3}
+  m_Sprite: {fileID: -4479954223480400706, guid: 042d8d54e332e934195f75ac3f714ba7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 8154847656671948812}
   - component: {fileID: 4319086045872596201}
   - component: {fileID: 4994679065431693685}
+  - component: {fileID: 6959526014480869707}
   - component: {fileID: 2988827646030051760}
   - component: {fileID: 4850774426416706205}
   - component: {fileID: 4840322401904837677}
@@ -192,6 +193,7 @@ MonoBehaviour:
   _gun: {fileID: 4129772791742737238}
   _combatComponent: {fileID: 4319086045872596201}
   _movementComponent: {fileID: 4994679065431693685}
+  _animationComponent: {fileID: 6959526014480869707}
   _inventoryComponent: {fileID: 2988827646030051760}
 --- !u!114 &4319086045872596201
 MonoBehaviour:
@@ -231,6 +233,19 @@ MonoBehaviour:
   _jumpForce: 30
   _coyoteJumpTime: 0.15
   _jumpBufferTime: 0.15
+  _fallSpeedDampingChangeThreshold: 0
+--- !u!114 &6959526014480869707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685349519891184801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29df6a7834dceac49b7db7e733c32bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2988827646030051760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,6 +374,10 @@ PrefabInstance:
     - target: {fileID: 5942500985222793844, guid: 8ca2fd339cf281e458bc90ef53efe7ba, type: 3}
       propertyPath: m_Name
       value: Basic Gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942500985222793844, guid: 8ca2fd339cf281e458bc90ef53efe7ba, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

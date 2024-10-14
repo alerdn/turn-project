@@ -35,10 +35,10 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool _hasJumpToConsume;
     private float _timeJumpWasPressed;
     private InputReader _input;
-    private Transform _graph;
+    private PlayerAnimationComponent _animationComponent;
     private Vector2 _frameVelocity;
 
-    public void Init(InputReader input, Transform graph)
+    public void Init(InputReader input, PlayerAnimationComponent animationComponent)
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
@@ -49,7 +49,7 @@ public class PlayerMovementComponent : MonoBehaviour
         _input = input;
         _input.JumpEvent += OnJump;
 
-        _graph = graph;
+        _animationComponent = animationComponent;
     }
 
     private void OnDestroy()
@@ -114,11 +114,11 @@ public class PlayerMovementComponent : MonoBehaviour
 
         if (_input.MovementAxis > 0)
         {
-            _graph.eulerAngles = Vector3.zero;
+            transform.eulerAngles = Vector3.zero;
         }
         else if (_input.MovementAxis < 0)
         {
-            _graph.eulerAngles = new Vector3(0f, 180f, 0f);
+            transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
     }
 
@@ -175,5 +175,21 @@ public class PlayerMovementComponent : MonoBehaviour
         }
     }
 
-    private void ApplyMovement() => _rb.velocity = _frameVelocity;
+    private void ApplyMovement()
+    {
+        _rb.velocity = _frameVelocity;
+
+        if (!_input.IsMovementInputsEnabled) return;
+
+        if (_grounded)
+        {
+            if (_frameVelocity.x == 0) _animationComponent.PlayAnimation(PlayerAnimationState.Idle);
+            else _animationComponent.PlayAnimation(PlayerAnimationState.Walk);
+        }
+        else
+        {
+            if (_frameVelocity.y > 0) _animationComponent.PlayAnimation(PlayerAnimationState.Jump);
+            else _animationComponent.PlayAnimation(PlayerAnimationState.Fall);
+        }
+    }
 }

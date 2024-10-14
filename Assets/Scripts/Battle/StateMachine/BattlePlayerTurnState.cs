@@ -79,10 +79,12 @@ public class BattlePlayerTurnState : BattleBaseState
     {
         _isAttacking = true;
 
+        _playerController.AnimationComponent.PlayAnimation(PlayerAnimationState.Attack);
         _playerController.CombatComponent.ApplyDamage(_enemyController.Unit, MoveType.Physical);
         _playerController.Unit.ChargeEnergy(.25f);
-        await Task.Delay(1000);
+        await Task.Delay(300);
 
+        _playerController.AnimationComponent.PlayAnimation(PlayerAnimationState.Idle);
         _isAttacking = false;
     }
 
