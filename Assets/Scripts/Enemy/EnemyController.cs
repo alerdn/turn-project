@@ -78,4 +78,14 @@ public class EnemyController : ControllerBase
 
         _rb.velocity = new Vector2(_direction * _moveSpeed, _rb.velocity.y);
     }
+
+    public void EnterBattleState(Vector2 enemyPosition, StatusUI enemyStatus, Unit player)
+    {
+        DisableMovement(-1);
+        transform.position = enemyPosition;
+        Unit.PlayAnimation("Idle_Battle");
+        enemyStatus.Init(Unit);
+        Unit.Init();
+        Unit.Enemy = player;
+    }
 }

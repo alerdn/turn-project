@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class PlayerMovementComponent : MonoBehaviour
 {
-    private bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + _jumpBufferTime;
+    public bool IsGrounded => _grounded;
+    public Vector2 FrameVelocity => _frameVelocity;
+
     public bool CanCoyoteJump => _canCoyoteJump && _time < _timeLeftGround + _coyoteJumpTime;
+    public bool HasBufferedJump => _bufferedJumpUsable && _time < _timeJumpWasPressed + _jumpBufferTime;
 
     [Header("Layers")]
     [Tooltip("Set this to the layer your player is on")]
@@ -11,6 +14,7 @@ public class PlayerMovementComponent : MonoBehaviour
 
     [Space]
     [SerializeField] private float _moveSpeed = 15f;
+    [SerializeField] private float _airMoveSpeed = 10f;
     [SerializeField] private float _acceleration = 120f;
     [SerializeField] private float _groundDeceleration = 90f;
     [SerializeField] private float _airDeceleration = 40f;
@@ -35,10 +39,9 @@ public class PlayerMovementComponent : MonoBehaviour
     private bool _hasJumpToConsume;
     private float _timeJumpWasPressed;
     private InputReader _input;
-    private PlayerAnimationComponent _animationComponent;
     private Vector2 _frameVelocity;
 
-    public void Init(InputReader input, PlayerAnimationComponent animationComponent)
+    public void Init(InputReader input)
     {
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<CapsuleCollider2D>();
@@ -48,8 +51,6 @@ public class PlayerMovementComponent : MonoBehaviour
 
         _input = input;
         _input.JumpEvent += OnJump;
-
-        _animationComponent = animationComponent;
     }
 
     private void OnDestroy()
@@ -71,6 +72,11 @@ public class PlayerMovementComponent : MonoBehaviour
         HandleGravity();
 
         ApplyMovement();
+    }
+
+    public void ResetVelocity()
+    {
+        _frameVelocity = Vector2.zero;
     }
 
     private void CheckCollisions()
@@ -104,12 +110,13 @@ public class PlayerMovementComponent : MonoBehaviour
     {
         if (_input.MovementAxis == 0)
         {
-            var deceleration = _grounded ? _groundDeceleration : _airDeceleration;
+            float deceleration = _grounded ? _groundDeceleration : _airDeceleration;
             _frameVelocity.x = Mathf.MoveTowards(_frameVelocity.x, 0, deceleration * Time.fixedDeltaTime);
         }
         else
         {
-            _frameVelocity.x = Mathf.MoveTowards(_rb.velocity.x, _input.MovementAxis * _moveSpeed, _acceleration * Time.fixedDeltaTime);
+            float moveSpeed = _grounded ? _moveSpeed : _airMoveSpeed;
+            _frameVelocity.x = Mathf.MoveTowards(_rb.velocity.x, _input.MovementAxis * moveSpeed, _acceleration * Time.fixedDeltaTime);
         }
 
         if (_input.MovementAxis > 0)
@@ -178,18 +185,5 @@ public class PlayerMovementComponent : MonoBehaviour
     private void ApplyMovement()
     {
         _rb.velocity = _frameVelocity;
-
-        if (!_input.IsMovementInputsEnabled) return;
-
-        if (_grounded)
-        {
-            if (_frameVelocity.x == 0) _animationComponent.PlayAnimation(PlayerAnimationState.Idle);
-            else _animationComponent.PlayAnimation(PlayerAnimationState.Walk);
-        }
-        else
-        {
-            if (_frameVelocity.y > 0) _animationComponent.PlayAnimation(PlayerAnimationState.Jump);
-            else _animationComponent.PlayAnimation(PlayerAnimationState.Fall);
-        }
     }
 }

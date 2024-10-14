@@ -16,6 +16,7 @@ public class BattleEnemyTurnState : BattleBaseState
 
     public override void OnEnter()
     {
+        Debug.Log("entrando no state BattleEnemyTurnState");
         _time = Time.time;
 
         _enemyController.Unit.IncreaseEnergy();
@@ -59,6 +60,7 @@ public class BattleEnemyTurnState : BattleBaseState
 
     public override void OnExit()
     {
+        Debug.Log("saindo do state BattleEnemyTurnState");
         _playerController.InputReader.DisableDefensiveInputs();
     }
 }

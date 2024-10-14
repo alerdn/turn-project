@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class BattleEndState : BattleBaseState
 {
@@ -24,7 +25,7 @@ public class BattleEndState : BattleBaseState
 
     private async void EndBattle()
     {
-        await Task.Delay(2000);
+        await Task.Delay(500);
         stateMachine.HideBattleUI();
 
         switch (_defeatedUnit.Type)
@@ -33,7 +34,7 @@ public class BattleEndState : BattleBaseState
                 GameManager.Instance.ReloadLevel();
                 break;
             case UnitType.Enemy:
-                PlayerController.Instance.InputReader.EnableMovementInputs();
+                PlayerController.Instance.EnterFreelookState();
                 break;
         }
 

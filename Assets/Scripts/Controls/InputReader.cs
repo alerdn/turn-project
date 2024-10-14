@@ -27,7 +27,6 @@ public class InputReader : ScriptableObject, IFreelookActions, IOffensiveActions
         _controls.Freelook.SetCallbacks(this);
         _controls.Offensive.SetCallbacks(this);
         _controls.Defensive.SetCallbacks(this);
-        EnableMovementInputs();
     }
 
     #region Movement

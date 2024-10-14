@@ -42,21 +42,8 @@ public class BattleStateMachine : StateMachine
         _playerController = playerController;
         _enemyController = enemyController;
 
-        _playerController.InputReader.DisableMovementInputs();
-        _playerController.transform.SetPositionAndRotation(playerPosition, Quaternion.identity);
-        Unit player = _playerController.Unit;
-        player.ResetStats();
-        _playerStatus.Init(player);
-
-        _enemyController.DisableMovement(-1);
-        _enemyController.transform.position = enemyPosition;
-        Unit enemy = _enemyController.Unit;
-        enemy.PlayAnimation("Idle_Battle");
-        _enemyStatus.Init(enemy);
-        enemy.Init();
-
-        player.Enemy = enemy;
-        enemy.Enemy = player;
+        _playerController.EnterBattleState(playerPosition, _playerStatus, _enemyController.Unit);
+        _enemyController.EnterBattleState(enemyPosition, _enemyStatus, _playerController.Unit);
 
         StartPlayerTurn();
     }
@@ -68,6 +55,7 @@ public class BattleStateMachine : StateMachine
 
     public void StartEnemyTurn()
     {
+        _playerController.SwitchState(new PlayerWaitingState(_playerController));
         SwitchState(new BattleEnemyTurnState(this, _enemyController, _playerController, _interactionUI));
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class ControllerBase : MonoBehaviour
+public abstract class ControllerBase : StateMachine
 {
     public Unit Unit => unit;
 

@@ -1,24 +1,22 @@
+using System;
+using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerController : ControllerBase
 {
     public static PlayerController Instance { get; private set; }
 
+    public event Action<bool> EnterTurnModeEvent;
+
     public InputReader InputReader => _input;
-    public Gun Gun => _gun;
-    public PlayerCombatComponent CombatComponent => _combatComponent;
-    public PlayerAnimationComponent AnimationComponent => _animationComponent;
-    public PlayerInventoryComponent InventoryComponent => _inventoryComponent;
+
+    [field: SerializeField] public Animator Animator { get; private set; }
+    public PlayerCombatComponent CombatComponent { get; private set; }
+    public PlayerMovementComponent MovementComponent { get; private set; }
+    public PlayerInventoryComponent InventoryComponent { get; private set; }
 
     [Header("Input")]
     [SerializeField] private InputReader _input;
-
-    [Header("Components")]
-    [SerializeField] private Gun _gun;
-    [SerializeField] private PlayerCombatComponent _combatComponent;
-    [SerializeField] private PlayerMovementComponent _movementComponent;
-    [SerializeField] private PlayerAnimationComponent _animationComponent;
-    [SerializeField] private PlayerInventoryComponent _inventoryComponent;
 
     private void Awake()
     {
@@ -30,12 +28,45 @@ public class PlayerController : ControllerBase
         {
             Destroy(gameObject);
         }
+
+        CombatComponent = GetComponent<PlayerCombatComponent>();
+        MovementComponent = GetComponent<PlayerMovementComponent>();
+        InventoryComponent = GetComponent<PlayerInventoryComponent>();
     }
 
     private void Start()
     {
-        _animationComponent.Init(Unit.Animator);
-        _movementComponent.Init(_input, _animationComponent);
-        _input.EnableMovementInputs();
+        MovementComponent.Init(_input);
+        SwitchState(new PlayerFreelookState(this));
+    }
+
+    public void EnterBattleState(Vector2 playerPosition, StatusUI playerStatus, Unit enemy)
+    {
+        Unit.Enemy = enemy;
+        playerStatus.Init(Unit);
+        MovementComponent.ResetVelocity();
+        transform.SetPositionAndRotation(playerPosition, Quaternion.identity);
+        Unit.ResetStats();
+        SwitchState(new PlayerWaitingState(this));
+    }
+
+    public void EnterFreelookState()
+    {
+        SwitchState(new PlayerFreelookState(this));
+    }
+
+    public void EnterPlayerTurn()
+    {
+        SwitchState(new PlayerBattleState(this));
+    }
+
+    public void NotifyEnterTurnMode()
+    {
+        EnterTurnModeEvent?.Invoke(true);
+    }
+
+    public void NofityExitTurnMode()
+    {
+        EnterTurnModeEvent?.Invoke(false);
     }
 }
